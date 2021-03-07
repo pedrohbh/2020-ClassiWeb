@@ -1,7 +1,186 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<frameweb:FramewebProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:frameweb="http://nemo.inf.ufes.br/projects/frameweb/FW-2015">
+<frameweb:FramewebProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:frameweb="http://nemo.inf.ufes.br/projects/frameweb/FW-2015" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML">
   <compose xsi:type="frameweb:EntityModel" name="Entity Model">
-    <packagedElement xsi:type="frameweb:DomainPackage" name="br.dwws.labwork.classiweb.core.domain"/>
+    <packagedElement xsi:type="frameweb:DomainPackage" name="br.dwws.labwork.classiweb.core.domain">
+      <packagedElement xsi:type="frameweb:DomainClass" name="UsuarioCadastrado" powertypeExtent="//@compose.0/br.dwws.labwork.classiweb.core.domain/UsuarioCadastrado.1 //@compose.0/br.dwws.labwork.classiweb.core.domain/UsuarioCadastrado.2">
+        <ownedAttribute xsi:type="frameweb:DomainAttribute" name="nome" visibility="private">
+          <type xsi:type="uml:Class" href="frameweb/Java.frameweb#//@compose.0/String"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:DomainAttribute" name="senha" visibility="private">
+          <type xsi:type="uml:Class" href="frameweb/Java.frameweb#//@compose.0/String"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:DomainAttribute" name="email" visibility="private">
+          <type xsi:type="uml:Class" href="frameweb/Java.frameweb#//@compose.0/String"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:DomainClass" name="Usuario">
+        <generalization xsi:type="frameweb:DomainGeneralization" generalizationSet="//@compose.0/br.dwws.labwork.classiweb.core.domain/UsuarioCadastrado.1"/>
+        <ownedAttribute xsi:type="frameweb:DomainAttribute" name="cpf" visibility="private">
+          <type xsi:type="uml:Class" href="frameweb/Java.frameweb#//@compose.0/String"/>
+        </ownedAttribute>
+        <ownedOperation xsi:type="frameweb:DomainMethod" name="calcularNotaCliente">
+          <methodType xsi:type="uml:PrimitiveType" href="frameweb/Java.frameweb#//@compose.0/int"/>
+        </ownedOperation>
+        <ownedOperation xsi:type="frameweb:DomainMethod" name="calcularNotaVendas">
+          <methodType xsi:type="uml:PrimitiveType" href="frameweb/Java.frameweb#//@compose.0/int"/>
+        </ownedOperation>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:DomainGeneralizationSet" name="UsuarioCadastrado" powertype="//@compose.0/br.dwws.labwork.classiweb.core.domain/UsuarioCadastrado" generalization="//@compose.0/br.dwws.labwork.classiweb.core.domain/Usuario/@generalization.0"/>
+      <packagedElement xsi:type="frameweb:DomainClass" name="Administrador">
+        <generalization xsi:type="frameweb:DomainGeneralization" generalizationSet="//@compose.0/br.dwws.labwork.classiweb.core.domain/UsuarioCadastrado.2"/>
+        <ownedAttribute xsi:type="frameweb:DomainAttribute" name="matricula" visibility="private">
+          <type xsi:type="uml:Class" href="frameweb/Java.frameweb#//@compose.0/String"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:DomainGeneralizationSet" name="UsuarioCadastrado" powertype="//@compose.0/br.dwws.labwork.classiweb.core.domain/UsuarioCadastrado" generalization="//@compose.0/br.dwws.labwork.classiweb.core.domain/Administrador/@generalization.0"/>
+      <packagedElement xsi:type="frameweb:DomainClass" name="Anuncio">
+        <ownedAttribute xsi:type="frameweb:DomainAttribute" name="nome" visibility="private">
+          <type xsi:type="uml:Class" href="frameweb/Java.frameweb#//@compose.0/String"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:DomainAttribute" name="descricao" visibility="private">
+          <type xsi:type="uml:Class" href="frameweb/Java.frameweb#//@compose.0/String"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:DomainAttribute" name="quantidade" visibility="private">
+          <type xsi:type="uml:PrimitiveType" href="frameweb/Java.frameweb#//@compose.0/short"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:DomainAttribute" name="preco" visibility="private">
+          <type xsi:type="uml:PrimitiveType" href="frameweb/Java.frameweb#//@compose.0/int"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:LOBAttribute" name="foto" visibility="private"/>
+        <ownedAttribute xsi:type="frameweb:DomainAttribute" name="produtoNovo" visibility="private">
+          <type xsi:type="uml:PrimitiveType" href="frameweb/Java.frameweb#//@compose.0/boolean"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:DomainAttribute" name="estadoCorrente" visibility="private" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/EstadoAnuncio"/>
+        <ownedOperation xsi:type="frameweb:DomainMethod" name="mudarEstado">
+          <ownedParameter name="estado" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/EstadoAnuncio"/>
+        </ownedOperation>
+        <ownedOperation xsi:type="frameweb:DomainMethod" name="eVisivel">
+          <methodType xsi:type="uml:PrimitiveType" href="frameweb/Java.frameweb#//@compose.0/boolean"/>
+        </ownedOperation>
+        <ownedOperation xsi:type="frameweb:DomainMethod" name="cancelar">
+          <methodType xsi:type="uml:PrimitiveType" href="frameweb/Java.frameweb#//@compose.0/boolean"/>
+        </ownedOperation>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:DomainAssociation" name="anuncios" memberEnd="//@compose.0/br.dwws.labwork.classiweb.core.domain/anuncios/Source //@compose.0/br.dwws.labwork.classiweb.core.domain/anuncios/Target">
+        <ownedRule xsi:type="frameweb:DomainConstraints" name="Source Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/anuncios/Source"/>
+        <ownedRule xsi:type="frameweb:DomainConstraints" name="Target Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/anuncios/Target"/>
+        <ownedRule xsi:type="frameweb:VocabularyConstraints" name="Vocabulary Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/anuncios"/>
+        <ownedEnd xsi:type="frameweb:DomainProperty" name="Source" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/Usuario" association="//@compose.0/br.dwws.labwork.classiweb.core.domain/anuncios"/>
+        <ownedEnd xsi:type="frameweb:DomainProperty" name="Target" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/Anuncio" association="//@compose.0/br.dwws.labwork.classiweb.core.domain/anuncios">
+          <lowerValue xsi:type="uml:LiteralInteger"/>
+          <upperValue xsi:type="uml:LiteralUnlimitedNatural" value="*"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:DomainAssociation" name="autor" memberEnd="//@compose.0/br.dwws.labwork.classiweb.core.domain/autor/Source //@compose.0/br.dwws.labwork.classiweb.core.domain/autor/Target">
+        <ownedRule xsi:type="frameweb:DomainConstraints" name="Source Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/autor/Source"/>
+        <ownedRule xsi:type="frameweb:DomainConstraints" name="Target Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/autor/Target"/>
+        <ownedRule xsi:type="frameweb:VocabularyConstraints" name="Vocabulary Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/autor"/>
+        <ownedEnd xsi:type="frameweb:DomainProperty" name="Source" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/Anuncio" association="//@compose.0/br.dwws.labwork.classiweb.core.domain/autor"/>
+        <ownedEnd xsi:type="frameweb:DomainProperty" name="Target" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/Usuario" association="//@compose.0/br.dwws.labwork.classiweb.core.domain/autor"/>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:DomainClass" name="EstadoAnuncio" powertypeExtent="//@compose.0/br.dwws.labwork.classiweb.core.domain/EstadoAnuncio.1 //@compose.0/br.dwws.labwork.classiweb.core.domain/EstadoAnuncio.2 //@compose.0/br.dwws.labwork.classiweb.core.domain/EstadoAnuncio.3" isAbstract="true">
+        <ownedOperation xsi:type="frameweb:DomainMethod" name="eVisivel">
+          <methodType xsi:type="uml:PrimitiveType" href="frameweb/Java.frameweb#//@compose.0/boolean"/>
+        </ownedOperation>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:DomainAssociation" name="estado" memberEnd="//@compose.0/br.dwws.labwork.classiweb.core.domain/estado/Source //@compose.0/br.dwws.labwork.classiweb.core.domain/estado/Target">
+        <ownedRule xsi:type="frameweb:DomainConstraints" name="Source Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/estado/Source"/>
+        <ownedRule xsi:type="frameweb:DomainConstraints" name="Target Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/estado/Target"/>
+        <ownedRule xsi:type="frameweb:VocabularyConstraints" name="Vocabulary Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/estado"/>
+        <ownedEnd xsi:type="frameweb:DomainProperty" name="Source" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/EstadoAnuncio" aggregation="composite" association="//@compose.0/br.dwws.labwork.classiweb.core.domain/estado"/>
+        <ownedEnd xsi:type="frameweb:DomainProperty" name="Target" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/Anuncio" association="//@compose.0/br.dwws.labwork.classiweb.core.domain/estado"/>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:DomainClass" name="AnuncioOculto">
+        <generalization xsi:type="frameweb:DomainGeneralization" generalizationSet="//@compose.0/br.dwws.labwork.classiweb.core.domain/EstadoAnuncio.1"/>
+        <ownedOperation xsi:type="frameweb:DomainMethod" name="eVisivel">
+          <methodType xsi:type="uml:PrimitiveType" href="frameweb/Java.frameweb#//@compose.0/boolean"/>
+        </ownedOperation>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:DomainGeneralizationSet" name="EstadoAnuncio" powertype="//@compose.0/br.dwws.labwork.classiweb.core.domain/EstadoAnuncio" generalization="//@compose.0/br.dwws.labwork.classiweb.core.domain/AnuncioOculto/@generalization.0"/>
+      <packagedElement xsi:type="frameweb:DomainClass" name="AnuncioPublicado">
+        <generalization xsi:type="frameweb:DomainGeneralization" generalizationSet="//@compose.0/br.dwws.labwork.classiweb.core.domain/EstadoAnuncio.2"/>
+        <ownedOperation xsi:type="frameweb:DomainMethod" name="eVisivel">
+          <methodType xsi:type="uml:PrimitiveType" href="frameweb/Java.frameweb#//@compose.0/boolean"/>
+        </ownedOperation>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:DomainClass" name="AnuncioConcluido">
+        <generalization xsi:type="frameweb:DomainGeneralization" generalizationSet="//@compose.0/br.dwws.labwork.classiweb.core.domain/EstadoAnuncio.3"/>
+        <ownedAttribute xsi:type="frameweb:DateTimeAttribute" name="dataVenda"/>
+        <ownedAttribute xsi:type="frameweb:DomainAttribute" name="notaVendedor" visibility="private" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/RankingFeedback"/>
+        <ownedAttribute xsi:type="frameweb:DomainAttribute" name="notaCliente" visibility="private" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/RankingFeedback"/>
+        <ownedOperation xsi:type="frameweb:DomainMethod" name="eVisivel">
+          <methodType xsi:type="uml:PrimitiveType" href="frameweb/Java.frameweb#//@compose.0/boolean"/>
+        </ownedOperation>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:DomainGeneralizationSet" name="EstadoAnuncio" powertype="//@compose.0/br.dwws.labwork.classiweb.core.domain/EstadoAnuncio" generalization="//@compose.0/br.dwws.labwork.classiweb.core.domain/AnuncioPublicado/@generalization.0"/>
+      <packagedElement xsi:type="frameweb:DomainGeneralizationSet" name="EstadoAnuncio" powertype="//@compose.0/br.dwws.labwork.classiweb.core.domain/EstadoAnuncio" generalization="//@compose.0/br.dwws.labwork.classiweb.core.domain/AnuncioConcluido/@generalization.0"/>
+      <packagedElement xsi:type="frameweb:DomainAssociation" name="cliente" memberEnd="//@compose.0/br.dwws.labwork.classiweb.core.domain/cliente/Source //@compose.0/br.dwws.labwork.classiweb.core.domain/cliente/Target">
+        <ownedRule xsi:type="frameweb:DomainConstraints" name="Source Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/cliente/Source"/>
+        <ownedRule xsi:type="frameweb:DomainConstraints" name="Target Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/cliente/Target"/>
+        <ownedRule xsi:type="frameweb:VocabularyConstraints" name="Vocabulary Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/cliente"/>
+        <ownedEnd xsi:type="frameweb:DomainProperty" name="Source" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/AnuncioConcluido" association="//@compose.0/br.dwws.labwork.classiweb.core.domain/cliente"/>
+        <ownedEnd xsi:type="frameweb:DomainProperty" name="Target" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/Usuario" association="//@compose.0/br.dwws.labwork.classiweb.core.domain/cliente"/>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:DomainAssociation" name="vendedor" memberEnd="//@compose.0/br.dwws.labwork.classiweb.core.domain/vendedor/Source //@compose.0/br.dwws.labwork.classiweb.core.domain/vendedor/Target">
+        <ownedRule xsi:type="frameweb:DomainConstraints" name="Source Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/vendedor/Source"/>
+        <ownedRule xsi:type="frameweb:DomainConstraints" name="Target Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/vendedor/Target"/>
+        <ownedRule xsi:type="frameweb:VocabularyConstraints" name="Vocabulary Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/vendedor"/>
+        <ownedEnd xsi:type="frameweb:DomainProperty" name="Source" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/AnuncioConcluido" association="//@compose.0/br.dwws.labwork.classiweb.core.domain/vendedor"/>
+        <ownedEnd xsi:type="frameweb:DomainProperty" name="Target" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/Usuario" association="//@compose.0/br.dwws.labwork.classiweb.core.domain/vendedor"/>
+      </packagedElement>
+      <packagedElement xsi:type="uml:Enumeration" name="RankingFeedback">
+        <ownedLiteral name="MuitoInsatisfeito" classifier="//@compose.0/br.dwws.labwork.classiweb.core.domain/RankingFeedback"/>
+        <ownedLiteral name="Insatisfeito" classifier="//@compose.0/br.dwws.labwork.classiweb.core.domain/RankingFeedback"/>
+        <ownedLiteral name="Satisfeito" classifier="//@compose.0/br.dwws.labwork.classiweb.core.domain/RankingFeedback"/>
+        <ownedLiteral name="MuitoSatisfeito" classifier="//@compose.0/br.dwws.labwork.classiweb.core.domain/RankingFeedback"/>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:DomainClass" name="Categoria">
+        <ownedAttribute xsi:type="frameweb:DomainAttribute" name="nome" visibility="private">
+          <type xsi:type="uml:Class" href="frameweb/Java.frameweb#//@compose.0/String"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:DomainAttribute" name="descricao" visibility="private">
+          <type xsi:type="uml:Class" href="frameweb/Java.frameweb#//@compose.0/String"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:DomainAssociation" name="categoriaAnuncio" memberEnd="//@compose.0/br.dwws.labwork.classiweb.core.domain/categoriaAnuncio/Source //@compose.0/br.dwws.labwork.classiweb.core.domain/categoriaAnuncio/Target">
+        <ownedRule xsi:type="frameweb:DomainConstraints" name="Source Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/categoriaAnuncio/Source"/>
+        <ownedRule xsi:type="frameweb:DomainConstraints" name="Target Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/categoriaAnuncio/Target"/>
+        <ownedRule xsi:type="frameweb:VocabularyConstraints" name="Vocabulary Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/categoriaAnuncio"/>
+        <ownedEnd xsi:type="frameweb:DomainProperty" name="Source" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/Anuncio" association="//@compose.0/br.dwws.labwork.classiweb.core.domain/categoriaAnuncio">
+          <lowerValue xsi:type="uml:LiteralInteger"/>
+          <upperValue xsi:type="uml:LiteralUnlimitedNatural" value="*"/>
+        </ownedEnd>
+        <ownedEnd xsi:type="frameweb:DomainProperty" name="Target" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/Categoria" association="//@compose.0/br.dwws.labwork.classiweb.core.domain/categoriaAnuncio">
+          <upperValue xsi:type="uml:LiteralUnlimitedNatural" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:DomainClass" name="Estado">
+        <ownedAttribute xsi:type="frameweb:DomainAttribute" name="nome" visibility="private">
+          <type xsi:type="uml:Class" href="frameweb/Java.frameweb#//@compose.0/String"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:DomainClass" name="Cidade">
+        <ownedAttribute xsi:type="frameweb:DomainAttribute" name="nome" visibility="private">
+          <type xsi:type="uml:Class" href="frameweb/Java.frameweb#//@compose.0/String"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:DomainAssociation" name="localidade" memberEnd="//@compose.0/br.dwws.labwork.classiweb.core.domain/localidade/Source //@compose.0/br.dwws.labwork.classiweb.core.domain/localidade/Target">
+        <ownedRule xsi:type="frameweb:DomainConstraints" name="Source Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/localidade/Source"/>
+        <ownedRule xsi:type="frameweb:DomainConstraints" name="Target Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/localidade/Target"/>
+        <ownedRule xsi:type="frameweb:VocabularyConstraints" name="Vocabulary Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/localidade"/>
+        <ownedEnd xsi:type="frameweb:DomainProperty" name="Source" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/Anuncio" association="//@compose.0/br.dwws.labwork.classiweb.core.domain/localidade"/>
+        <ownedEnd xsi:type="frameweb:DomainProperty" name="Target" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/Estado" association="//@compose.0/br.dwws.labwork.classiweb.core.domain/localidade"/>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:DomainAssociation" name="possui" memberEnd="//@compose.0/br.dwws.labwork.classiweb.core.domain/possui/Source //@compose.0/br.dwws.labwork.classiweb.core.domain/possui/Target">
+        <ownedRule xsi:type="frameweb:DomainConstraints" name="Source Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/possui/Source"/>
+        <ownedRule xsi:type="frameweb:DomainConstraints" name="Target Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/possui/Target"/>
+        <ownedRule xsi:type="frameweb:VocabularyConstraints" name="Vocabulary Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/possui"/>
+        <ownedEnd xsi:type="frameweb:DomainProperty" name="Source" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/Estado" association="//@compose.0/br.dwws.labwork.classiweb.core.domain/possui"/>
+        <ownedEnd xsi:type="frameweb:DomainProperty" name="Target" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/Cidade" association="//@compose.0/br.dwws.labwork.classiweb.core.domain/possui">
+          <upperValue xsi:type="uml:LiteralUnlimitedNatural" value="*"/>
+        </ownedEnd>
+      </packagedElement>
+    </packagedElement>
   </compose>
   <compose xsi:type="frameweb:PersistenceModel" name="Persistence Model">
     <packagedElement xsi:type="frameweb:PersistencePackage" name="br.dwws.labwork.classiweb.core.persistence"/>
