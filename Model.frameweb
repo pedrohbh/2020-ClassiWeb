@@ -34,7 +34,7 @@
       </packagedElement>
       <packagedElement xsi:type="frameweb:DomainGeneralizationSet" name="UsuarioCadastrado" powertype="//@compose.0/br.dwws.labwork.classiweb.core.domain/UsuarioCadastrado" generalization="//@compose.0/br.dwws.labwork.classiweb.core.domain/Administrador/@generalization.0"/>
       <packagedElement xsi:type="frameweb:DomainClass" name="Anuncio">
-        <ownedAttribute xsi:type="frameweb:DomainAttribute" name="nome" visibility="private">
+        <ownedAttribute xsi:type="frameweb:DomainAttribute" name="titulo" visibility="private">
           <type xsi:type="uml:Class" href="frameweb/Java.frameweb#//@compose.0/String"/>
         </ownedAttribute>
         <ownedAttribute xsi:type="frameweb:DomainAttribute" name="descricao" visibility="private">
@@ -183,13 +183,196 @@
     </packagedElement>
   </compose>
   <compose xsi:type="frameweb:PersistenceModel" name="Persistence Model">
-    <packagedElement xsi:type="frameweb:PersistencePackage" name="br.dwws.labwork.classiweb.core.persistence"/>
+    <packagedElement xsi:type="frameweb:PersistencePackage" name="br.dwws.labwork.classiweb.core.persistence">
+      <packagedElement xsi:type="frameweb:DAOInterface" name="UsuarioCadastradoDAO"/>
+      <packagedElement xsi:type="frameweb:DAOClass" name="UsuarioCadastradoDAOJPA">
+        <ownedOperation xsi:type="frameweb:DAOMethod" name="recuperarPorEmail" methodType="//@compose.0/br.dwws.labwork.classiweb.core.domain/UsuarioCadastrado">
+          <ownedParameter name="email">
+            <type xsi:type="uml:Class" href="frameweb/Java.frameweb#//@compose.0/String"/>
+          </ownedParameter>
+        </ownedOperation>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:DAORealization" client="//@compose.1/br.dwws.labwork.classiweb.core.persistence/UsuarioCadastradoDAOJPA" supplier="//@compose.1/br.dwws.labwork.classiweb.core.persistence/UsuarioCadastradoDAO"/>
+      <packagedElement xsi:type="frameweb:DAOInterface" name="AnuncioDAO"/>
+      <packagedElement xsi:type="frameweb:DAOClass" name="AnuncioDAOJPA">
+        <ownedOperation xsi:type="frameweb:DAOMethod" name="filtrarAnuncio">
+          <ownedParameter name="anuncioFiltro" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/Anuncio"/>
+          <ownedParameter name="precoMinimo">
+            <type xsi:type="uml:PrimitiveType" href="frameweb/Java.frameweb#//@compose.0/int"/>
+          </ownedParameter>
+          <ownedParameter name="precoMaximo">
+            <type xsi:type="uml:PrimitiveType" href="frameweb/Java.frameweb#//@compose.0/int"/>
+          </ownedParameter>
+        </ownedOperation>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:DAORealization" client="//@compose.1/br.dwws.labwork.classiweb.core.persistence/AnuncioDAOJPA" supplier="//@compose.1/br.dwws.labwork.classiweb.core.persistence/AnuncioDAO"/>
+    </packagedElement>
   </compose>
   <compose xsi:type="frameweb:NavigationModel" name="Navigation Model">
-    <packagedElement xsi:type="frameweb:ViewPackage" name="/core/registration"/>
-    <packagedElement xsi:type="frameweb:ControllerPackage" name="br.dwws.labwork.classiweb.core.controller"/>
+    <packagedElement xsi:type="frameweb:ViewPackage" name="/core/cadastrarUsuario">
+      <packagedElement xsi:type="frameweb:Page" name="index">
+        <ownedAttribute xsi:type="frameweb:NavigationCompositionWhole" type="//@compose.2/%2Fcore%2FcadastrarUsuario/cadastroUsuario" association="//@compose.2/%2Fcore%2FcadastrarUsuario/@packagedElement.2"/>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:UIComponent" name="cadastroUsuario">
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="usuario.nome" visibility="private">
+          <type xsi:type="frameweb:Tag" href="frameweb/jbutler/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/PrimeFaces/inputText"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="usuario.senha" visibility="private">
+          <type xsi:type="frameweb:Tag" href="frameweb/jbutler/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/PrimeFaces/password"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="usuario.email" visibility="private">
+          <type xsi:type="frameweb:Tag" href="frameweb/jbutler/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/PrimeFaces/inputText"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="usuario.cpf" visibility="private">
+          <type xsi:type="frameweb:Tag" href="frameweb/jbutler/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/PrimeFaces/inputText"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="confirmacaoSenha" visibility="private">
+          <type xsi:type="frameweb:Tag" href="frameweb/jbutler/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/PrimeFaces/password"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:NavigationAssociation" memberEnd="//@compose.2/%2Fcore%2FcadastrarUsuario/@packagedElement.2/@ownedEnd.0 //@compose.2/%2Fcore%2FcadastrarUsuario/index/@ownedAttribute.0">
+        <ownedEnd xsi:type="frameweb:NavigationCompositionPart" type="//@compose.2/%2Fcore%2FcadastrarUsuario/index" association="//@compose.2/%2Fcore%2FcadastrarUsuario/@packagedElement.2"/>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:Page" name="cadastroUsuarioSucesso">
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="usuario.nome" visibility="private">
+          <type xsi:type="frameweb:Tag" href="frameweb/jbutler/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/JSF-HTML/outputText"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:Page" name="emailJaCadastrado">
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="usuario.email" visibility="private">
+          <type xsi:type="frameweb:Tag" href="frameweb/jbutler/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/JSF-HTML/outputText"/>
+        </ownedAttribute>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xsi:type="frameweb:ControllerPackage" name="br.dwws.labwork.classiweb.core.controller">
+      <packagedElement xsi:type="frameweb:FrontControllerClass" name="CadastroUsuarioController">
+        <ownedAttribute xsi:type="frameweb:IOParameter" name="usuario" visibility="private" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/Usuario"/>
+        <ownedAttribute xsi:type="frameweb:IOParameter" name="confirmacaoSenha" visibility="private">
+          <type xsi:type="uml:Class" href="frameweb/Java.frameweb#//@compose.0/String"/>
+        </ownedAttribute>
+        <ownedOperation xsi:type="frameweb:FrontControllerMethod" name="cadastrarUsuario">
+          <methodType xsi:type="uml:Class" href="frameweb/Java.frameweb#//@compose.0/String"/>
+        </ownedOperation>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:ServiceControllerAssociation" memberEnd="//@compose.2/br.dwws.labwork.classiweb.core.controller/@packagedElement.1/Source //@compose.2/br.dwws.labwork.classiweb.core.controller/@packagedElement.1/Target">
+        <ownedRule xsi:type="frameweb:DomainConstraints" name="Source Constraint" constrainedElement="//@compose.2/br.dwws.labwork.classiweb.core.controller/@packagedElement.1/Source"/>
+        <ownedRule xsi:type="frameweb:DomainConstraints" name="Target Constraint" constrainedElement="//@compose.2/br.dwws.labwork.classiweb.core.controller/@packagedElement.1/Target"/>
+        <ownedEnd name="Source" type="//@compose.2/br.dwws.labwork.classiweb.core.controller/CadastroUsuarioController" association="//@compose.2/br.dwws.labwork.classiweb.core.controller/@packagedElement.1"/>
+        <ownedEnd name="Target" type="//@compose.3/br.dwws.labwork.classiweb.core.application/CadastroUsuarioService" association="//@compose.2/br.dwws.labwork.classiweb.core.controller/@packagedElement.1"/>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:FrontControllerClass" name="FiltarAnuncioController">
+        <ownedAttribute xsi:type="frameweb:IOParameter" name="anuncio" visibility="private" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/Anuncio"/>
+        <ownedAttribute xsi:type="frameweb:IOParameter" name="precoMinimo" visibility="private">
+          <type xsi:type="uml:PrimitiveType" href="frameweb/Java.frameweb#//@compose.0/int"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:IOParameter" name="precoMaximo" visibility="private">
+          <type xsi:type="uml:PrimitiveType" href="frameweb/Java.frameweb#//@compose.0/int"/>
+        </ownedAttribute>
+        <ownedOperation xsi:type="frameweb:FrontControllerMethod" name="filtrarAnuncios">
+          <methodType xsi:type="uml:Class" href="frameweb/Java.frameweb#//@compose.0/String"/>
+        </ownedOperation>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:ServiceControllerAssociation" memberEnd="//@compose.2/br.dwws.labwork.classiweb.core.controller/@packagedElement.3/Source //@compose.2/br.dwws.labwork.classiweb.core.controller/@packagedElement.3/Target">
+        <ownedRule xsi:type="frameweb:DomainConstraints" name="Source Constraint" constrainedElement="//@compose.2/br.dwws.labwork.classiweb.core.controller/@packagedElement.3/Source"/>
+        <ownedRule xsi:type="frameweb:DomainConstraints" name="Target Constraint" constrainedElement="//@compose.2/br.dwws.labwork.classiweb.core.controller/@packagedElement.3/Target"/>
+        <ownedEnd name="Source" type="//@compose.2/br.dwws.labwork.classiweb.core.controller/FiltarAnuncioController" association="//@compose.2/br.dwws.labwork.classiweb.core.controller/@packagedElement.3"/>
+        <ownedEnd name="Target" type="//@compose.3/br.dwws.labwork.classiweb.core.application/FiltrarAnuncioService" association="//@compose.2/br.dwws.labwork.classiweb.core.controller/@packagedElement.3"/>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.2/%2Fcore%2FcadastrarUsuario/cadastroUsuario" supplier="//@compose.2/br.dwws.labwork.classiweb.core.controller/CadastroUsuarioController" method="//@compose.2/br.dwws.labwork.classiweb.core.controller/CadastroUsuarioController/cadastrarUsuario"/>
+    <packagedElement xsi:type="frameweb:ResultDependency" client="//@compose.2/br.dwws.labwork.classiweb.core.controller/CadastroUsuarioController" supplier="//@compose.2/%2Fcore%2FcadastrarUsuario/cadastroUsuarioSucesso" resultMethod="//@compose.2/br.dwws.labwork.classiweb.core.controller/CadastroUsuarioController/cadastrarUsuario">
+      <resultDependencyConstraint result="cadastroUsuarioSucesso.xhtml"/>
+    </packagedElement>
+    <packagedElement xsi:type="frameweb:ResultDependency" client="//@compose.2/br.dwws.labwork.classiweb.core.controller/CadastroUsuarioController" supplier="//@compose.2/%2Fcore%2FcadastrarUsuario/emailJaCadastrado" resultMethod="//@compose.2/br.dwws.labwork.classiweb.core.controller/CadastroUsuarioController/cadastrarUsuario">
+      <resultDependencyConstraint result="emailJaCadastrado.xhtml"/>
+    </packagedElement>
+    <packagedElement xsi:type="frameweb:ViewPackage" name="/core/filtrarAnuncio">
+      <packagedElement xsi:type="frameweb:Page" name="index">
+        <ownedAttribute xsi:type="frameweb:NavigationCompositionWhole" type="//@compose.2/%2Fcore%2FfiltrarAnuncio/filtroAnuncio" association="//@compose.2/%2Fcore%2FfiltrarAnuncio/@packagedElement.2"/>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:UIComponent" name="filtroAnuncio">
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="anuncio.titulo" visibility="private">
+          <type xsi:type="frameweb:Tag" href="frameweb/jbutler/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/PrimeFaces/inputText"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="anuncio.descricao" visibility="private">
+          <type xsi:type="frameweb:Tag" href="frameweb/jbutler/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/PrimeFaces/inputText"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="anuncio.quantidade" visibility="private">
+          <type xsi:type="frameweb:Tag" href="frameweb/jbutler/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/PrimeFaces/inputText"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="precoMinimo" visibility="private">
+          <type xsi:type="frameweb:Tag" href="frameweb/jbutler/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/PrimeFaces/inputText"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="precoMaximo" visibility="private">
+          <type xsi:type="frameweb:Tag" href="frameweb/jbutler/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/PrimeFaces/inputText"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="anuncio.produtoNovo" visibility="private">
+          <type xsi:type="frameweb:Tag" href="frameweb/jbutler/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/PrimeFaces/checkbox"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:NavigationAssociation" memberEnd="//@compose.2/%2Fcore%2FfiltrarAnuncio/@packagedElement.2/@ownedEnd.0 //@compose.2/%2Fcore%2FfiltrarAnuncio/index/@ownedAttribute.0">
+        <ownedEnd xsi:type="frameweb:NavigationCompositionPart" type="//@compose.2/%2Fcore%2FfiltrarAnuncio/index" association="//@compose.2/%2Fcore%2FfiltrarAnuncio/@packagedElement.2"/>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:Page" name="anunciosFiltrados">
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="anunciosFiltrados">
+          <type xsi:type="frameweb:Tag" href="frameweb/jbutler/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/PrimeFaces/dataTable"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:Page" name="filtrosInvalidos">
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="anuncio.titulo" visibility="private">
+          <type xsi:type="frameweb:Tag" href="frameweb/jbutler/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/JSF-HTML/outputText"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="anuncio.descricao" visibility="private">
+          <type xsi:type="frameweb:Tag" href="frameweb/jbutler/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/JSF-HTML/outputText"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="anuncio.quantidade" visibility="private">
+          <type xsi:type="frameweb:Tag" href="frameweb/jbutler/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/JSF-HTML/outputText"/>
+        </ownedAttribute>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.2/%2Fcore%2FfiltrarAnuncio/filtroAnuncio" supplier="//@compose.2/br.dwws.labwork.classiweb.core.controller/FiltarAnuncioController" method="//@compose.2/br.dwws.labwork.classiweb.core.controller/FiltarAnuncioController/filtrarAnuncios"/>
+    <packagedElement xsi:type="frameweb:ResultDependency" client="//@compose.2/br.dwws.labwork.classiweb.core.controller/FiltarAnuncioController" supplier="//@compose.2/%2Fcore%2FfiltrarAnuncio/anunciosFiltrados" resultMethod="//@compose.2/br.dwws.labwork.classiweb.core.controller/FiltarAnuncioController/filtrarAnuncios">
+      <resultDependencyConstraint result="anunciosFiltrados.xhtml"/>
+    </packagedElement>
+    <packagedElement xsi:type="frameweb:ResultDependency" client="//@compose.2/br.dwws.labwork.classiweb.core.controller/FiltarAnuncioController" supplier="//@compose.2/%2Fcore%2FfiltrarAnuncio/filtrosInvalidos" resultMethod="//@compose.2/br.dwws.labwork.classiweb.core.controller/FiltarAnuncioController/filtrarAnuncios">
+      <resultDependencyConstraint result="filtrosInvalidos.xhtml"/>
+    </packagedElement>
   </compose>
   <compose xsi:type="frameweb:ApplicationModel" name="Application Model">
-    <packagedElement xsi:type="frameweb:ApplicationPackage" name="br.dwws.labwork.classiweb.core.application"/>
+    <packagedElement xsi:type="frameweb:ApplicationPackage" name="br.dwws.labwork.classiweb.core.application">
+      <packagedElement xsi:type="frameweb:ServiceInterface" name="CadastroUsuarioService"/>
+      <packagedElement xsi:type="frameweb:ServiceClass" name="CadastroUsuarioBean">
+        <ownedOperation xsi:type="frameweb:ServiceMethod" name="cadastrarUsuario">
+          <ownedParameter name="usuario" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/Usuario"/>
+        </ownedOperation>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:ServiceRealization" client="//@compose.3/br.dwws.labwork.classiweb.core.application/CadastroUsuarioBean" supplier="//@compose.3/br.dwws.labwork.classiweb.core.application/CadastroUsuarioService"/>
+      <packagedElement xsi:type="frameweb:DAOServiceAssociation" memberEnd="//@compose.3/br.dwws.labwork.classiweb.core.application/@packagedElement.3/Source //@compose.3/br.dwws.labwork.classiweb.core.application/@packagedElement.3/Target">
+        <ownedRule xsi:type="frameweb:DomainConstraints" name="Source Constraint" constrainedElement="//@compose.3/br.dwws.labwork.classiweb.core.application/@packagedElement.3/Source"/>
+        <ownedRule xsi:type="frameweb:DomainConstraints" name="Target Constraint" constrainedElement="//@compose.3/br.dwws.labwork.classiweb.core.application/@packagedElement.3/Target"/>
+        <ownedEnd name="Source" type="//@compose.3/br.dwws.labwork.classiweb.core.application/CadastroUsuarioBean" association="//@compose.3/br.dwws.labwork.classiweb.core.application/@packagedElement.3"/>
+        <ownedEnd name="Target" type="//@compose.1/br.dwws.labwork.classiweb.core.persistence/UsuarioCadastradoDAO" association="//@compose.3/br.dwws.labwork.classiweb.core.application/@packagedElement.3"/>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:ServiceInterface" name="FiltrarAnuncioService"/>
+      <packagedElement xsi:type="frameweb:ServiceClass" name="FiltrarAnuncioBean">
+        <ownedOperation xsi:type="frameweb:ServiceMethod" name="filtrarAnuncio">
+          <ownedParameter name="anuncio" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/Anuncio"/>
+          <ownedParameter name="precoMinimo">
+            <type xsi:type="uml:PrimitiveType" href="frameweb/Java.frameweb#//@compose.0/int"/>
+          </ownedParameter>
+          <ownedParameter name="precoMaximo">
+            <type xsi:type="uml:PrimitiveType" href="frameweb/Java.frameweb#//@compose.0/int"/>
+          </ownedParameter>
+          <methodType xsi:type="uml:Class" href="frameweb/Java.frameweb#//@compose.0/List"/>
+        </ownedOperation>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:ServiceRealization" client="//@compose.3/br.dwws.labwork.classiweb.core.application/FiltrarAnuncioBean" supplier="//@compose.3/br.dwws.labwork.classiweb.core.application/FiltrarAnuncioService"/>
+      <packagedElement xsi:type="frameweb:DAOServiceAssociation" memberEnd="//@compose.3/br.dwws.labwork.classiweb.core.application/@packagedElement.7/Source //@compose.3/br.dwws.labwork.classiweb.core.application/@packagedElement.7/Target">
+        <ownedRule xsi:type="frameweb:DomainConstraints" name="Source Constraint" constrainedElement="//@compose.3/br.dwws.labwork.classiweb.core.application/@packagedElement.7/Source"/>
+        <ownedRule xsi:type="frameweb:DomainConstraints" name="Target Constraint" constrainedElement="//@compose.3/br.dwws.labwork.classiweb.core.application/@packagedElement.7/Target"/>
+        <ownedEnd name="Source" type="//@compose.3/br.dwws.labwork.classiweb.core.application/FiltrarAnuncioBean" association="//@compose.3/br.dwws.labwork.classiweb.core.application/@packagedElement.7"/>
+        <ownedEnd name="Target" type="//@compose.1/br.dwws.labwork.classiweb.core.persistence/AnuncioDAO" association="//@compose.3/br.dwws.labwork.classiweb.core.application/@packagedElement.7"/>
+      </packagedElement>
+    </packagedElement>
   </compose>
 </frameweb:FramewebProject>
