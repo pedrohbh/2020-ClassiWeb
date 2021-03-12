@@ -114,27 +114,15 @@
           <upperValue xsi:type="uml:LiteralUnlimitedNatural" value="*"/>
         </ownedEnd>
       </packagedElement>
-      <packagedElement xsi:type="frameweb:DomainAssociation" name="possui" memberEnd="//@compose.0/br.dwws.labwork.classiweb.core.domain/possui.2/Source //@compose.0/br.dwws.labwork.classiweb.core.domain/possui.2/Target">
-        <ownedRule xsi:type="frameweb:DomainConstraints" name="Source Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/possui.2/Source"/>
-        <ownedRule xsi:type="frameweb:DomainConstraints" name="Target Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/possui.2/Target"/>
-        <ownedRule xsi:type="frameweb:VocabularyConstraints" name="Vocabulary Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/possui.2"/>
-        <ownedEnd xsi:type="frameweb:DomainProperty" name="Source" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/Anuncio" association="//@compose.0/br.dwws.labwork.classiweb.core.domain/possui.2">
+      <packagedElement xsi:type="frameweb:DomainAssociation" name="criadoPor" memberEnd="//@compose.0/br.dwws.labwork.classiweb.core.domain/criadoPor/Source //@compose.0/br.dwws.labwork.classiweb.core.domain/criadoPor/Target">
+        <ownedRule xsi:type="frameweb:DomainConstraints" name="Source Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/criadoPor/Source"/>
+        <ownedRule xsi:type="frameweb:DomainConstraints" name="Target Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/criadoPor/Target"/>
+        <ownedRule xsi:type="frameweb:VocabularyConstraints" name="Vocabulary Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/criadoPor"/>
+        <ownedEnd xsi:type="frameweb:DomainProperty" name="Source" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/Anuncio" association="//@compose.0/br.dwws.labwork.classiweb.core.domain/criadoPor">
           <lowerValue xsi:type="uml:LiteralInteger"/>
           <upperValue xsi:type="uml:LiteralUnlimitedNatural" value="*"/>
         </ownedEnd>
-        <ownedEnd xsi:type="frameweb:DomainProperty" name="Target" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/Endereco" association="//@compose.0/br.dwws.labwork.classiweb.core.domain/possui.2">
-          <upperValue xsi:type="uml:LiteralUnlimitedNatural" value="1"/>
-        </ownedEnd>
-      </packagedElement>
-      <packagedElement xsi:type="frameweb:DomainAssociation" name="criado por" memberEnd="//@compose.0/br.dwws.labwork.classiweb.core.domain/criado%20por/Source //@compose.0/br.dwws.labwork.classiweb.core.domain/criado%20por/Target">
-        <ownedRule xsi:type="frameweb:DomainConstraints" name="Source Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/criado%20por/Source"/>
-        <ownedRule xsi:type="frameweb:DomainConstraints" name="Target Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/criado%20por/Target"/>
-        <ownedRule xsi:type="frameweb:VocabularyConstraints" name="Vocabulary Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/criado%20por"/>
-        <ownedEnd xsi:type="frameweb:DomainProperty" name="Source" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/Anuncio" association="//@compose.0/br.dwws.labwork.classiweb.core.domain/criado%20por">
-          <lowerValue xsi:type="uml:LiteralInteger"/>
-          <upperValue xsi:type="uml:LiteralUnlimitedNatural" value="*"/>
-        </ownedEnd>
-        <ownedEnd xsi:type="frameweb:DomainProperty" name="Target" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/UsuarioComum" association="//@compose.0/br.dwws.labwork.classiweb.core.domain/criado%20por"/>
+        <ownedEnd xsi:type="frameweb:DomainProperty" name="Target" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/UsuarioComum" association="//@compose.0/br.dwws.labwork.classiweb.core.domain/criadoPor"/>
       </packagedElement>
       <packagedElement xsi:type="uml:Enumeration" name="EstadoAnuncio">
         <ownedLiteral name="oculto" classifier="//@compose.0/br.dwws.labwork.classiweb.core.domain/EstadoAnuncio.3"/>
@@ -151,25 +139,25 @@
         <ownedAttribute xsi:type="frameweb:DomainAttribute" name="avaliacaoVendedor" visibility="private" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/RankingFeedback" isNull="true"/>
         <ownedAttribute xsi:type="frameweb:DomainAttribute" name="avaliacaoComprador" visibility="private" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/RankingFeedback" isNull="true"/>
       </packagedElement>
-      <packagedElement xsi:type="frameweb:DomainAssociation" name="CompraFinalizada por UsuarioComum" memberEnd="//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizada%20por%20UsuarioComum/Source //@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizada%20por%20UsuarioComum/Target">
-        <ownedRule xsi:type="frameweb:DomainConstraints" name="Source Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizada%20por%20UsuarioComum/Source"/>
-        <ownedRule xsi:type="frameweb:DomainConstraints" name="Target Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizada%20por%20UsuarioComum/Target"/>
-        <ownedRule xsi:type="frameweb:VocabularyConstraints" name="Vocabulary Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizada%20por%20UsuarioComum"/>
-        <ownedEnd xsi:type="frameweb:DomainProperty" name="Source" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizada" association="//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizada%20por%20UsuarioComum">
+      <packagedElement xsi:type="frameweb:DomainAssociation" name="CompraFinalizadaporUsuarioComum" memberEnd="//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizadaporUsuarioComum/Source //@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizadaporUsuarioComum/Target">
+        <ownedRule xsi:type="frameweb:DomainConstraints" name="Source Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizadaporUsuarioComum/Source"/>
+        <ownedRule xsi:type="frameweb:DomainConstraints" name="Target Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizadaporUsuarioComum/Target"/>
+        <ownedRule xsi:type="frameweb:VocabularyConstraints" name="Vocabulary Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizadaporUsuarioComum"/>
+        <ownedEnd xsi:type="frameweb:DomainProperty" name="Source" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizada" association="//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizadaporUsuarioComum">
           <lowerValue xsi:type="uml:LiteralInteger"/>
           <upperValue xsi:type="uml:LiteralUnlimitedNatural" value="*"/>
         </ownedEnd>
-        <ownedEnd xsi:type="frameweb:DomainProperty" name="Target" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/UsuarioComum" association="//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizada%20por%20UsuarioComum"/>
+        <ownedEnd xsi:type="frameweb:DomainProperty" name="Target" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/UsuarioComum" association="//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizadaporUsuarioComum"/>
       </packagedElement>
-      <packagedElement xsi:type="frameweb:DomainAssociation" name="CompraFinalizada de Anuncio" memberEnd="//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizada%20de%20Anuncio/Source //@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizada%20de%20Anuncio/Target">
-        <ownedRule xsi:type="frameweb:DomainConstraints" name="Source Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizada%20de%20Anuncio/Source"/>
-        <ownedRule xsi:type="frameweb:DomainConstraints" name="Target Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizada%20de%20Anuncio/Target"/>
-        <ownedRule xsi:type="frameweb:VocabularyConstraints" name="Vocabulary Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizada%20de%20Anuncio"/>
-        <ownedEnd xsi:type="frameweb:DomainProperty" name="Source" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizada" association="//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizada%20de%20Anuncio">
+      <packagedElement xsi:type="frameweb:DomainAssociation" name="CompraFinalizadadeAnuncio" memberEnd="//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizadadeAnuncio/Source //@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizadadeAnuncio/Target">
+        <ownedRule xsi:type="frameweb:DomainConstraints" name="Source Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizadadeAnuncio/Source"/>
+        <ownedRule xsi:type="frameweb:DomainConstraints" name="Target Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizadadeAnuncio/Target"/>
+        <ownedRule xsi:type="frameweb:VocabularyConstraints" name="Vocabulary Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizadadeAnuncio"/>
+        <ownedEnd xsi:type="frameweb:DomainProperty" name="Source" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizada" association="//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizadadeAnuncio">
           <lowerValue xsi:type="uml:LiteralInteger"/>
           <upperValue xsi:type="uml:LiteralUnlimitedNatural" value="*"/>
         </ownedEnd>
-        <ownedEnd xsi:type="frameweb:DomainProperty" name="Target" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/Anuncio" association="//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizada%20de%20Anuncio"/>
+        <ownedEnd xsi:type="frameweb:DomainProperty" name="Target" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/Anuncio" association="//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizadadeAnuncio"/>
       </packagedElement>
       <packagedElement xsi:type="frameweb:DomainAssociation" name="deseja" memberEnd="//@compose.0/br.dwws.labwork.classiweb.core.domain/deseja/Source //@compose.0/br.dwws.labwork.classiweb.core.domain/deseja/Target">
         <ownedRule xsi:type="frameweb:DomainConstraints" name="Source Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/deseja/Source"/>
@@ -183,6 +171,16 @@
           <lowerValue xsi:type="uml:LiteralInteger"/>
           <upperValue xsi:type="uml:LiteralUnlimitedNatural" value="*"/>
         </ownedEnd>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:DomainAssociation" name="possui" memberEnd="//@compose.0/br.dwws.labwork.classiweb.core.domain/possui.2/Source //@compose.0/br.dwws.labwork.classiweb.core.domain/possui.2/Target">
+        <ownedRule xsi:type="frameweb:DomainConstraints" name="Source Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/possui.2/Source"/>
+        <ownedRule xsi:type="frameweb:DomainConstraints" name="Target Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/possui.2/Target"/>
+        <ownedRule xsi:type="frameweb:VocabularyConstraints" name="Vocabulary Constraint" constrainedElement="//@compose.0/br.dwws.labwork.classiweb.core.domain/possui.2"/>
+        <ownedEnd xsi:type="frameweb:DomainProperty" name="Source" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/Anuncio" association="//@compose.0/br.dwws.labwork.classiweb.core.domain/possui.2">
+          <lowerValue xsi:type="uml:LiteralInteger"/>
+          <upperValue xsi:type="uml:LiteralUnlimitedNatural" value="*"/>
+        </ownedEnd>
+        <ownedEnd xsi:type="frameweb:DomainProperty" name="Target" type="//@compose.0/br.dwws.labwork.classiweb.core.domain/Endereco" association="//@compose.0/br.dwws.labwork.classiweb.core.domain/possui.2"/>
       </packagedElement>
     </packagedElement>
   </compose>
@@ -241,7 +239,7 @@
     </packagedElement>
     <packagedElement xsi:type="frameweb:ViewPackage" name="/core/cadastroAnuncio">
       <packagedElement xsi:type="frameweb:Page" name="cadastroAnuncio">
-        <ownedAttribute xsi:type="frameweb:NavigationCompositionWhole" type="//@compose.2/%2Fcore%2FcadastroAnuncio/formCadastroAnuncio" association="//@compose.2/%2Fcore%2FcadastroAnuncio/@packagedElement.2"/>
+        <ownedAttribute xsi:type="frameweb:NavigationCompositionWhole"/>
       </packagedElement>
       <packagedElement xsi:type="frameweb:UIComponent" name="formCadastroAnuncio">
         <ownedAttribute xsi:type="frameweb:UIComponentField" name="anuncio.titulo" visibility="private">
@@ -275,8 +273,8 @@
           <type xsi:type="frameweb:Tag" href="frameweb/jbutler/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/PrimeFaces/inputText"/>
         </ownedAttribute>
       </packagedElement>
-      <packagedElement xsi:type="frameweb:NavigationAssociation" memberEnd="//@compose.2/%2Fcore%2FcadastroAnuncio/@packagedElement.2/@ownedEnd.0 //@compose.2/%2Fcore%2FcadastroAnuncio/cadastroAnuncio/@ownedAttribute.0">
-        <ownedEnd xsi:type="frameweb:NavigationCompositionPart" type="//@compose.2/%2Fcore%2FcadastroAnuncio/cadastroAnuncio" association="//@compose.2/%2Fcore%2FcadastroAnuncio/@packagedElement.2"/>
+      <packagedElement xsi:type="frameweb:NavigationAssociation">
+        <ownedEnd xsi:type="frameweb:NavigationCompositionPart"/>
       </packagedElement>
       <packagedElement xsi:type="frameweb:Page" name="meusAnuncios">
         <ownedAttribute xsi:type="frameweb:UIComponentField" name="anuncio.titulo" visibility="private">
@@ -348,16 +346,16 @@
         <ownedEnd name="Target" type="//@compose.3/br.dwws.labwork.classiweb.core.application/CompraFinalizadaService" association="//@compose.2/br.dwws.labwork.classiweb.core.controller/@packagedElement.7"/>
       </packagedElement>
     </packagedElement>
-    <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.2/%2Fcore%2FcadastroAnuncio/formCadastroAnuncio" supplier="//@compose.2/br.dwws.labwork.classiweb.core.controller/CadastroAnuncioController" method="//@compose.2/br.dwws.labwork.classiweb.core.controller/CadastroAnuncioController/cadastrarAnuncio"/>
-    <packagedElement xsi:type="frameweb:ResultDependency" client="//@compose.2/br.dwws.labwork.classiweb.core.controller/CadastroAnuncioController" supplier="//@compose.2/%2Fcore%2FcadastroAnuncio/meusAnuncios" resultMethod="//@compose.2/br.dwws.labwork.classiweb.core.controller/CadastroAnuncioController/cadastrarAnuncio">
+    <packagedElement xsi:type="frameweb:FrontControllerDependency" supplier="//@compose.2/br.dwws.labwork.classiweb.core.controller/CadastroAnuncioController" method="//@compose.2/br.dwws.labwork.classiweb.core.controller/CadastroAnuncioController/cadastrarAnuncio"/>
+    <packagedElement xsi:type="frameweb:ResultDependency" client="//@compose.2/br.dwws.labwork.classiweb.core.controller/CadastroAnuncioController" resultMethod="//@compose.2/br.dwws.labwork.classiweb.core.controller/CadastroAnuncioController/cadastrarAnuncio">
       <resultDependencyConstraint result="meusAnuncios.xhtml"/>
     </packagedElement>
-    <packagedElement xsi:type="frameweb:ResultDependency" client="//@compose.2/br.dwws.labwork.classiweb.core.controller/CadastroAnuncioController" supplier="//@compose.2/%2Fcore%2FcadastroAnuncio/cadastroAnuncio" resultMethod="//@compose.2/br.dwws.labwork.classiweb.core.controller/CadastroAnuncioController/cadastrarAnuncio">
+    <packagedElement xsi:type="frameweb:ResultDependency" client="//@compose.2/br.dwws.labwork.classiweb.core.controller/CadastroAnuncioController" resultMethod="//@compose.2/br.dwws.labwork.classiweb.core.controller/CadastroAnuncioController/cadastrarAnuncio">
       <resultDependencyConstraint result="cadastroAnuncio.xhtml"/>
     </packagedElement>
     <packagedElement xsi:type="frameweb:ViewPackage" name="/core/filtrarAnuncio">
       <packagedElement xsi:type="frameweb:Page" name="home">
-        <ownedAttribute xsi:type="frameweb:NavigationCompositionWhole" type="//@compose.2/%2Fcore%2FfiltrarAnuncio/formBuscaAnuncio" association="//@compose.2/%2Fcore%2FfiltrarAnuncio/@packagedElement.2"/>
+        <ownedAttribute xsi:type="frameweb:NavigationCompositionWhole"/>
       </packagedElement>
       <packagedElement xsi:type="frameweb:UIComponent" name="formBuscaAnuncio">
         <ownedAttribute xsi:type="frameweb:UIComponentField" name="titulo" visibility="private">
@@ -376,18 +374,18 @@
           <type xsi:type="frameweb:Tag" href="frameweb/jbutler/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/PrimeFaces/inputText"/>
         </ownedAttribute>
       </packagedElement>
-      <packagedElement xsi:type="frameweb:NavigationAssociation" memberEnd="//@compose.2/%2Fcore%2FfiltrarAnuncio/@packagedElement.2/@ownedEnd.0 //@compose.2/%2Fcore%2FfiltrarAnuncio/home/@ownedAttribute.0">
-        <ownedEnd xsi:type="frameweb:NavigationCompositionPart" type="//@compose.2/%2Fcore%2FfiltrarAnuncio/home" association="//@compose.2/%2Fcore%2FfiltrarAnuncio/@packagedElement.2"/>
+      <packagedElement xsi:type="frameweb:NavigationAssociation">
+        <ownedEnd xsi:type="frameweb:NavigationCompositionPart"/>
       </packagedElement>
       <packagedElement xsi:type="frameweb:Page" name="listaAnuncios"/>
     </packagedElement>
-    <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.2/%2Fcore%2FfiltrarAnuncio/formBuscaAnuncio" supplier="//@compose.2/br.dwws.labwork.classiweb.core.controller/FiltrarAnuncioController" method="//@compose.2/br.dwws.labwork.classiweb.core.controller/FiltrarAnuncioController/filtrarAnuncios"/>
-    <packagedElement xsi:type="frameweb:ResultDependency" client="//@compose.2/br.dwws.labwork.classiweb.core.controller/FiltrarAnuncioController" supplier="//@compose.2/%2Fcore%2FfiltrarAnuncio/listaAnuncios" resultMethod="//@compose.2/br.dwws.labwork.classiweb.core.controller/FiltrarAnuncioController/filtrarAnuncios">
+    <packagedElement xsi:type="frameweb:FrontControllerDependency" supplier="//@compose.2/br.dwws.labwork.classiweb.core.controller/FiltrarAnuncioController" method="//@compose.2/br.dwws.labwork.classiweb.core.controller/FiltrarAnuncioController/filtrarAnuncios"/>
+    <packagedElement xsi:type="frameweb:ResultDependency" client="//@compose.2/br.dwws.labwork.classiweb.core.controller/FiltrarAnuncioController" resultMethod="//@compose.2/br.dwws.labwork.classiweb.core.controller/FiltrarAnuncioController/filtrarAnuncios">
       <resultDependencyConstraint result="listaAnuncios.xhtml"/>
     </packagedElement>
     <packagedElement xsi:type="frameweb:ViewPackage" name="/core/avaliarCompra" visibility="private">
       <packagedElement xsi:type="frameweb:Page" name="anuncio">
-        <ownedAttribute xsi:type="frameweb:NavigationCompositionWhole" type="//@compose.2/%2Fcore%2FavaliarCompra/formConfirmarCompra" association="//@compose.2/%2Fcore%2FavaliarCompra/@packagedElement.2"/>
+        <ownedAttribute xsi:type="frameweb:NavigationCompositionWhole"/>
       </packagedElement>
       <packagedElement xsi:type="frameweb:UIComponent" name="formConfirmarCompra">
         <ownedAttribute xsi:type="frameweb:UIComponentField" name="confirmar" visibility="private">
@@ -397,28 +395,28 @@
           <type xsi:type="frameweb:Tag" href="frameweb/jbutler/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/PrimeFaces/confirmDialog"/>
         </ownedAttribute>
       </packagedElement>
-      <packagedElement xsi:type="frameweb:NavigationAssociation" memberEnd="//@compose.2/%2Fcore%2FavaliarCompra/@packagedElement.2/@ownedEnd.0 //@compose.2/%2Fcore%2FavaliarCompra/anuncio/@ownedAttribute.0">
-        <ownedEnd xsi:type="frameweb:NavigationCompositionPart" type="//@compose.2/%2Fcore%2FavaliarCompra/anuncio" association="//@compose.2/%2Fcore%2FavaliarCompra/@packagedElement.2"/>
+      <packagedElement xsi:type="frameweb:NavigationAssociation">
+        <ownedEnd xsi:type="frameweb:NavigationCompositionPart"/>
       </packagedElement>
       <packagedElement xsi:type="frameweb:Page" name="avaliarCompra">
-        <ownedAttribute xsi:type="frameweb:NavigationCompositionWhole" type="//@compose.2/%2Fcore%2FavaliarCompra/formAvaliarCompra" association="//@compose.2/%2Fcore%2FavaliarCompra/@packagedElement.5"/>
+        <ownedAttribute xsi:type="frameweb:NavigationCompositionWhole"/>
       </packagedElement>
       <packagedElement xsi:type="frameweb:UIComponent" name="formAvaliarCompra">
         <ownedAttribute xsi:type="frameweb:UIComponentField" name="avaliacao" visibility="private">
           <type xsi:type="frameweb:Tag" href="frameweb/jbutler/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/PrimeFaces/selectOneMenu"/>
         </ownedAttribute>
       </packagedElement>
-      <packagedElement xsi:type="frameweb:NavigationAssociation" memberEnd="//@compose.2/%2Fcore%2FavaliarCompra/@packagedElement.5/@ownedEnd.0 //@compose.2/%2Fcore%2FavaliarCompra/avaliarCompra/@ownedAttribute.0">
-        <ownedEnd xsi:type="frameweb:NavigationCompositionPart" type="//@compose.2/%2Fcore%2FavaliarCompra/avaliarCompra" association="//@compose.2/%2Fcore%2FavaliarCompra/@packagedElement.5"/>
+      <packagedElement xsi:type="frameweb:NavigationAssociation">
+        <ownedEnd xsi:type="frameweb:NavigationCompositionPart"/>
       </packagedElement>
       <packagedElement xsi:type="frameweb:Page" name="minhasCompras"/>
     </packagedElement>
-    <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.2/%2Fcore%2FavaliarCompra/formConfirmarCompra" supplier="//@compose.2/br.dwws.labwork.classiweb.core.controller/CompraFinalizadaController" method="//@compose.2/br.dwws.labwork.classiweb.core.controller/CompraFinalizadaController/realizarCompra"/>
-    <packagedElement xsi:type="frameweb:ResultDependency" client="//@compose.2/br.dwws.labwork.classiweb.core.controller/CompraFinalizadaController" supplier="//@compose.2/%2Fcore%2FavaliarCompra/avaliarCompra" resultMethod="//@compose.2/br.dwws.labwork.classiweb.core.controller/CompraFinalizadaController/realizarCompra">
+    <packagedElement xsi:type="frameweb:FrontControllerDependency" supplier="//@compose.2/br.dwws.labwork.classiweb.core.controller/CompraFinalizadaController" method="//@compose.2/br.dwws.labwork.classiweb.core.controller/CompraFinalizadaController/realizarCompra"/>
+    <packagedElement xsi:type="frameweb:ResultDependency" client="//@compose.2/br.dwws.labwork.classiweb.core.controller/CompraFinalizadaController" resultMethod="//@compose.2/br.dwws.labwork.classiweb.core.controller/CompraFinalizadaController/realizarCompra">
       <resultDependencyConstraint result="avaliarCompra.xhtml"/>
     </packagedElement>
-    <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.2/%2Fcore%2FavaliarCompra/formAvaliarCompra" supplier="//@compose.2/br.dwws.labwork.classiweb.core.controller/AvaliarCompraController" method="//@compose.2/br.dwws.labwork.classiweb.core.controller/AvaliarCompraController/enviarAvaliacao"/>
-    <packagedElement xsi:type="frameweb:ResultDependency" client="//@compose.2/br.dwws.labwork.classiweb.core.controller/AvaliarCompraController" supplier="//@compose.2/%2Fcore%2FavaliarCompra/minhasCompras">
+    <packagedElement xsi:type="frameweb:FrontControllerDependency" supplier="//@compose.2/br.dwws.labwork.classiweb.core.controller/AvaliarCompraController" method="//@compose.2/br.dwws.labwork.classiweb.core.controller/AvaliarCompraController/enviarAvaliacao"/>
+    <packagedElement xsi:type="frameweb:ResultDependency" client="//@compose.2/br.dwws.labwork.classiweb.core.controller/AvaliarCompraController">
       <resultDependencyConstraint result="minhasCompras.xhtml"/>
     </packagedElement>
   </compose>

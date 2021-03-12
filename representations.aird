@@ -14,7 +14,7 @@
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/br.ufes.inf.nemo.FrameWeb_Martins2015.design/description/FrameWeb.odesign#//@ownedViewpoints[name='']/@ownedRepresentations[name='FrameWeb%20Project']"/>
         <target xmi:type="frameweb:FramewebProject" href="Model.frameweb#/"/>
       </ownedRepresentationDescriptors>
-      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_RpUkQXh4Eeu_kaCgF7qlvA" name="FrameWebEntityModel" repPath="#_RpPEsHh4Eeu_kaCgF7qlvA" changeId="2b96257a-3c78-4bc3-b06d-50f732ed61b4">
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_RpUkQXh4Eeu_kaCgF7qlvA" name="FrameWebEntityModel" repPath="#_RpPEsHh4Eeu_kaCgF7qlvA" changeId="cde18b14-e0e6-4076-adb1-615309e9cfa1">
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/br.ufes.inf.nemo.FrameWeb_Martins2015.design/description/FrameWeb.odesign#//@ownedViewpoints[name='']/@ownedRepresentations[name='FrameWebEntityModel']"/>
         <target xmi:type="frameweb:EntityModel" href="Model.frameweb#//@compose.0"/>
       </ownedRepresentationDescriptors>
@@ -535,22 +535,6 @@
           <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_2v-kEH-aEeuWHLIuBHz-Ew" id="(0.5,0.5)"/>
           <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_2v-kEX-aEeuWHLIuBHz-Ew" id="(0.5,0.5)"/>
         </edges>
-        <edges xmi:type="notation:Edge" xmi:id="_b8UkoIJpEeulXqgh52toiQ" type="4001" element="_b7HDsIJpEeulXqgh52toiQ" source="_LSJr0H-UEeuWHLIuBHz-Ew" target="_dVf4UH-bEeuWHLIuBHz-Ew">
-          <children xmi:type="notation:Node" xmi:id="_b8WZ0IJpEeulXqgh52toiQ" type="6001">
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_b8WZ0YJpEeulXqgh52toiQ" x="13" y="18"/>
-          </children>
-          <children xmi:type="notation:Node" xmi:id="_b8XA4IJpEeulXqgh52toiQ" type="6002">
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_b8XA4YJpEeulXqgh52toiQ" x="7" y="11"/>
-          </children>
-          <children xmi:type="notation:Node" xmi:id="_b8Xn8IJpEeulXqgh52toiQ" type="6003">
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_b8Xn8YJpEeulXqgh52toiQ" x="5" y="11"/>
-          </children>
-          <styles xmi:type="notation:ConnectorStyle" xmi:id="_b8UkoYJpEeulXqgh52toiQ"/>
-          <styles xmi:type="notation:FontStyle" xmi:id="_b8UkooJpEeulXqgh52toiQ" fontName="Segoe UI" fontHeight="8"/>
-          <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_b8Uko4JpEeulXqgh52toiQ" points="[-136, -38, 266, 72]$[-303, -83, 99, 27]"/>
-          <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_b8Y2EIJpEeulXqgh52toiQ" id="(0.5,0.5)"/>
-          <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_b8Y2EYJpEeulXqgh52toiQ" id="(0.5,0.5)"/>
-        </edges>
         <edges xmi:type="notation:Edge" xmi:id="_6qcQEIJvEeulXqgh52toiQ" type="4001" element="_6pX5GIJvEeulXqgh52toiQ" source="_LSJr0H-UEeuWHLIuBHz-Ew" target="_tbD8wH-SEeuWHLIuBHz-Ew">
           <children xmi:type="notation:Node" xmi:id="_6qc3IIJvEeulXqgh52toiQ" type="6001">
             <layoutConstraint xmi:type="notation:Bounds" xmi:id="_6qc3IYJvEeulXqgh52toiQ" x="-1" y="-42"/>
@@ -614,6 +598,22 @@
           <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_35jqk4J0EeulXqgh52toiQ" points="[21, 30, -32, -371]$[67, 93, 14, -308]$[109, 233, 56, -168]$[82, 314, 29, -87]"/>
           <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_35k4sIJ0EeulXqgh52toiQ" id="(0.5,0.5)"/>
           <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_35k4sYJ0EeulXqgh52toiQ" id="(0.5,0.5)"/>
+        </edges>
+        <edges xmi:type="notation:Edge" xmi:id="_3t-6dIM9EeuEpJ9Yld2puQ" type="4001" element="_3tPTqIM9EeuEpJ9Yld2puQ" source="_LSJr0H-UEeuWHLIuBHz-Ew" target="_dVf4UH-bEeuWHLIuBHz-Ew">
+          <children xmi:type="notation:Node" xmi:id="_3t-6eIM9EeuEpJ9Yld2puQ" type="6001">
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_3t-6eYM9EeuEpJ9Yld2puQ" y="-10"/>
+          </children>
+          <children xmi:type="notation:Node" xmi:id="_3t-6eoM9EeuEpJ9Yld2puQ" type="6002">
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_3t-6e4M9EeuEpJ9Yld2puQ" y="10"/>
+          </children>
+          <children xmi:type="notation:Node" xmi:id="_3t-6fIM9EeuEpJ9Yld2puQ" type="6003">
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_3t-6fYM9EeuEpJ9Yld2puQ" y="10"/>
+          </children>
+          <styles xmi:type="notation:ConnectorStyle" xmi:id="_3t-6dYM9EeuEpJ9Yld2puQ"/>
+          <styles xmi:type="notation:FontStyle" xmi:id="_3t-6doM9EeuEpJ9Yld2puQ" fontName="Segoe UI" fontHeight="8"/>
+          <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_3t-6d4M9EeuEpJ9Yld2puQ" points="[-30, -2, 331, 16]$[-327, -17, 34, 1]"/>
+          <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_3t-6foM9EeuEpJ9Yld2puQ" id="(0.5,0.5)"/>
+          <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_3t-6f4M9EeuEpJ9Yld2puQ" id="(0.5,0.5)"/>
         </edges>
       </data>
     </ownedAnnotationEntries>
@@ -706,7 +706,7 @@
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/br.ufes.inf.nemo.FrameWeb_Martins2015.design/description/FrameWeb.odesign#//@ownedViewpoints[name='']/@ownedRepresentations[name='FrameWebEntityModel']/@defaultLayer/@containerMappings[name='Domain%20Package']/@subContainerMappings[name='DomainClass%20Node']/@subNodeMappings[name='DomainAttribute']"/>
         </ownedElements>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_LR3X8H-UEeuWHLIuBHz-Ew" name="Anuncio" outgoingEdges="_2vdmwH-aEeuWHLIuBHz-Ew _b7HDsIJpEeulXqgh52toiQ _6pX5GIJvEeulXqgh52toiQ" incomingEdges="_jatn6IJ0EeulXqgh52toiQ _34148IJ0EeulXqgh52toiQ">
+      <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_LR3X8H-UEeuWHLIuBHz-Ew" name="Anuncio" outgoingEdges="_2vdmwH-aEeuWHLIuBHz-Ew _6pX5GIJvEeulXqgh52toiQ _3tPTqIM9EeuEpJ9Yld2puQ" incomingEdges="_jatn6IJ0EeulXqgh52toiQ _34148IJ0EeulXqgh52toiQ">
         <target xmi:type="frameweb:DomainClass" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/Anuncio"/>
         <semanticElements xmi:type="frameweb:DomainClass" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/Anuncio"/>
         <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
@@ -854,7 +854,7 @@
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/br.ufes.inf.nemo.FrameWeb_Martins2015.design/description/FrameWeb.odesign#//@ownedViewpoints[name='']/@ownedRepresentations[name='FrameWebEntityModel']/@defaultLayer/@containerMappings[name='Domain%20Package']/@subContainerMappings[name='DomainClass%20Node']/@subNodeMappings[name='DomainAttribute']"/>
         </ownedElements>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_dVHd0H-bEeuWHLIuBHz-Ew" name="Endereco" incomingEdges="_b7HDsIJpEeulXqgh52toiQ">
+      <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_dVHd0H-bEeuWHLIuBHz-Ew" name="Endereco" incomingEdges="_3tPTqIM9EeuEpJ9Yld2puQ">
         <target xmi:type="frameweb:DomainClass" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/Endereco"/>
         <semanticElements xmi:type="frameweb:DomainClass" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/Endereco"/>
         <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
@@ -1007,30 +1007,14 @@
       </ownedStyle>
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/br.ufes.inf.nemo.FrameWeb_Martins2015.design/description/FrameWeb.odesign#//@ownedViewpoints[name='']/@ownedRepresentations[name='FrameWebEntityModel']/@defaultLayer/@edgeMappings[name='DomainAssociation']"/>
     </ownedDiagramElements>
-    <ownedDiagramElements xmi:type="diagram:DEdge" uid="_b7HDsIJpEeulXqgh52toiQ" name="possui" sourceNode="_LR3X8H-UEeuWHLIuBHz-Ew" targetNode="_dVHd0H-bEeuWHLIuBHz-Ew" beginLabel="0..*" endLabel="1">
-      <target xmi:type="frameweb:DomainAssociation" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/possui.2"/>
-      <semanticElements xmi:type="frameweb:DomainAssociation" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/possui.2"/>
-      <semanticElements xmi:type="frameweb:DomainProperty" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/possui.2/Source"/>
-      <semanticElements xmi:type="frameweb:DomainProperty" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/possui.2/Target"/>
-      <semanticElements xmi:type="frameweb:DomainConstraints" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/possui.2/Source%20Constraint"/>
-      <semanticElements xmi:type="frameweb:DomainConstraints" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/possui.2/Target%20Constraint"/>
-      <semanticElements xmi:type="frameweb:VocabularyConstraints" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/possui.2/Vocabulary%20Constraint"/>
-      <ownedStyle xmi:type="diagram:EdgeStyle" uid="_b7I44IJpEeulXqgh52toiQ" size="2" centered="Both" strokeColor="69,69,69">
-        <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/br.ufes.inf.nemo.FrameWeb_Martins2015.design/description/FrameWeb.odesign#//@ownedViewpoints[name='']/@ownedRepresentations[name='FrameWebEntityModel']/@defaultLayer/@edgeMappings[name='DomainAssociation']/@style"/>
-        <beginLabelStyle xmi:type="diagram:BeginLabelStyle" uid="_b7I44YJpEeulXqgh52toiQ" showIcon="false"/>
-        <centerLabelStyle xmi:type="diagram:CenterLabelStyle" uid="_b7I444JpEeulXqgh52toiQ" showIcon="false"/>
-        <endLabelStyle xmi:type="diagram:EndLabelStyle" uid="_b7I44oJpEeulXqgh52toiQ" showIcon="false"/>
-      </ownedStyle>
-      <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/br.ufes.inf.nemo.FrameWeb_Martins2015.design/description/FrameWeb.odesign#//@ownedViewpoints[name='']/@ownedRepresentations[name='FrameWebEntityModel']/@defaultLayer/@edgeMappings[name='DomainAssociation']"/>
-    </ownedDiagramElements>
-    <ownedDiagramElements xmi:type="diagram:DEdge" uid="_6pX5GIJvEeulXqgh52toiQ" name="criado por" sourceNode="_LR3X8H-UEeuWHLIuBHz-Ew" targetNode="_tayP8H-SEeuWHLIuBHz-Ew" beginLabel="0..*" endLabel="1">
-      <target xmi:type="frameweb:DomainAssociation" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/criado%20por"/>
-      <semanticElements xmi:type="frameweb:DomainAssociation" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/criado%20por"/>
-      <semanticElements xmi:type="frameweb:DomainProperty" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/criado%20por/Source"/>
-      <semanticElements xmi:type="frameweb:DomainProperty" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/criado%20por/Target"/>
-      <semanticElements xmi:type="frameweb:DomainConstraints" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/criado%20por/Source%20Constraint"/>
-      <semanticElements xmi:type="frameweb:DomainConstraints" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/criado%20por/Target%20Constraint"/>
-      <semanticElements xmi:type="frameweb:VocabularyConstraints" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/criado%20por/Vocabulary%20Constraint"/>
+    <ownedDiagramElements xmi:type="diagram:DEdge" uid="_6pX5GIJvEeulXqgh52toiQ" name="criadoPor" sourceNode="_LR3X8H-UEeuWHLIuBHz-Ew" targetNode="_tayP8H-SEeuWHLIuBHz-Ew" beginLabel="0..*" endLabel="1">
+      <target xmi:type="frameweb:DomainAssociation" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/criadoPor"/>
+      <semanticElements xmi:type="frameweb:DomainAssociation" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/criadoPor"/>
+      <semanticElements xmi:type="frameweb:DomainProperty" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/criadoPor/Source"/>
+      <semanticElements xmi:type="frameweb:DomainProperty" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/criadoPor/Target"/>
+      <semanticElements xmi:type="frameweb:DomainConstraints" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/criadoPor/Source%20Constraint"/>
+      <semanticElements xmi:type="frameweb:DomainConstraints" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/criadoPor/Target%20Constraint"/>
+      <semanticElements xmi:type="frameweb:VocabularyConstraints" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/criadoPor/Vocabulary%20Constraint"/>
       <ownedStyle xmi:type="diagram:EdgeStyle" uid="_6pX5GYJvEeulXqgh52toiQ" size="2" centered="Both" strokeColor="69,69,69">
         <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/br.ufes.inf.nemo.FrameWeb_Martins2015.design/description/FrameWeb.odesign#//@ownedViewpoints[name='']/@ownedRepresentations[name='FrameWebEntityModel']/@defaultLayer/@edgeMappings[name='DomainAssociation']/@style"/>
         <beginLabelStyle xmi:type="diagram:BeginLabelStyle" uid="_6pX5GoJvEeulXqgh52toiQ" showIcon="false"/>
@@ -1039,14 +1023,14 @@
       </ownedStyle>
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/br.ufes.inf.nemo.FrameWeb_Martins2015.design/description/FrameWeb.odesign#//@ownedViewpoints[name='']/@ownedRepresentations[name='FrameWebEntityModel']/@defaultLayer/@edgeMappings[name='DomainAssociation']"/>
     </ownedDiagramElements>
-    <ownedDiagramElements xmi:type="diagram:DEdge" uid="_UWD86IJ0EeulXqgh52toiQ" name="CompraFinalizada por UsuarioComum" sourceNode="_gH-9sIJyEeulXqgh52toiQ" targetNode="_tayP8H-SEeuWHLIuBHz-Ew" beginLabel="0..*" endLabel="1">
-      <target xmi:type="frameweb:DomainAssociation" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizada%20por%20UsuarioComum"/>
-      <semanticElements xmi:type="frameweb:DomainAssociation" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizada%20por%20UsuarioComum"/>
-      <semanticElements xmi:type="frameweb:DomainProperty" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizada%20por%20UsuarioComum/Source"/>
-      <semanticElements xmi:type="frameweb:DomainProperty" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizada%20por%20UsuarioComum/Target"/>
-      <semanticElements xmi:type="frameweb:DomainConstraints" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizada%20por%20UsuarioComum/Source%20Constraint"/>
-      <semanticElements xmi:type="frameweb:DomainConstraints" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizada%20por%20UsuarioComum/Target%20Constraint"/>
-      <semanticElements xmi:type="frameweb:VocabularyConstraints" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizada%20por%20UsuarioComum/Vocabulary%20Constraint"/>
+    <ownedDiagramElements xmi:type="diagram:DEdge" uid="_UWD86IJ0EeulXqgh52toiQ" name="CompraFinalizadaporUsuarioComum" sourceNode="_gH-9sIJyEeulXqgh52toiQ" targetNode="_tayP8H-SEeuWHLIuBHz-Ew" beginLabel="0..*" endLabel="1">
+      <target xmi:type="frameweb:DomainAssociation" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizadaporUsuarioComum"/>
+      <semanticElements xmi:type="frameweb:DomainAssociation" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizadaporUsuarioComum"/>
+      <semanticElements xmi:type="frameweb:DomainProperty" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizadaporUsuarioComum/Source"/>
+      <semanticElements xmi:type="frameweb:DomainProperty" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizadaporUsuarioComum/Target"/>
+      <semanticElements xmi:type="frameweb:DomainConstraints" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizadaporUsuarioComum/Source%20Constraint"/>
+      <semanticElements xmi:type="frameweb:DomainConstraints" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizadaporUsuarioComum/Target%20Constraint"/>
+      <semanticElements xmi:type="frameweb:VocabularyConstraints" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizadaporUsuarioComum/Vocabulary%20Constraint"/>
       <ownedStyle xmi:type="diagram:EdgeStyle" uid="_UWD86YJ0EeulXqgh52toiQ" size="2" centered="Both" strokeColor="69,69,69">
         <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/br.ufes.inf.nemo.FrameWeb_Martins2015.design/description/FrameWeb.odesign#//@ownedViewpoints[name='']/@ownedRepresentations[name='FrameWebEntityModel']/@defaultLayer/@edgeMappings[name='DomainAssociation']/@style"/>
         <beginLabelStyle xmi:type="diagram:BeginLabelStyle" uid="_UWD86oJ0EeulXqgh52toiQ" showIcon="false"/>
@@ -1055,14 +1039,14 @@
       </ownedStyle>
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/br.ufes.inf.nemo.FrameWeb_Martins2015.design/description/FrameWeb.odesign#//@ownedViewpoints[name='']/@ownedRepresentations[name='FrameWebEntityModel']/@defaultLayer/@edgeMappings[name='DomainAssociation']"/>
     </ownedDiagramElements>
-    <ownedDiagramElements xmi:type="diagram:DEdge" uid="_jatn6IJ0EeulXqgh52toiQ" name="CompraFinalizada de Anuncio" sourceNode="_gH-9sIJyEeulXqgh52toiQ" targetNode="_LR3X8H-UEeuWHLIuBHz-Ew" beginLabel="0..*" endLabel="1">
-      <target xmi:type="frameweb:DomainAssociation" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizada%20de%20Anuncio"/>
-      <semanticElements xmi:type="frameweb:DomainAssociation" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizada%20de%20Anuncio"/>
-      <semanticElements xmi:type="frameweb:DomainProperty" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizada%20de%20Anuncio/Source"/>
-      <semanticElements xmi:type="frameweb:DomainProperty" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizada%20de%20Anuncio/Target"/>
-      <semanticElements xmi:type="frameweb:DomainConstraints" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizada%20de%20Anuncio/Source%20Constraint"/>
-      <semanticElements xmi:type="frameweb:DomainConstraints" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizada%20de%20Anuncio/Target%20Constraint"/>
-      <semanticElements xmi:type="frameweb:VocabularyConstraints" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizada%20de%20Anuncio/Vocabulary%20Constraint"/>
+    <ownedDiagramElements xmi:type="diagram:DEdge" uid="_jatn6IJ0EeulXqgh52toiQ" name="CompraFinalizadadeAnuncio" sourceNode="_gH-9sIJyEeulXqgh52toiQ" targetNode="_LR3X8H-UEeuWHLIuBHz-Ew" beginLabel="0..*" endLabel="1">
+      <target xmi:type="frameweb:DomainAssociation" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizadadeAnuncio"/>
+      <semanticElements xmi:type="frameweb:DomainAssociation" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizadadeAnuncio"/>
+      <semanticElements xmi:type="frameweb:DomainProperty" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizadadeAnuncio/Source"/>
+      <semanticElements xmi:type="frameweb:DomainProperty" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizadadeAnuncio/Target"/>
+      <semanticElements xmi:type="frameweb:DomainConstraints" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizadadeAnuncio/Source%20Constraint"/>
+      <semanticElements xmi:type="frameweb:DomainConstraints" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizadadeAnuncio/Target%20Constraint"/>
+      <semanticElements xmi:type="frameweb:VocabularyConstraints" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/CompraFinalizadadeAnuncio/Vocabulary%20Constraint"/>
       <ownedStyle xmi:type="diagram:EdgeStyle" uid="_jauO4IJ0EeulXqgh52toiQ" size="2" centered="Both" strokeColor="69,69,69">
         <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/br.ufes.inf.nemo.FrameWeb_Martins2015.design/description/FrameWeb.odesign#//@ownedViewpoints[name='']/@ownedRepresentations[name='FrameWebEntityModel']/@defaultLayer/@edgeMappings[name='DomainAssociation']/@style"/>
         <beginLabelStyle xmi:type="diagram:BeginLabelStyle" uid="_jauO4YJ0EeulXqgh52toiQ" showIcon="false"/>
@@ -1084,6 +1068,22 @@
         <beginLabelStyle xmi:type="diagram:BeginLabelStyle" uid="_34148oJ0EeulXqgh52toiQ" showIcon="false"/>
         <centerLabelStyle xmi:type="diagram:CenterLabelStyle" uid="_34149IJ0EeulXqgh52toiQ" showIcon="false"/>
         <endLabelStyle xmi:type="diagram:EndLabelStyle" uid="_341484J0EeulXqgh52toiQ" showIcon="false"/>
+      </ownedStyle>
+      <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/br.ufes.inf.nemo.FrameWeb_Martins2015.design/description/FrameWeb.odesign#//@ownedViewpoints[name='']/@ownedRepresentations[name='FrameWebEntityModel']/@defaultLayer/@edgeMappings[name='DomainAssociation']"/>
+    </ownedDiagramElements>
+    <ownedDiagramElements xmi:type="diagram:DEdge" uid="_3tPTqIM9EeuEpJ9Yld2puQ" name="possui" sourceNode="_LR3X8H-UEeuWHLIuBHz-Ew" targetNode="_dVHd0H-bEeuWHLIuBHz-Ew" beginLabel="0..*" endLabel="1">
+      <target xmi:type="frameweb:DomainAssociation" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/possui.2"/>
+      <semanticElements xmi:type="frameweb:DomainAssociation" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/possui.2"/>
+      <semanticElements xmi:type="frameweb:DomainProperty" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/possui.2/Source"/>
+      <semanticElements xmi:type="frameweb:DomainProperty" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/possui.2/Target"/>
+      <semanticElements xmi:type="frameweb:DomainConstraints" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/possui.2/Source%20Constraint"/>
+      <semanticElements xmi:type="frameweb:DomainConstraints" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/possui.2/Target%20Constraint"/>
+      <semanticElements xmi:type="frameweb:VocabularyConstraints" href="Model.frameweb#//@compose.0/br.dwws.labwork.classiweb.core.domain/possui.2/Vocabulary%20Constraint"/>
+      <ownedStyle xmi:type="diagram:EdgeStyle" uid="_3tPTqYM9EeuEpJ9Yld2puQ" size="2" centered="Both" strokeColor="69,69,69">
+        <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/br.ufes.inf.nemo.FrameWeb_Martins2015.design/description/FrameWeb.odesign#//@ownedViewpoints[name='']/@ownedRepresentations[name='FrameWebEntityModel']/@defaultLayer/@edgeMappings[name='DomainAssociation']/@style"/>
+        <beginLabelStyle xmi:type="diagram:BeginLabelStyle" uid="_3tPTqoM9EeuEpJ9Yld2puQ" showIcon="false"/>
+        <centerLabelStyle xmi:type="diagram:CenterLabelStyle" uid="_3tPTrIM9EeuEpJ9Yld2puQ" showIcon="false"/>
+        <endLabelStyle xmi:type="diagram:EndLabelStyle" uid="_3tPTq4M9EeuEpJ9Yld2puQ" showIcon="false"/>
       </ownedStyle>
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/br.ufes.inf.nemo.FrameWeb_Martins2015.design/description/FrameWeb.odesign#//@ownedViewpoints[name='']/@ownedRepresentations[name='FrameWebEntityModel']/@defaultLayer/@edgeMappings[name='DomainAssociation']"/>
     </ownedDiagramElements>
