@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:adm="http://github.com/adminfaces"
+    template="/WEB-INF/templates/template.xhtml">
+	
+
+    <ui:define name="title">
+        <h:outputText value="#{msgsCore['cadastroAnuncio.title']}" />
+    </ui:define>
+
+    <ui:define name="description">
+        <h:outputText value="#{msgsCore['cadastroAnuncio.title.description']}" />
+    </ui:define>
+
+    <ui:define name="body">
+		<adm:breadcrumb link="/core/registration/index" title="#{msgsCore['cadastroAnuncio.title']}" /><h:form id="formCadastroAnuncio">
+		
+			<p:inputText id="anuncio.titulo" value="#{cadastroAnuncioController.anuncio.titulo}" />
+			<p:inputText id="anuncio.preco" value="#{cadastroAnuncioController.anuncio.preco}" />
+			<p:inputText id="anuncio.quantidade" value="#{cadastroAnuncioController.anuncio.quantidade}" />
+			<p:inputText id="anuncio.descricao" value="#{cadastroAnuncioController.anuncio.descricao}" />
+			<p:fileUpload id="anuncio.fotos" value="#{cadastroAnuncioController.anuncio.fotos}" />
+			<p:selectOneMenu id="anuncio.estado" value="#{cadastroAnuncioController.anuncio.estado}" />
+			<p:selectOneMenu id="categoria" value="#{cadastroAnuncioController.categoria}" />
+			<p:selectOneRadio id="anuncio.estadoProduto" value="#{cadastroAnuncioController.anuncio.estadoProduto}" />
+			<p:inputText id="endereco.estado" value="#{cadastroAnuncioController.endereco.estado}" />
+			<p:inputText id="endereco.cidade" value="#{cadastroAnuncioController.endereco.cidade}" />
+		</h:form>
+    
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:adm="http://github.com/adminfaces"
+    template="/WEB-INF/templates/template.xhtml">
+	
+
+    <ui:define name="title">
+        <h:outputText value="#{msgsCore['filtrarAnuncio.title']}" />
+    </ui:define>
+
+    <ui:define name="description">
+        <h:outputText value="#{msgsCore['filtrarAnuncio.title.description']}" />
+    </ui:define>
+
+    <ui:define name="body">
+		<adm:breadcrumb link="/core/registration/index" title="#{msgsCore['filtrarAnuncio.title']}" /><h:form id="formBuscaAnuncio">
+		
+			<p:inputText id="titulo" value="#{filtrarAnuncioController.titulo}" />
+			<p:inputText id="descricao" value="#{filtrarAnuncioController.descricao}" />
+			<p:selectManyButton id="categorias" value="#{filtrarAnuncioController.categorias}" />
+			<p:inputText id="localidade.estado" value="#{filtrarAnuncioController.localidade.estado}" />
+			<p:inputText id="localidade.cidade" value="#{filtrarAnuncioController.localidade.cidade}" />
+		</h:form>
+    
+    </ui:define>
+</ui:composition>
