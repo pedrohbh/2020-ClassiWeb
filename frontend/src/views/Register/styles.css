@@ -1,0 +1,43 @@
+body {
+    padding: 1%;
+}
+
+.formContainer{
+    width: 40vw;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1 {
+    margin: 0;
+    margin-bottom: 5%;
+}
+
+form {
+    width: 100%;
+
+    margin: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    row-gap: 1vh;
+
+    /* background-color: salmon; */
+}
+
+.MuiTextField-root {
+    width: 80%;
+}
+
+@media screen and (max-width: 800px){
+    .formContainer{
+        width: 90vw;
+    }
+}
