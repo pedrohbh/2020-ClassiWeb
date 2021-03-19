@@ -45,12 +45,22 @@
       }
     ],
 
-    "settings": {
-      "import/resolver": {
-        "typescript": {
-          "directory": "packages/server/*/tsconfig.json"
+    "import-helpers/order-imports": [
+      "warn",
+      {
+        "newlinesBetween": "always", // new line between groups
+        "groups": [
+          "module",
+          "/^@/",
+          "/.(svg|gif|jpe?g|png)$/",
+          "/shared/",
+          ["parent", "sibling", "index"]
+        ],
+        "alphabetize": {
+          "order": "asc",
+          "ignoreCase": true
         }
       }
-    }
+    ]
   }
 }
