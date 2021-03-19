@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme) =>
     presentation: {
       margin: 0,
       float: "left",
-      width: "55vw",
+      width: "53vw",
       height: "100vh",
       display: "flex",
       alignItems: "center",
@@ -16,8 +16,8 @@ const useStyles = makeStyles((theme) =>
     },
 
     logo: {
-      height: '200px', 
-      minHeight: '200px'
+      width: '60%', 
+      minWidth: '200px'
     },
 
     message: {

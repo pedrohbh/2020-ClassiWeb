@@ -7,6 +7,7 @@ const StyledButton = withStyles({
   root: {
     background: '#E65252',
     borderRadius: 3,
+    marginBottom: "1vh",
     border: 0,
     color: 'white',
     height: 48,
@@ -27,9 +28,9 @@ const StyledTextField = withStyles({
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
-      width: "45vw",
+      width: "43vw",
       float: "right",
-      height: "100vh",
+      minHeight: "100vh",
       display: "flex",
       alignItems: "center",
       flexDirection: "column",
@@ -54,9 +55,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
 
     formControl: {
-      margin: theme.spacing(1),
-      minWidth: 120,
-      width: "38%",
+      minWidth: 60,
+    },
+    address:{
+      width:"80%",
     },
     selectEmpty: {
       marginTop: theme.spacing(2),
@@ -78,10 +80,9 @@ export default function RegisterForm() {
           <StyledTextField required id="outlined-basic" label="Nome" variant="outlined" />
           <StyledTextField required id="outlined-basic" label="Sobrenome" variant="outlined" />
           <StyledTextField required id="outlined-basic" label="CPF"  variant="outlined" />
-          <StyledTextField required id="outlined-basic" label="Endereço" variant="outlined" />
-          <div className="address">
-
-            <FormControl variant="outlined" className={classes.formControl}>
+          {/*<StyledTextField required id="outlined-basic" label="Endereço" variant="outlined" />*/}
+          <div className={classes.address}>
+            <FormControl variant="outlined" style={{width:"30%", marginRight:"1%"}} className={classes.formControl}>
               <InputLabel id="demo-simple-select-outlined-label">UF</InputLabel>
               <Select
                 labelId="demo-simple-select-outlined-label"
@@ -89,14 +90,15 @@ export default function RegisterForm() {
                 value={age}
                 onChange={handleChange}
                 label="UF"
+                
               >
-                <MenuItem value={10}>Espírito Santo</MenuItem>
-                <MenuItem value={20}>Rio de Janeiro</MenuItem>
-                <MenuItem value={30}>São Paulo</MenuItem>
+                <MenuItem value={10}>ES</MenuItem>
+                <MenuItem value={20}>RJ</MenuItem>
+                <MenuItem value={30}>SP</MenuItem>
               </Select>
             </FormControl>
 
-            <FormControl variant="outlined" className={classes.formControl}>
+            <FormControl variant="outlined" style={{width:"69%"}} className={classes.formControl}>
               <InputLabel id="demo-simple-select-outlined-label">Cidade</InputLabel>
               <Select
                 labelId="demo-simple-select-outlined-label"
@@ -113,7 +115,7 @@ export default function RegisterForm() {
           </div>
           <StyledTextField required id="outlined-basic" type="email"    label="E-mail" variant="outlined" />
           <StyledTextField required id="outlined-basic" type="password" label="Senha" variant="outlined" />
-          <StyledTextField required id="outlined-basic" type="password" label="Confirmar" variant="outlined" />
+          <StyledTextField required id="outlined-basic" type="password" label="Confirmar Senha" variant="outlined" />
       </form>
       <StyledButton variant="contained">
         Cadastrar!
