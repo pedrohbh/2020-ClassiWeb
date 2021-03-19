@@ -2,11 +2,22 @@
   "compilerOptions": {
     "target": "es2017",
     "module": "commonjs",
+    "lib": ["es6"],
+
     "allowJs": true,
+    "resolveJsonModule": true,
+
+    "rootDir": "./src",
+    "outDir": "./dist",
+
+    "removeComments": true,
+
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "experimentalDecorators": true
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["src/**/*.ts"]
 }

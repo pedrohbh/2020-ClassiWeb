@@ -1,6 +1,6 @@
-import express from "express";
-import routes from "./routes";
-import cors from "cors";
+import express from 'express';
+import cors from 'cors';
+import routes from './routes';
 
 // Criação da API
 const app = express();
