@@ -1,5 +1,3 @@
-import React, { useState } from 'react';
-
 import Presentation from './Presentation';
 import RegisterForm from './RegisterForm';
 

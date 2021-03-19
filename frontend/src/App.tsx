@@ -1,11 +1,13 @@
 import React from 'react';
-import './App.css';
 import Routes from './routes';
+import Config from './configs/Config'
 
 function App() {
 
   return (
-    <Routes/>
+    <Config>
+      <Routes/>
+    </Config>
   );
 }
 
