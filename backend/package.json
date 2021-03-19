@@ -4,8 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "tsnd --transpile-only --respawn --ignore-watch node_modules src/index.ts",
-    "doc": "tsnd --transpile-only --respawn --ignore-watch src/swagger_output.json swagger.ts",
+    "start": "tsnd --transpile-only --respawn --ignore-watch src/swagger_output.json swagger.ts",
     "test": "jest",
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored"
   },
@@ -27,6 +26,7 @@
     "@babel/cli": "^7.13.10",
     "@babel/core": "^7.13.10",
     "@babel/node": "^7.13.10",
+    "@babel/plugin-proposal-decorators": "^7.13.5",
     "@babel/preset-env": "^7.13.10",
     "@babel/preset-typescript": "^7.13.0",
     "@types/bcryptjs": "^2.4.2",

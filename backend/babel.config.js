@@ -11,4 +11,5 @@ module.exports = {
     '@babel/preset-typescript',
   ],
   ignore: ['**/*.spec.ts'],
+  plugins: [['@babel/plugin-proposal-decorators', { legacy: true }]],
 };
