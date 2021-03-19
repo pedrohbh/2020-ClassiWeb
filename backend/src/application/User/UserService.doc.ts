@@ -1,4 +1,6 @@
-export const UserServiceDoc = {
+import { ServiceDoc } from '../ServicesDocs';
+
+export const UserServiceDoc: ServiceDoc = {
   tag: {
     name: 'User',
     description: 'Endpoints',
