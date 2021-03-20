@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import TextField from '@material-ui/core/TextField';
+import { Button } from '@material-ui/core';
 import { createStyles, makeStyles, Theme, withStyles } from '@material-ui/core/styles';
-import { Button, Container, FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
+import TextField from '@material-ui/core/TextField';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import Address from './Address';
 
 const StyledButton = withStyles({
   root: {
@@ -30,8 +32,8 @@ const useStyles = makeStyles((theme: Theme) =>
     container: {
       width: "43vw",
       float: "right",
-      minHeight: "100vh",
       display: "flex",
+      minHeight: "100vh",
       alignItems: "center",
       flexDirection: "column",
       justifyContent: "center",
@@ -54,9 +56,6 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: "space-around",
     },
 
-    formControl: {
-      minWidth: 60,
-    },
     address:{
       width:"80%",
     },
@@ -68,54 +67,18 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function RegisterForm() {
   const classes = useStyles();
-  const [age, setAge] = React.useState('');
 
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setAge(event.target.value as string);
-  };
   return (
     <div className={classes.container}>
       <h1 className={classes.text}>Cadastre-se para começar a usar!</h1>
       <form className={classes.formContainer} autoComplete="off">
-          <StyledTextField required id="outlined-basic" label="Nome" variant="outlined" />
-          <StyledTextField required id="outlined-basic" label="Sobrenome" variant="outlined" />
-          <StyledTextField required id="outlined-basic" label="CPF"  variant="outlined" />
-          {/*<StyledTextField required id="outlined-basic" label="Endereço" variant="outlined" />*/}
-          <div className={classes.address}>
-            <FormControl variant="outlined" style={{width:"30%", marginRight:"1%"}} className={classes.formControl}>
-              <InputLabel id="demo-simple-select-outlined-label">UF</InputLabel>
-              <Select
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
-                value={age}
-                onChange={handleChange}
-                label="UF"
-                
-              >
-                <MenuItem value={10}>ES</MenuItem>
-                <MenuItem value={20}>RJ</MenuItem>
-                <MenuItem value={30}>SP</MenuItem>
-              </Select>
-            </FormControl>
-
-            <FormControl variant="outlined" style={{width:"69%"}} className={classes.formControl}>
-              <InputLabel id="demo-simple-select-outlined-label">Cidade</InputLabel>
-              <Select
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
-                value={age}
-                onChange={handleChange}
-                label="Cidade"
-              >
-                <MenuItem value={10}>Vila Velha</MenuItem>
-                <MenuItem value={20}>Serra</MenuItem>
-                <MenuItem value={30}>Vitória</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-          <StyledTextField required id="outlined-basic" type="email"    label="E-mail" variant="outlined" />
-          <StyledTextField required id="outlined-basic" type="password" label="Senha" variant="outlined" />
-          <StyledTextField required id="outlined-basic" type="password" label="Confirmar Senha" variant="outlined" />
+          <StyledTextField required id="name" label="Nome" variant="outlined" />
+          <StyledTextField required id="lastName" label="Sobrenome" variant="outlined" />
+          <StyledTextField required id="cpf" label="CPF"  variant="outlined" />
+          <Address/>
+          <StyledTextField required id="email" type="email"    label="E-mail" variant="outlined" />
+          <StyledTextField required id="password" type="password" label="Senha" variant="outlined" />
+          <StyledTextField required id="passwordConfirm" type="password" label="Confirmar Senha" variant="outlined" />
       </form>
       <StyledButton variant="contained">
         Cadastrar!
