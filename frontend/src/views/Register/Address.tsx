@@ -14,9 +14,9 @@ const useStyles = makeStyles(() =>
 
 export default function Address() {
   const [UFs, setUFs] = useState([]);
-  const [selectedUF, setSelectedUF] = useState();
+  const [selectedUF, setSelectedUF] = useState('');
   const [cities, setCities] = useState([]);
-  const [selectedCity, setSelectedCity] = useState();
+  const [selectedCity, setSelectedCity] = useState('');
   const apiURL_UFs = `https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome`;
   const apiURL_Cities = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUF}/municipios`;
 
@@ -58,7 +58,7 @@ export default function Address() {
           >
             {
               UFs.map(({ sigla }) => (
-                <MenuItem value={sigla}>{sigla}</MenuItem>
+                <MenuItem key={sigla} value={sigla}>{sigla}</MenuItem>
               ))
             }
           </Select>

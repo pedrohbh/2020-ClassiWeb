@@ -75,7 +75,7 @@ export default function RegisterForm() {
             <Grid item xs={12}>
               <NumberFormat format="###.###.###-##" mask="_" customInput={(props) => (
                 <StyledTextField required id="cpf" label="CPF"
-                error={cpfError} helperText={cpfError} {...props} onBlur={handleValidateCPF}/>
+                error={!!cpfError} helperText={cpfError} {...props} onBlur={handleValidateCPF}/>
               )}/>
             </Grid>
             <Grid item xs={12}>
@@ -83,7 +83,7 @@ export default function RegisterForm() {
             </Grid>
             <Grid item xs={12}>
               <StyledTextField required id="email" type="email" label="E-mail" 
-                error={emailError} helperText={emailError} onBlur={handleValidateEmail}
+                error={!!emailError} helperText={emailError} onBlur={handleValidateEmail}
               />
             </Grid>
             <Grid item xs={12}>
