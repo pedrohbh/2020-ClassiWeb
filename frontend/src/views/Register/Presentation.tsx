@@ -1,52 +1,34 @@
-import { createStyles, makeStyles } from '@material-ui/core';
-import Logotipo from "../../assets/ClassiWeb.png";
+import { createStyles, makeStyles, Grid } from '@material-ui/core';
+import Logotipo from "../../assets/ClassiWeb.svg";
 
 const useStyles = makeStyles((theme) => 
   createStyles({
-    presentation: {
-      margin: 0,
-      float: "left",
-      width: "53vw",
-      height: "100vh",
-      display: "flex",
-      alignItems: "center",
-      verticalAlign: "center",
-      flexDirection: "column",
-      justifyContent: "center",
-    },
-
     logo: {
       width: '60%', 
       minWidth: '200px'
     },
 
     message: {
-      width: "70%",
       marginTop: "5%",
       fontSize: "18pt",
       textAlign: "center",
     },
-
-    p: {
-      margin: 0,
-      padding: 0,
-    }
 }));
 
 export default function Presentation() {
   const classes = useStyles();
 
   return (
-    <div className={classes.presentation}>
+    <Grid container direction="column" alignItems="center" justify="center" style={{height: '100%'}}>
       <img className={classes.logo} src={Logotipo} alt="ClassiWeb"/>
       <div className={classes.message}>
-        <p className={classes.p}>
+        <p>
           Seja bem-vindo ao <em><b>ClassiWeb</b></em>
         </p>
-        <p className={classes.p}>
+        <p>
           O <b>maior</b> portal de classificados da internet!
         </p>
       </div>
-    </div>
+    </Grid>
   );
 }

@@ -1,4 +1,6 @@
-import { createStyles, FormControl, InputLabel, makeStyles, MenuItem, Select } from '@material-ui/core';
+import { 
+  createStyles, FormControl, InputLabel, makeStyles, MenuItem, Select, Grid 
+} from '@material-ui/core';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
@@ -43,40 +45,43 @@ export default function Address() {
   };
 
   return (
-    <>
-      <FormControl variant="outlined" style={{ width: "30%", marginRight: "1%" }} className={classes.formControl}>
-        <InputLabel id="demo-simple-select-outlined-label">UF</InputLabel>
-        <Select
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          value={selectedUF}
-          onChange={handleSelectUF}
-          label="UF"
-        >
-          {
-            UFs.map(({ sigla }) => (
-              <MenuItem value={sigla}>{sigla}</MenuItem>
-            ))
-          }
-        </Select>
-      </FormControl>
-
-      <FormControl variant="outlined" style={{ width: "69%" }} className={classes.formControl}>
-        <InputLabel id="demo-simple-select-outlined-label">Cidade</InputLabel>
-        <Select
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          value={selectedCity}
-          label="Cidade"
-          disabled={!selectedUF}
-        >
-          {
-            cities.map(({ nome }) => (
-              <MenuItem value={nome}>{nome}</MenuItem>
-            ))
-          }
-        </Select>
-      </FormControl>
-    </>
+    <Grid container spacing={1}>
+      <Grid item xs={4}>
+        <FormControl className={classes.formControl} variant="outlined" fullWidth>
+          <InputLabel id="demo-simple-select-outlined-label">UF</InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={selectedUF}
+            onChange={handleSelectUF}
+            label="UF"
+          >
+            {
+              UFs.map(({ sigla }) => (
+                <MenuItem value={sigla}>{sigla}</MenuItem>
+              ))
+            }
+          </Select>
+        </FormControl>
+      </Grid>
+      <Grid item xs={8}>
+        <FormControl className={classes.formControl} variant="outlined" fullWidth>
+          <InputLabel id="demo-simple-select-outlined-label">Cidade</InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            value={selectedCity}
+            label="Cidade"
+            disabled={!selectedUF}
+          >
+            {
+              cities.map(({ nome }) => (
+                <MenuItem value={nome}>{nome}</MenuItem>
+              ))
+            }
+          </Select>
+        </FormControl>
+      </Grid>
+    </Grid>
   )
 }
