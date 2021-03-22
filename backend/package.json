@@ -9,6 +9,7 @@
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored"
   },
   "dependencies": {
+    "@types/body-parser": "^1.19.0",
     "bcryptjs": "^2.4.3",
     "celebrate": "^13.0.4",
     "class-validator": "^0.13.1",
