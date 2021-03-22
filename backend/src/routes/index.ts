@@ -1,9 +1,9 @@
-import express from 'express';
+import { Router } from 'express';
 
-import { UserService } from './application/User/UserServicet';
+import UserRoutes from './Users.routes';
 
 // Cria o roteador da API
-const routes = express.Router();
+const routes = Router();
 
 routes.get('/', (request, response) => response.status(200).json({
   status: 'running',
@@ -11,7 +11,6 @@ routes.get('/', (request, response) => response.status(200).json({
   about: 'This is the Classiweb server!',
 }));
 
-// Inject UserService with TypeDI
-// routes.get('/users', UserService.GetAll);
+routes.use('/users', UserRoutes);
 
 export default routes;
