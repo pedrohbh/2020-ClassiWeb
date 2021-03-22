@@ -1,3 +1,4 @@
+import bcrypt from 'bcryptjs';
 import { IsNotEmpty, Length } from 'class-validator';
 import {
   Entity, PrimaryGeneratedColumn, Column, Unique,
@@ -15,11 +16,7 @@ export class User {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column({
-      type: 'enum',
-      enum: UserRole,
-      default: UserRole.NORMAL,
-    })
+    @Column()
     @IsNotEmpty()
     role: UserRole;
 
@@ -41,4 +38,12 @@ export class User {
     @Column()
     @Length(8, 100)
     password: string;
+
+    hashPassword() {
+      this.password = bcrypt.hashSync(this.password, 8);
+    }
+
+    isValidPassword(unencryptedPassword: string) {
+      return bcrypt.compareSync(unencryptedPassword, this.password);
+    }
 }
