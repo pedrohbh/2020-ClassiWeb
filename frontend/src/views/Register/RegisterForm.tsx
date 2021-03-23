@@ -60,11 +60,26 @@ export default function RegisterForm() {
     }
   }
 
+   const handlingSubmit = event => {
+    event.preventDefault();
+    const inputs = event.target;
+    const formData = inputs
+      .filter(input => input.id)
+      .reduce((data, input) => ({...data, [input.id]: input.value}), {});
+    console.log(formData);
+    // const inputs = Array.from(document.querySelectorAll('form input'));
+    // const formData = inputs
+    //   .filter(input => input.id)
+    //   .reduce((data, input) => ({...data, [input.id]: input.nodeValue}), {});
+    // console.log(formData);
+
+   }
+
   return (
     <Grid container direction="column" alignItems="center" justify="space-evenly" style={{height: '100%'}}>
       <h1 className={classes.text}>Cadastre-se para começar a usar!</h1>
       
-      <form className={classes.formContainer} autoComplete="off">
+      <form className={classes.formContainer} autoComplete="off" onSubmit={handlingSubmit}>
           <Grid container alignItems="center" justify="space-around" spacing={1}>
             <Grid item xs={12}>
               <StyledTextField required id="name" label="Nome"/>
@@ -93,12 +108,13 @@ export default function RegisterForm() {
               <StyledTextField required id="passwordConfirm" type="password" label="Confirmar Senha"/>
             </Grid>
           </Grid>
-          
+
+          <StyledButton type="submit" variant="contained">
+            Cadastrar!
+          </StyledButton>
       </form>
       
-      <StyledButton variant="contained">
-        Cadastrar!
-      </StyledButton>
+
     </Grid>
   );
 }
