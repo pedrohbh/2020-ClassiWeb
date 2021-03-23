@@ -29,7 +29,7 @@ export default function Address() {
     };
 
     loadCitiesSelectedUF()
-  }, [selectedUF])
+  }, [selectedUF, apiURL_Cities])
 
   useEffect(() => {
     async function loadUFs() {
@@ -38,10 +38,15 @@ export default function Address() {
     };
 
     loadUFs()
-  }, [])
+  }, [apiURL_UFs])
 
   const handleSelectUF = ({ target }) => {
     setSelectedUF(target.value);
+    setSelectedCity("");
+  };
+
+  const handleSelectCity = ({ target }) => {
+    setSelectedCity(target.value);
   };
 
   return (
@@ -73,10 +78,11 @@ export default function Address() {
             value={selectedCity}
             label="Cidade"
             disabled={!selectedUF}
+            onChange={handleSelectCity}
           >
             {
               cities.map(({ nome }) => (
-                <MenuItem value={nome}>{nome}</MenuItem>
+                <MenuItem key={nome} value={nome}>{nome}</MenuItem>
               ))
             }
           </Select>
