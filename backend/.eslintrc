@@ -1,21 +1,42 @@
 {
   "parser": "@typescript-eslint/parser",
-  "extends": [
-    "plugin:@typescript-eslint/recommended",
-    "prettier/@typescript-eslint",
-    "plugin:prettier/recommended"
-  ],
+  "extends": ["airbnb-base", "plugin:@typescript-eslint/recommended"],
+  "plugins": ["eslint-plugin-import-helpers"],
   "parserOptions": {
-  "ecmaVersion": 2018,
+    "ecmaVersion": 2018,
     "sourceType": "module",
     "project": "./tsconfig.json"
   },
   "env": {
-   "node": true,
-   "es6": true
+    "node": true,
+    "es6": true
   },
   "rules": {
     "@typescript-eslint/no-unused-vars": 2,
-    "@typescript-eslint/no-var-requires": 0
+    "@typescript-eslint/no-var-requires": 0,
+
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        "selector": "interface",
+        "format": ["PascalCase"],
+        "custom": {
+          "regex": "^I[A-Z]",
+          "match": true
+        }
+      }
+    ],
+
+    "import-helpers/order-imports": [
+      "warn",
+      {
+        "newlinesBetween": "always", // new line between groups
+        "groups": ["/^@/", "module", "/shared/", "/.json$/", "/.(svg|gif|jpe?g|png)$/", "/.(s?css|sass)$/", ["parent", "sibling", "index"]],
+        "alphabetize": {
+          "order": "asc",
+          "ignoreCase": true
+        }
+      }
+    ]
   }
 }
