@@ -12,7 +12,7 @@ import methodOverride from 'method-override';
 import '@tsed/ajv';
 import '@tsed/swagger';
 import '@tsed/typeorm';
-import typeormConfig from './config/typeorm';
+import typeormConfig from '../ormconfig.json';
 import { IndexController } from './controllers/pages/IndexController';
 
 export const rootDir = __dirname;
@@ -48,7 +48,7 @@ if (isProduction) {
     '/rest': [
       `${rootDir}/controllers/**/*.ts`,
     ],
-    '/': [IndexCtrl],
+    '/': [IndexController],
   },
   swagger: [
     {
@@ -64,7 +64,7 @@ if (isProduction) {
     root: `${rootDir}/../views`,
     viewEngine: 'ejs',
   },
-  typeorm: typeormConfig,
+  typeorm: [typeormConfig as any],
   exclude: [
     '**/*.spec.ts',
   ],
