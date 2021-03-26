@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<frameweb:FramewebProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:frameweb="http://nemo.inf.ufes.br/projects/frameweb/FW-2015" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML">
+  <compose xsi:type="frameweb:EntityModel" name="Java">
+    <packagedElement xsi:type="uml:PrimitiveType" name="number"/>
+    <packagedElement xsi:type="uml:PrimitiveType" name="string"/>
+    <packagedElement xsi:type="uml:PrimitiveType" name="boolean"/>
+    <packagedElement xsi:type="uml:PrimitiveType" name="any"/>
+    <packagedElement xsi:type="uml:PrimitiveType" name="unknown"/>
+    <packagedElement xsi:type="uml:PrimitiveType" name="object"/>
+    <packagedElement xsi:type="uml:PrimitiveType" name="undefined"/>
+    <packagedElement xsi:type="uml:Class" name="String"/>
+    <packagedElement xsi:type="uml:Class" name="Number"/>
+    <packagedElement xsi:type="uml:Class" name="BigInt"/>
+    <packagedElement xsi:type="uml:Class" name="Boolean"/>
+    <packagedElement xsi:type="uml:Class" name="Object"/>
+    <packagedElement xsi:type="uml:Class" name="RegExp"/>
+    <packagedElement xsi:type="uml:Class" name="Array"/>
+    <packagedElement xsi:type="uml:Class" name="Map"/>
+    <packagedElement xsi:type="uml:Class" name="Set"/>
+    <packagedElement xsi:type="uml:Class" name="Date"/>
+    <packagedElement xsi:type="uml:Class" name="Image"/>
+    <packagedElement xsi:type="uml:Class" name="Audio"/>
+    <packagedElement xsi:type="uml:Class" name="File"/>
+    <packagedElement xsi:type="uml:Class" name="Blob"/>
+    <packagedElement xsi:type="uml:Class" name="Event"/>
+    <packagedElement xsi:type="uml:Class" name="Proxy"/>
+    <packagedElement xsi:type="uml:Class" name="Promise"/>
+    <packagedElement xsi:type="uml:Class" name="Error"/>
+  </compose>
+</frameweb:FramewebProject>
