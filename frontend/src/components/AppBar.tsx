@@ -1,5 +1,5 @@
 import React from 'react';
-import { fade, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { fade, makeStyles, Theme, createStyles, withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -14,6 +14,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -80,6 +82,19 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   }),
 );
+
+const StyledButtonGroup = withStyles({
+  grouped: {
+    color: 'white',
+    padding: '5px 20px',
+  },
+
+  groupedTextHorizontal: {
+    '&:not(:last-child)': {
+      borderRight: '1px solid rgba(255, 255, 255, 0.2)'
+    }
+  }
+})((props: any) => <ButtonGroup {...props}/>);
 
 export default function PrimarySearchAppBar() {
   const classes = useStyles();
@@ -167,23 +182,18 @@ export default function PrimarySearchAppBar() {
     <div className={classes.grow}>
       <AppBar position="fixed" style={{ backgroundColor: '#E65252' }}>
         <Toolbar>
-          {/* <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-          >
-            <MenuIcon />
-          </IconButton> */}
-          <Typography className={classes.title} variant="h6" noWrap>
-            
-          </Typography>
+        <StyledButtonGroup variant="text" aria-label="text primary button group">
+          <Button>Início</Button>
+          <Button>Categorias</Button>
+          <Button>Contato</Button>
+          <Button>Sobre</Button>
+        </StyledButtonGroup>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
             <InputBase
-              placeholder="Buscar"
+              placeholder="Buscar..."
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
