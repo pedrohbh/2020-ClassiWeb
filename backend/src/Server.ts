@@ -2,6 +2,7 @@ import { $log, PlatformApplication } from '@tsed/common';
 import { Env } from '@tsed/core';
 import { Configuration, Inject } from '@tsed/di';
 
+import '@tsed/passport';
 import '@tsed/platform-express'; // /!\ keep this import
 import bodyParser from 'body-parser';
 import compress from 'compression';
@@ -13,6 +14,7 @@ import '@tsed/ajv';
 import '@tsed/swagger';
 import '@tsed/typeorm';
 import typeormConfig from '../ormconfig.json';
+
 import { IndexController } from './controllers/pages/IndexController';
 
 export const rootDir = __dirname;
@@ -45,11 +47,13 @@ if (isProduction) {
     disableRoutesSummary: isProduction,
   },
   mount: {
-    '/rest': [
-      `${rootDir}/controllers/**/*.ts`,
-    ],
+    '/rest': [`${rootDir}/controllers/**/*.ts`],
     '/': [IndexController],
   },
+  componentsScan: [
+    `${rootDir}/protocols/*.ts`, // scan protocols directory
+  ],
+  passport: {},
   swagger: [
     {
       path: '/v2/docs',
@@ -65,9 +69,7 @@ if (isProduction) {
     viewEngine: 'ejs',
   },
   typeorm: [typeormConfig as any],
-  exclude: [
-    '**/*.spec.ts',
-  ],
+  exclude: ['**/*.spec.ts'],
 })
 export class Server {
   @Inject()
@@ -83,8 +85,10 @@ export class Server {
       .use(compress({}))
       .use(methodOverride())
       .use(bodyParser.json())
-      .use(bodyParser.urlencoded({
-        extended: true,
-      }));
+      .use(
+        bodyParser.urlencoded({
+          extended: true,
+        }),
+      );
   }
 }
