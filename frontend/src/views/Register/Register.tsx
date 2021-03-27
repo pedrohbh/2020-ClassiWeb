@@ -1,10 +1,13 @@
 import Presentation from './Presentation';
 import RegisterForm from './RegisterForm';
 import { Grid } from '@material-ui/core';
+import AppBar from '../../components/AppBar'
 
 export default function Register() {
   return (
-    <Grid container style={{height: '100%'}}>
+    <>
+    <AppBar/>
+    <Grid container style={{height: '90vh', marginTop: '10vh'}}>
       <Grid item xs={6}>
         <Presentation/>
       </Grid>   
@@ -12,5 +15,6 @@ export default function Register() {
         <RegisterForm/>
       </Grid>
     </Grid>
+    </>
   );
 }

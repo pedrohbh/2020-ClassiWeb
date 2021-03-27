@@ -17,7 +17,7 @@ export default function Home() {
       <Grid item xs={12}>
         <Grid container style={{ height:"100%", marginTop: "70px" }}>
           
-          <Grid item xs={2} style={{ height: "max-content", boxShadow: "2px 2px 8px 1px #dedede", padding: "20px" }}>
+          <Grid item xs={2} style={{ height: "max-content", boxShadow: "2px 2px 8px 1px #dedede", padding: "20px", borderRadius: '5px' }}>
             <Grid container>
               <Grid item xs={12}>Categoria 1</Grid>
               <Grid item xs={12}>Categoria 1</Grid>
@@ -49,6 +49,30 @@ export default function Home() {
             </Grid>
           
             <Grid container item xs={12} style={{ padding: "20px"}}>
+              <Grid item xs={12}>Produto</Grid>
+              <Grid item xs={12}>Produto</Grid>
+              <Grid item xs={12}>Produto</Grid>
+              <Grid item xs={12}>Produto</Grid>
+              <Grid item xs={12}>Produto</Grid>
+              <Grid item xs={12}>Produto</Grid>
+              <Grid item xs={12}>Produto</Grid>
+              <Grid item xs={12}>Produto</Grid>
+              <Grid item xs={12}>Produto</Grid>
+              <Grid item xs={12}>Produto</Grid>
+              <Grid item xs={12}>Produto</Grid>
+              <Grid item xs={12}>Produto</Grid>
+              <Grid item xs={12}>Produto</Grid>
+              <Grid item xs={12}>Produto</Grid>
+              <Grid item xs={12}>Produto</Grid>
+              <Grid item xs={12}>Produto</Grid>
+              <Grid item xs={12}>Produto</Grid>
+              <Grid item xs={12}>Produto</Grid>
+              <Grid item xs={12}>Produto</Grid>
+              <Grid item xs={12}>Produto</Grid>
+              <Grid item xs={12}>Produto</Grid>
+              <Grid item xs={12}>Produto</Grid>
+              <Grid item xs={12}>Produto</Grid>
+              <Grid item xs={12}>Produto</Grid>
               <Grid item xs={12}>Produto</Grid>
               <Grid item xs={12}>Produto</Grid>
               <Grid item xs={12}>Produto</Grid>

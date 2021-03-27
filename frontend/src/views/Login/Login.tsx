@@ -12,6 +12,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Logotipo from '../../assets/ClassiWeb.svg';
+import AppBar from '../../components/AppBar'
 
 function Copyright() {
   return (
@@ -43,6 +45,10 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    background: '#E65252',
+    '&:hover':{
+        background: '#fc7474',
+    }
   },
 }));
 
@@ -50,14 +56,17 @@ export default function Login() {
   const classes = useStyles();
 
   return (
-    <Container component="main" maxWidth="xs">
+    <>  
+    <AppBar/>  
+    <Container component="main" maxWidth="xs" style={{height: '80vh'}}>
       <CssBaseline />
       <div className={classes.paper}>
+        <img src={Logotipo}/>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Identifique-se
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
@@ -66,7 +75,7 @@ export default function Login() {
             required
             fullWidth
             id="email"
-            label="Email Address"
+            label="Email"
             name="email"
             autoComplete="email"
             autoFocus
@@ -77,15 +86,15 @@ export default function Login() {
             required
             fullWidth
             name="password"
-            label="Password"
+            label="Senha"
             type="password"
             id="password"
             autoComplete="current-password"
           />
-          <FormControlLabel
+          {/* <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
-          />
+          /> */}
           <Button
             type="submit"
             fullWidth
@@ -93,7 +102,7 @@ export default function Login() {
             color="primary"
             className={classes.submit}
           >
-            Sign In
+            Entrar
           </Button>
           <Grid container>
             <Grid item xs>
@@ -113,5 +122,6 @@ export default function Login() {
         <Copyright />
       </Box>
     </Container>
+    </>
   );
 }

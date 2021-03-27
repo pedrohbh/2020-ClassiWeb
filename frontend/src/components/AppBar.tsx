@@ -16,6 +16,8 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import { Router } from 'react-router';
+import { Link } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -183,7 +185,7 @@ export default function PrimarySearchAppBar() {
       <AppBar position="fixed" style={{ backgroundColor: '#E65252' }}>
         <Toolbar>
         <StyledButtonGroup variant="text" aria-label="text primary button group">
-          <Button>Início</Button>
+          <Link component='button' underline='none'>Início</Link>
           <Button>Categorias</Button>
           <Button>Contato</Button>
           <Button>Sobre</Button>
