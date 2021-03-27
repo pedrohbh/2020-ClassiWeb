@@ -45,14 +45,14 @@ export class Advertising {
   @ManyToOne(() => Category, (category) => category.ads)
   category: Category;
 
-  @Column()
+  @Column({ type: "int8" })
   @Required()
   product_state: ProductState;
 
   @ManyToOne(() => Address, (address) => address.ads)
   address: Address;
 
-  @Column()
+  @Column({ type: "int8" })
   @Required()
   state: AdvertisingState;
 

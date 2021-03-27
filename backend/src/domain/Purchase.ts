@@ -20,10 +20,10 @@ export class Purchase {
   @CreateDateColumn()
   date: Date;
 
-  @Column()
+  @Column({ type: "int8" })
   owner_feedback: Feedback;
 
-  @Column()
+  @Column({ type: "int8" })
   client_feedback: Feedback;
 
   @ManyToOne(() => User, (user) => user.purchases)
