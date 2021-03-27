@@ -1,7 +1,8 @@
-import { Inject, Service } from "@tsed/di";
-import { Category } from "../domain/Category";
-import { IBaseDAO } from "../persistence/BaseDAO";
-import { CategoryDAO } from "../persistence/CategoryDAO";
+import { Inject, Service } from '@tsed/di';
+
+import { Category } from '../domain/Category';
+import { IBaseDAO } from '../persistence/BaseDAO';
+import { CategoryDAO } from '../persistence/CategoryDAO';
 
 @Service()
 export class CategoryService {

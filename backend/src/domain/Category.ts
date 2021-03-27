@@ -1,5 +1,6 @@
-import { Entity, OneToMany, PrimaryColumn } from "typeorm";
-import { Advertising } from "./Advertising";
+import { Entity, OneToMany, PrimaryColumn } from 'typeorm';
+
+import { Advertising } from './Advertising';
 
 @Entity()
 export class Category {

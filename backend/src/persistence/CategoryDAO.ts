@@ -1,7 +1,9 @@
-import { Injectable, } from "@tsed/di";
-import { EntityRepository, Repository } from "typeorm";
-import { Category } from "../domain/Category";
-import {IBaseDAO} from "./BaseDAO";
+import { Injectable } from '@tsed/di';
+
+import { EntityRepository, Repository } from 'typeorm';
+
+import { Category } from '../domain/Category';
+import { IBaseDAO } from './BaseDAO';
 
 @EntityRepository(Category)
 class CategoryRepository extends Repository<Category> {}
@@ -10,7 +12,7 @@ class CategoryRepository extends Repository<Category> {}
 export class CategoryDAO implements Partial<IBaseDAO<Category>> {
   constructor(private readonly repository: CategoryRepository) {}
 
-  Create(category: Omit<Category, "id">) {
+  Create(category: Omit<Category, 'id'>) {
     return this.repository.save(category);
   }
 

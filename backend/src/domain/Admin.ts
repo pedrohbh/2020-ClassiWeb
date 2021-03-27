@@ -1,11 +1,12 @@
-import { Email, Maximum, Minimum, Property, Required } from "@tsed/schema";
-import { Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm";
-import bcrypt from "bcrypt";
+import { Email, Maximum, Minimum, Property, Required } from '@tsed/schema';
+
+import bcrypt from 'bcrypt';
+import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
 @Entity()
-@Unique(["registration", "email"])
+@Unique(['registration', 'email'])
 export class User {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   @Property()
   id: number;
 

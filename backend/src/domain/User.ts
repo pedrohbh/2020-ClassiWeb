@@ -1,14 +1,16 @@
-import { Email, Maximum, Minimum, Property, Required } from "@tsed/schema";
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, Unique } from "typeorm";
-import { Address } from "./Address";
-import bcrypt from "bcrypt";
-import { Advertising } from "./Advertising";
-import { Purchase } from "./Purchase";
+import { Email, Maximum, Minimum, Property, Required } from '@tsed/schema';
+
+import bcrypt from 'bcrypt';
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeorm';
+
+import { Address } from './Address';
+import { Advertising } from './Advertising';
+import { Purchase } from './Purchase';
 
 @Entity()
-@Unique(["cpf", "email"])
+@Unique(['cpf', 'email'])
 export class User {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   @Property()
   id: number;
 

@@ -1,11 +1,13 @@
-import { Property, Required } from "@tsed/schema";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Advertising } from "./Advertising";
-import { User } from "./User";
+import { Property, Required } from '@tsed/schema';
+
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+
+import { Advertising } from './Advertising';
+import { User } from './User';
 
 @Entity()
 export class Address {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   @Property()
   id: number;
 

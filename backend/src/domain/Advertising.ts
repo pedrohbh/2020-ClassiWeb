@@ -1,24 +1,26 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
-import { Address } from "./Address";
-import { Category } from "./Category";
-import { User } from "./User";
-import { Purchase } from "./Purchase";
-import { Minimum, Required } from "@tsed/schema";
-import { Image } from "./Image";
+import { Minimum, Required } from '@tsed/schema';
+
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+
+import { Address } from './Address';
+import { Category } from './Category';
+import { Image } from './Image';
+import { Purchase } from './Purchase';
+import { User } from './User';
 
 export enum ProductState {
   NEW,
-  SECONDHAND
+  SECONDHAND,
 }
 
 export enum AdvertisingState {
   VISIBLE,
-  HIDDEN
+  HIDDEN,
 }
 
 @Entity()
 export class Advertising {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
@@ -29,12 +31,12 @@ export class Advertising {
   @Required()
   description: string;
 
-  @Column({ type: "float" })
+  @Column({ type: 'float' })
   @Minimum(0)
   @Required()
   price: number;
 
-  @Column({ type: "int" })
+  @Column({ type: 'int' })
   @Minimum(0)
   @Required()
   quantity: number;
@@ -45,14 +47,14 @@ export class Advertising {
   @ManyToOne(() => Category, (category) => category.ads)
   category: Category;
 
-  @Column({ type: "int8" })
+  @Column({ type: 'int8' })
   @Required()
   product_state: ProductState;
 
   @ManyToOne(() => Address, (address) => address.ads)
   address: Address;
 
-  @Column({ type: "int8" })
+  @Column({ type: 'int8' })
   @Required()
   state: AdvertisingState;
 
