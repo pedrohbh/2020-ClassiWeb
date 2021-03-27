@@ -151,8 +151,8 @@ export default function PrimarySearchAppBar() {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
+        <IconButton aria-label="show 6 new mails" color="inherit">
+          <Badge badgeContent={6} color="secondary">
             <MailIcon />
           </Badge>
         </IconButton>
@@ -160,7 +160,7 @@ export default function PrimarySearchAppBar() {
       </MenuItem>
       <MenuItem>
         <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
+          <Badge badgeContent={10} color="secondary">
             <NotificationsIcon />
           </Badge>
         </IconButton>
@@ -185,7 +185,7 @@ export default function PrimarySearchAppBar() {
       <AppBar position="fixed" style={{ backgroundColor: '#E65252' }}>
         <Toolbar>
         <StyledButtonGroup variant="text" aria-label="text primary button group">
-          <Link component='button' underline='none'>Início</Link>
+          <Button href="../">Início</Button>
           <Button>Categorias</Button>
           <Button>Contato</Button>
           <Button>Sobre</Button>
@@ -206,12 +206,12 @@ export default function PrimarySearchAppBar() {
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
+              <Badge badgeContent={6} color="secondary">
                 <MailIcon />
               </Badge>
             </IconButton>
             <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
+              <Badge badgeContent={10} color="secondary">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
