@@ -1,13 +1,11 @@
-import { Property, Required } from "@tsed/schema";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, OneToMany, PrimaryColumn } from "typeorm";
+import { Advertising } from "./Advertising";
 
 @Entity()
 export class Category {
-  @PrimaryGeneratedColumn("uuid")
-  @Property()
-  id: number;
-
-  @Column()
-  @Required()
+  @PrimaryColumn()
   name: string;
+
+  @OneToMany(() => Advertising, (ad) => ad.category)
+  ads: Advertising[];
 }
