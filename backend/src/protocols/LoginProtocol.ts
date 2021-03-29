@@ -2,10 +2,11 @@ import { BodyParams, Inject, Req } from '@tsed/common';
 import { OnVerify, Protocol } from '@tsed/passport';
 
 import { IStrategyOptions, Strategy } from 'passport-local';
+import jwt from "jsonwebtoken";
 
-import { User } from '../domain/User';
-import { IBaseDAO } from '../persistence/BaseDAO';
-import { UserDAO } from '../persistence/UserDAO';
+import { IUserService } from '../application/interfaces/IUserService';
+import { UserService } from '../application/UserService';
+import { JWT_SUPER_SECRET } from './JwtProtocol';
 
 export type Credentials = {
   email: string;
@@ -21,13 +22,13 @@ export type Credentials = {
   },
 })
 export class LoginLocalProtocol implements OnVerify {
-  @Inject(UserDAO)
-  private readonly userDAO: IBaseDAO<User>;
+  @Inject(UserService)
+  private readonly userService: IUserService;
 
   async $onVerify(@Req() request: Req, @BodyParams() credentials: Credentials) {
     const { email, password } = credentials;
 
-    const [user] = await this.userDAO.ReadAll({ where: { email } });
+    const [user] = await this.userService.ListUsersWith({ where: { email } });
 
     if (!user) {
       return false;
@@ -39,6 +40,13 @@ export class LoginLocalProtocol implements OnVerify {
       // OR throw new NotAuthorized("Wrong credentials")
     }
 
-    return user;
+    let token;
+    await request.login(user, (error) => {
+      token = jwt.sign({ id: user.id, email: user.email }, JWT_SUPER_SECRET, {
+        expiresIn: '1d'
+      });
+    });
+
+    return { token, ...user };
   }
 }

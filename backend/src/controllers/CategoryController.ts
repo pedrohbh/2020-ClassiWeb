@@ -1,4 +1,5 @@
-import { BodyParams, Controller, Get, Inject, Post } from '@tsed/common';
+import { BodyParams, Controller, Get, HeaderParams, Inject, Post } from '@tsed/common';
+import { Authorize } from '@tsed/passport';
 
 import { CategoryService } from '../application/CategoryService';
 import { ICategoryService } from '../application/interfaces/ICategoryService';
@@ -10,7 +11,8 @@ export class CategoryController {
   private categoryService: ICategoryService;
 
   @Get('/')
-  GetAll(): Promise<Category[]> {
+  @Authorize('jwt')
+  GetAll(@HeaderParams('auth') auth: string): Promise<Category[]> {
     return this.categoryService.ListAllCategories();
   }
 

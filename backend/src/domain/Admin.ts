@@ -5,7 +5,7 @@ import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
 @Entity()
 @Unique(['registration', 'email'])
-export class User {
+export class Admin {
   @PrimaryGeneratedColumn('uuid')
   @Property()
   id: number;
