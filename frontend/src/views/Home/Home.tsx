@@ -3,6 +3,7 @@ import { Grid } from '@material-ui/core';
 import AppBar from '../../components/AppBar';
 import Footer from '../../components/Footer';
 import Card from '../../components/Card';
+import PageBase from '../../components/PageBase';
 
 import Logotipo from '../../assets/ClassiWeb.svg';
 import Bike from '../../assets/bicicleta.jpg';
@@ -11,14 +12,8 @@ import Casa from '../../assets/casa.jpg';
 
 export default function Home() {
   return (
-    <>
-    <Grid container direction='column' style={{ height: '100%' }}>
-
-      <AppBar/>
-
-      <Grid item style={{ flex: 1, width: '100%', overflow: 'auto' }}>
-        <Grid container style={{ minHeight: 'calc(100% - 10vh)', height: 'max-content' }}>
-          
+    <PageBase>
+      <Grid container style={{ minHeight: 'calc(100% - 10vh)', height: 'max-content' }}>
           <Grid item xs={3} lg={2} style={{ height: 'auto', boxShadow: "2px 2px 8px 1px #dedede", padding: "20px", borderRadius: '5px' }}>
             <Grid container>
               <Grid item xs={12}>Categoria 1</Grid>
@@ -73,10 +68,6 @@ export default function Home() {
             </Grid>
           </Grid>
         </Grid>
-        <Footer/>
-      </Grid>
-      
-    </Grid>
-    </>
-  );
+    </PageBase>
+  )
 }
