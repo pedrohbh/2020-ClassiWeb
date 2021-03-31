@@ -9,8 +9,8 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import NumberFormat from 'react-number-format';
 import RoomIcon from '@material-ui/icons/Room';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import { FaHandshake } from 'react-icons/fa';
 
 const useStyles = makeStyles({
   root: {
@@ -45,7 +45,7 @@ export default function AdCard({ title, price, imgRef, city, UF }) {
           </Typography>
 
           <NumberFormat 
-            value={2456981.5} 
+            value={price} 
             displayType={'text'} 
             thousandSeparator={'.'} 
             decimalSeparator={','} 
@@ -67,7 +67,7 @@ export default function AdCard({ title, price, imgRef, city, UF }) {
           Adicionar à Lista de Desejos
         </StyledButton>
         <StyledButton size="small" color="primary">
-          <ShoppingCartIcon style={{ fontSize: 20 }}/>
+          <FaHandshake style={{ fontSize: 20, marginRight: '4.5px' }}/>
           Comprar
         </StyledButton>
       </CardActions>

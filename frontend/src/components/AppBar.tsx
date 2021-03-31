@@ -11,13 +11,13 @@ import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { Router } from 'react-router';
 import { Link } from '@material-ui/core';
+import ForumIcon from '@material-ui/icons/Forum';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -153,7 +153,7 @@ export default function PrimarySearchAppBar() {
       <MenuItem>
         <IconButton aria-label="show 6 new mails" color="inherit">
           <Badge badgeContent={6} color="secondary">
-            <MailIcon />
+            <ForumIcon />
           </Badge>
         </IconButton>
         <p>Messages</p>
@@ -181,8 +181,8 @@ export default function PrimarySearchAppBar() {
   );
 
   return (
-    <div className={classes.grow}>
-      <AppBar position="fixed" style={{ backgroundColor: '#E65252' }}>
+    <>
+      <AppBar style={{ backgroundColor: '#E65252', position: 'relative' }}>
         <Toolbar>
         <StyledButtonGroup variant="text" aria-label="text primary button group">
           <Button href="../">Início</Button>
@@ -207,7 +207,7 @@ export default function PrimarySearchAppBar() {
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={6} color="secondary">
-                <MailIcon />
+                <ForumIcon />
               </Badge>
             </IconButton>
             <IconButton aria-label="show 17 new notifications" color="inherit">
@@ -241,6 +241,6 @@ export default function PrimarySearchAppBar() {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-    </div>
+    </>
   );
 }

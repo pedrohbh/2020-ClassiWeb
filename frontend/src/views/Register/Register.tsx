@@ -7,7 +7,7 @@ export default function Register() {
   return (
     <>
     <AppBar/>
-    <Grid container style={{height: '90vh', marginTop: '10vh'}}>
+    <Grid container style={{height: '90vh'}}>
       <Grid item xs={6}>
         <Presentation/>
       </Grid>   

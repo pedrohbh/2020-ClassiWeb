@@ -5,6 +5,7 @@ import Home from './views/Home/Home'
 import Register from './views/Register/Register'
 import Login from './views/Login/Login'
 import NewAd from './views/NewAd/NewAd'
+import Ad from './views/Ad/Ad'
 
 export default function Routes() {
     return (
@@ -14,6 +15,7 @@ export default function Routes() {
                 <Route path='/register' component={Register} />
                 <Route path='/login' component={Login} />
                 <Route path='/newad' component={NewAd} />
+                <Route path='/ad' component={Ad} />
             </Switch>
         </BrowserRouter>
     );
