@@ -2,8 +2,12 @@ import { Grid } from '@material-ui/core';
 
 import AppBar from '../../components/AppBar';
 import Footer from '../../components/Footer';
+import Card from '../../components/Card';
 
 import Logotipo from '../../assets/ClassiWeb.svg';
+import Bike from '../../assets/bicicleta.jpg';
+import Carro from '../../assets/carro.jpg';
+import Casa from '../../assets/casa.jpg';
 
 export default function Home() {
   return (
@@ -48,43 +52,23 @@ export default function Home() {
               <img src={Logotipo} alt="ClassiWeb" style={{ width: "100%", height: "25vh" }} />
             </Grid>
           
-            <Grid container item xs={12} style={{ padding: "20px"}}>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
+            <Grid item xs={12} style={{ display: 'flex', justifyContent: 'center' }}>
+              <h1>Anúncios publicados recentemente</h1>
+            </Grid>
+
+            <Grid container spacing={3} item xs={12} justify="center" style={{ padding: "20px"}}>
+              <Grid item><Card title={'Bicicleta'} price={1520.50} imgRef={Bike} city={'Vitória'} UF={'ES'}/></Grid>
+              <Grid item><Card title={'Carro'}     price={1520.5} imgRef={Carro} city={'Caxias'} UF={'RJ'}/></Grid>
+              <Grid item><Card title={'Casa'}      price={1520.5} imgRef={Casa} city={'Santos'} UF={'SP'}/></Grid>
+              <Grid item><Card title={'Bicicleta'} price={1520.5} imgRef={Bike} city={'Vitória'} UF={'ES'}/></Grid>
+              <Grid item><Card title={'Carro'}     price={1520.5} imgRef={Carro} city={'Caxias'} UF={'RJ'}/></Grid>
+              <Grid item><Card title={'Casa'}      price={1520.5} imgRef={Casa} city={'Santos'} UF={'SP'}/></Grid>
+              <Grid item><Card title={'Bicicleta'} price={1520.50} imgRef={Bike} city={'Vitória'} UF={'ES'}/></Grid>
+              <Grid item><Card title={'Carro'}     price={1520.5} imgRef={Carro} city={'Caxias'} UF={'RJ'}/></Grid>
+              <Grid item><Card title={'Casa'}      price={1520.5} imgRef={Casa} city={'Santos'} UF={'SP'}/></Grid>
+              <Grid item><Card title={'Bicicleta'} price={1520.5} imgRef={Bike} city={'Vitória'} UF={'ES'}/></Grid>
+              <Grid item><Card title={'Carro'}     price={1520.5} imgRef={Carro} city={'Caxias'} UF={'RJ'}/></Grid>
+              <Grid item><Card title={'Casa'}      price={1520.5} imgRef={Casa} city={'Santos'} UF={'SP'}/></Grid>
             </Grid>
           </Grid>
         </Grid>
