@@ -5,7 +5,7 @@ import { validate as validatorCPF } from 'gerador-validador-cpf';
 import React, { useState } from 'react';
 import NumberFormat from 'react-number-format';
 import validator from 'validator';
-import Address from './Address';
+import Address from '../../components/Address';
 
 const StyledButton = withStyles({
   root: {
