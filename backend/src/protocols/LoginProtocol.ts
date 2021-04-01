@@ -1,11 +1,13 @@
 import { BodyParams, Inject, Req } from '@tsed/common';
 import { OnVerify, Protocol } from '@tsed/passport';
 
+import jwt from 'jsonwebtoken';
 import { IStrategyOptions, Strategy } from 'passport-local';
-import jwt from "jsonwebtoken";
 
-import { IUserService } from '../application/interfaces/IUserService';
-import { UserService } from '../application/UserService';
+import { AdminService } from '../application/classes/AdminService';
+import { UserService } from '../application/classes/UserService';
+import { Admin } from '../domain/Admin';
+import { User } from '../domain/User';
 import { JWT_SUPER_SECRET } from './JwtProtocol';
 
 export type Credentials = {
@@ -23,30 +25,57 @@ export type Credentials = {
 })
 export class LoginLocalProtocol implements OnVerify {
   @Inject(UserService)
-  private readonly userService: IUserService;
+  private readonly userService: UserService;
+
+  @Inject(AdminService)
+  private readonly adminService: AdminService;
 
   async $onVerify(@Req() request: Req, @BodyParams() credentials: Credentials) {
-    const { email, password } = credentials;
+    const result = (
+      await this.TryToLoginUser(credentials) || await this.TryToLoginAdmin(credentials)
+    ) as User | Admin | false;
 
-    const [user] = await this.userService.ListUsersWith({ where: { email } });
-
-    if (!user) {
-      return false;
-      // OR throw new NotAuthorized("Wrong credentials")
-    }
-
-    if (!user.isValidPassword(password)) {
-      return false;
-      // OR throw new NotAuthorized("Wrong credentials")
+    if (!result) {
+      return false; // OR throw new NotAuthorized("Wrong credentials")
     }
 
     let token;
-    await request.login(user, (error) => {
-      token = jwt.sign({ id: user.id, email: user.email }, JWT_SUPER_SECRET, {
-        expiresIn: '1d'
+    request.login(result, (error) => {
+      if (error) return;
+
+      token = jwt.sign({ id: result.id, admin: result.matricula }, JWT_SUPER_SECRET, {
+        expiresIn: '1d',
       });
     });
 
-    return { token, ...user };
+    return { token };
+  }
+
+  private async TryToLoginUser({ email, password }: Credentials) {
+    const user = await this.userService.GetUserByEmail(email);
+
+    if (!user) {
+      return false; // OR throw new NotAuthorized("Wrong credentials")
+    }
+
+    if (!user.isValidPassword(password)) {
+      return false; // OR throw new NotAuthorized("Wrong credentials")
+    }
+
+    return user;
+  }
+
+  private async TryToLoginAdmin({ email, password }: Credentials) {
+    const admin = await this.adminService.GetAdminByEmail(email);
+
+    if (!admin) {
+      return false; // OR throw new NotAuthorized("Wrong credentials")
+    }
+
+    if (!admin.isValidPassword(password)) {
+      return false; // OR throw new NotAuthorized("Wrong credentials")
+    }
+
+    return admin;
   }
 }
