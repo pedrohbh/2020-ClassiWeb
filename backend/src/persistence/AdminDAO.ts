@@ -2,20 +2,20 @@ import { Injectable } from '@tsed/di';
 
 import { EntityRepository, FindManyOptions, Repository } from 'typeorm';
 
-import { User } from '../domain/User';
+import { Admin } from '../domain/Admin';
 
-@EntityRepository(User)
-class UserRepository extends Repository<User> {}
+@EntityRepository(Admin)
+class AdminRepository extends Repository<Admin> {}
 
 @Injectable()
-export class UserDAO {
-  constructor(private readonly repository: UserRepository) {}
+export class AdminDAO {
+  constructor(private readonly repository: AdminRepository) {}
 
-  Create(user: Partial<User>) {
+  Create(user: Partial<Admin>) {
     return this.repository.save(user);
   }
 
-  ReadAll(options?: FindManyOptions<User>) {
+  ReadAll(options?: FindManyOptions<Admin>) {
     return this.repository.find(options);
   }
 

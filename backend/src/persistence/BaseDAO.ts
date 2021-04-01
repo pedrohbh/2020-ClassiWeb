@@ -8,5 +8,5 @@ export interface IBaseDAO<T> {
 
   Update(data: T): Promise<T>;
 
-  Delete(id: string): Promise<void>;
+  Delete(id: string): Promise<any>;
 }
