@@ -12,9 +12,14 @@ export class AdminService {
     return this.dao.Create(admin);
   }
 
-  async GetAdminById(id: string) {
-    const admin = await this.dao.Read(id);
-    return admin;
+  ListAllAdmins() {
+    return this.dao.ReadAll();
+  }
+
+  async GetAdminById(adminId: string) {
+    const { id, name, email } = await this.dao.Read(adminId);
+
+    return { id, name, email };
   }
 
   async GetAdminByEmail(email: string) {

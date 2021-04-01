@@ -1,7 +1,11 @@
-import { Email, Maximum, Minimum, Property, Required } from '@tsed/schema';
+import {
+  Email, Maximum, Minimum, Property, Required,
+} from '@tsed/schema';
 
 import bcrypt from 'bcrypt';
-import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import {
+  Column, Entity, PrimaryGeneratedColumn, Unique,
+} from 'typeorm';
 
 @Entity()
 @Unique(['registration', 'email'])
@@ -30,8 +34,8 @@ export class Admin {
   @Required()
   password: string;
 
-  hashPassword() {
-    this.password = bcrypt.hashSync(this.password, 8);
+  static GetEncryptedPassword(password: string) {
+    return bcrypt.hashSync(password, 8);
   }
 
   isValidPassword(unencryptedPassword: string) {
