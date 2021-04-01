@@ -1,7 +1,5 @@
 import { Inject, Service } from '@tsed/di';
 
-import { FindManyOptions } from 'typeorm';
-
 import { User } from '../../domain/User';
 import { UserDAO } from '../../persistence/UserDAO';
 
@@ -20,7 +18,7 @@ export class UserService {
   }
 
   async GetUserByEmail(email: string) {
-    const [user] = await this.dao.ReadAll({ where: { email } });
+    const [user] = await this.dao.ReadWith({ where: { email } });
     return user;
   }
 
@@ -28,8 +26,8 @@ export class UserService {
     return this.dao.ReadAll();
   }
 
-  ListUsersWith(options: FindManyOptions<User>) {
-    return this.dao.ReadAll(options);
+  UpdateUser(id: string, user: Partial<User>) {
+    return this.dao.Update(id, user);
   }
 
   async DeleteUser(id: string) {

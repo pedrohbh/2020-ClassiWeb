@@ -15,12 +15,23 @@ export class UserDAO {
     return this.repository.save(user);
   }
 
-  ReadAll(options?: FindManyOptions<User>) {
-    return this.repository.find(options);
+  ReadAll() {
+    return this.repository.find({ relations: ['address'] });
   }
 
   Read(id: string) {
-    return this.repository.findOneOrFail(id);
+    return this.repository.findOneOrFail(id, {
+      relations: ['address'],
+    });
+  }
+
+  ReadWith(options?: FindManyOptions<User>) {
+    return this.repository.find(options);
+  }
+
+  async Update(id: string, user: Partial<User>) {
+    await this.repository.update(id, user);
+    return this.Read(id);
   }
 
   async Delete(id: string) {
