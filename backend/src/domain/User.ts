@@ -1,7 +1,11 @@
-import { Email, Maximum, Minimum, Property, Required } from '@tsed/schema';
+import {
+  Email, Maximum, Minimum, Property, Required,
+} from '@tsed/schema';
 
 import bcrypt from 'bcrypt';
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import {
+  Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, Unique,
+} from 'typeorm';
 
 import { Address } from './Address';
 import { Advertising } from './Advertising';
@@ -12,7 +16,7 @@ import { Purchase } from './Purchase';
 export class User {
   @PrimaryGeneratedColumn('uuid')
   @Property()
-  id: number;
+  id: string;
 
   @Column()
   @Maximum(40)
@@ -37,7 +41,7 @@ export class User {
   @Required()
   password: string;
 
-  @OneToMany(() => Advertising, (ad) => ad.onwer)
+  @OneToMany(() => Advertising, (ad) => ad.owner)
   ads: Advertising[];
 
   @ManyToMany(() => Advertising)

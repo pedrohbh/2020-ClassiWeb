@@ -1,6 +1,8 @@
 import { Minimum, Required } from '@tsed/schema';
 
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn,
+} from 'typeorm';
 
 import { Address } from './Address';
 import { Category } from './Category';
@@ -59,7 +61,7 @@ export class Advertising {
   state: AdvertisingState;
 
   @ManyToOne(() => User, (user) => user.ads)
-  onwer: User;
+  owner: User;
 
   @OneToMany(() => Purchase, (purchase) => purchase.ad)
   purchases: Purchase[];
