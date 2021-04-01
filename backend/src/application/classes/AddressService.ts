@@ -8,8 +8,9 @@ export class AddressService {
   @Inject(AddressDAO)
   private readonly dao: AddressDAO;
 
-  CreateAddress(address: Omit<Address, 'id'>) {
-    return this.dao.Create(address);
+  async CreateAddress({ state, city }: Omit<Address, 'id'>) {
+    const [address] = await this.dao.ReadWith({ where: { state, city } });
+    return address || this.dao.Create({ state, city });
   }
 
   GetAddressById(id: string) {

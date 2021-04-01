@@ -28,13 +28,7 @@ export class UserController {
 
   @Get('/:id')
   async Get(@PathParams('id') userId: string) {
-    const {
-      id, name, email, address,
-    } = await this.userService.GetUserById(userId);
-
-    return {
-      id, name, email, address,
-    };
+    return this.userService.GetUserById(userId);
   }
 
   @Post('/')

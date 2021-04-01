@@ -11,7 +11,7 @@ class AddressRepository extends Repository<Address> {}
 export class AddressDAO {
   constructor(private readonly repository: AddressRepository) {}
 
-  Create(address: Omit<Address, 'id'>) {
+  Create(address: Partial<Address>) {
     return this.repository.save(address);
   }
 

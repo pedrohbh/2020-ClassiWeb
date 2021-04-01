@@ -12,9 +12,14 @@ export class UserService {
     return this.dao.Create(user);
   }
 
-  async GetUserById(id: string) {
-    const user = await this.dao.Read(id);
-    return user;
+  async GetUserById(userId: string) {
+    const {
+      id, name, email, address,
+    } = await this.dao.Read(userId);
+
+    return {
+      id, name, email, address,
+    };
   }
 
   async GetUserByEmail(email: string) {
