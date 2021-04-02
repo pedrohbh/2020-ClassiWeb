@@ -2,7 +2,7 @@ import {
   BodyParams, Controller, Delete, Get, Inject, PathParams, Post, Put,
 } from '@tsed/common';
 
-import { AdvertisingService } from '../application/classes/AdvertisingService';
+import { AdFilter, AdvertisingService } from '../application/classes/AdvertisingService';
 import { Advertising } from '../domain/Advertising';
 
 @Controller('/ads')
@@ -23,6 +23,11 @@ export class AdvertisingController {
   @Post('/')
   Post(@BodyParams() ad: Partial<Advertising>) {
     return this.adService.CreateAd(ad);
+  }
+
+  @Post('/search')
+  PostSearch(@BodyParams() filter: Partial<AdFilter>) {
+    return this.adService.ListAdsWith(filter);
   }
 
   @Put('/:id')

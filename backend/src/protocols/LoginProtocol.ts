@@ -43,9 +43,11 @@ export class LoginLocalProtocol implements OnVerify {
     request.login(result, (error) => {
       if (error) return;
 
-      token = jwt.sign({ id: result.id, admin: result.matricula }, JWT_SUPER_SECRET, {
-        expiresIn: '1d',
-      });
+      token = jwt.sign(
+        { id: result.id, admin: result instanceof Admin },
+        JWT_SUPER_SECRET,
+        { expiresIn: '1d' },
+      );
     });
 
     return { token };

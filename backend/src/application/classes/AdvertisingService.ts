@@ -1,9 +1,21 @@
 import { Inject, Service } from '@tsed/di';
 
-import { Advertising } from '../../domain/Advertising';
+import { Between, LessThanOrEqual, MoreThanOrEqual } from 'typeorm';
+
+import { Address } from '../../domain/Address';
+import { Advertising, ProductState } from '../../domain/Advertising';
 import { AdvertisingDAO } from '../../persistence/AdvertisingDAO';
 import { AddressService } from './AddressService';
 import { UserService } from './UserService';
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export interface AdFilter {
+  text: string;
+  product_state: ProductState;
+  min_price: number;
+  max_price: number;
+  address: Partial<Address>
+}
 
 @Service()
 export class AdvertisingService {
@@ -28,6 +40,48 @@ export class AdvertisingService {
       product_state: ad.product_state,
       state: ad.state,
     }));
+  }
+
+  async ListAdsWith(filter: Partial<AdFilter>) {
+    const whereQuery = {};
+
+    if (filter.product_state) {
+      whereQuery.product_state = filter.product_state;
+    }
+
+    if (filter.min_price) {
+      if (filter.max_price) {
+        whereQuery.price = Between(filter.min_price, filter.max_price);
+      } else {
+        whereQuery.price = MoreThanOrEqual(filter.min_price);
+      }
+    } else if (filter.max_price) {
+      whereQuery.price = LessThanOrEqual(filter.max_price);
+    }
+
+    // if (filter.address) {
+    //   whereQuery.address = {};
+
+    //   if (filter.address.state) {
+    //     whereQuery.address.state = filter.address.state;
+    //   }
+
+    //   if (filter.address.city) {
+    //     whereQuery.address.city = filter.address.city;
+    //   }
+    // }
+
+    const [ads, count] = await this.dao.ReadWith({ where: whereQuery });
+
+    return [ads.map((ad) => ({
+      id: ad.id,
+      title: ad.title,
+      description: ad.description,
+      price: ad.price,
+      quantity: ad.quantity,
+      product_state: ad.product_state,
+      state: ad.state,
+    })), count];
   }
 
   async CreateAd(adJson: Partial<Advertising>): Promise<Advertising> {

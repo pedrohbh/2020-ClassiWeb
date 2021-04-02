@@ -1,6 +1,6 @@
 import { Injectable } from '@tsed/di';
 
-import { EntityRepository, Repository } from 'typeorm';
+import { EntityRepository, FindManyOptions, Repository } from 'typeorm';
 
 import { Advertising } from '../domain/Advertising';
 
@@ -23,6 +23,10 @@ export class AdvertisingDAO {
     return this.repository.findOneOrFail(id, {
       relations: ['category', 'address', 'owner', 'images'],
     });
+  }
+
+  ReadWith(options: FindManyOptions<Advertising>) {
+    return this.repository.findAndCount(options);
   }
 
   Update(id: string, ad: Partial<Advertising>) {
