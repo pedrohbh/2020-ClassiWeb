@@ -12,7 +12,7 @@ const useStyles = makeStyles(() =>
   }
 ));
 
-export default function Address() {
+export default function Address({ onChange }) {
   const [UFs, setUFs] = useState([]);
   const [selectedUF, setSelectedUF] = useState('');
   const [cities, setCities] = useState([]);
@@ -47,6 +47,7 @@ export default function Address() {
 
   const handleSelectCity = ({ target }) => {
     setSelectedCity(target.value);
+    onChange({ state: selectedUF, city: target.value });
   };
 
   return (

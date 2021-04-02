@@ -62,8 +62,9 @@ const StyledFab = withStyles({
 
 export default function RegisterForm() {
   const classes = useStyles();
-  
-  const urlPost = '';
+
+  const [address, setAddress] = useState({});
+
 
   const handleSubmit = event => {
     console.log('');
@@ -73,7 +74,7 @@ export default function RegisterForm() {
     <Grid container direction="column" alignItems="center" style={{height: '100%', justifyContent: 'center'}}>
       <h1 className={classes.text}>Publique agora um novo anúncio!</h1>
       
-      <form method='POST' action={urlPost} className={classes.formContainer} autoComplete="off" onSubmit={handleSubmit}>
+      <form className={classes.formContainer} autoComplete="off" onSubmit={handleSubmit}>
           <Grid container spacing={1}>
 
             <Grid item xs={12}>
@@ -128,7 +129,7 @@ export default function RegisterForm() {
             </Grid>
 
             <Grid item xs={12}>
-              <Address/>
+              <Address onChange={ newAddress => setAddress(newAddress) }/>
             </Grid> 
 
             <Grid item xs={12}>
