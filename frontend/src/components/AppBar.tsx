@@ -34,14 +34,14 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     search: {
-      position: 'relative',
+      position: 'absolute',
       borderRadius: theme.shape.borderRadius,
       backgroundColor: fade(theme.palette.common.white, 0.15),
       '&:hover': {
         backgroundColor: fade(theme.palette.common.white, 0.25),
       },
-      marginRight: theme.spacing(2),
-      marginLeft: 0,
+      left: '50%',
+      transform: 'translateX(-50%)',
       width: '100%',
       [theme.breakpoints.up('sm')]: {
         marginLeft: theme.spacing(3),
@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme: Theme) =>
       transition: theme.transitions.create('width'),
       width: '100%',
       [theme.breakpoints.up('md')]: {
-        width: '20ch',
+        width: '30ch',
       },
     },
     sectionDesktop: {
@@ -182,14 +182,17 @@ export default function PrimarySearchAppBar() {
 
   return (
     <>
-      <AppBar style={{ backgroundColor: '#E65252', position: 'relative' }}>
+      <AppBar style={{ backgroundColor: '#E65252', position: 'relative', }}>
+
         <Toolbar>
-        <StyledButtonGroup variant="text" aria-label="text primary button group">
-          <Button href="../">Início</Button>
-          <Button>Categorias</Button>
-          <Button>Contato</Button>
-          <Button>Sobre</Button>
-        </StyledButtonGroup>
+
+          <StyledButtonGroup variant="text" aria-label="text primary button group">
+            <Button href="../">Início</Button>
+            <Button>Categorias</Button>
+            <Button>Contato</Button>
+            <Button>Sobre</Button>
+          </StyledButtonGroup>
+
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -203,7 +206,9 @@ export default function PrimarySearchAppBar() {
               inputProps={{ 'aria-label': 'buscar' }}
             />
           </div>
+
           <div className={classes.grow} />
+
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={6} color="secondary">
@@ -226,6 +231,7 @@ export default function PrimarySearchAppBar() {
               <AccountCircle />
             </IconButton>
           </div>
+
           <div className={classes.sectionMobile}>
             <IconButton
               aria-label="show more"
@@ -237,7 +243,9 @@ export default function PrimarySearchAppBar() {
               <MoreIcon />
             </IconButton>
           </div>
+
         </Toolbar>
+        
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
