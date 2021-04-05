@@ -1,10 +1,6 @@
 import { Grid } from '@material-ui/core';
-
-import AppBar from '../../components/AppBar';
-import Footer from '../../components/Footer';
 import Card from '../../components/Card';
 import PageBase from '../../components/PageBase';
-
 import Logotipo from '../../assets/ClassiWeb.svg';
 import Bike from '../../assets/bicicleta.jpg';
 import Carro from '../../assets/carro.jpg';

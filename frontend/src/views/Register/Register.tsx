@@ -1,7 +1,6 @@
 import Presentation from './Presentation';
 import RegisterForm from './RegisterForm';
 import { Grid } from '@material-ui/core';
-import AppBar from '../../components/AppBar'
 import PageBase from '../../components/PageBase';
 
 export default function Register() {

@@ -2,7 +2,6 @@ import { Button, Grid } from '@material-ui/core';
 import { createStyles, makeStyles, Theme, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { validate as validatorCPF } from 'gerador-validador-cpf';
-import { AnyARecord } from 'node:dns';
 import React, { useState } from 'react';
 import NumberFormat from 'react-number-format';
 import validator from 'validator';

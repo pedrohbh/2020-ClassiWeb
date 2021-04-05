@@ -133,7 +133,7 @@ export default function RegisterForm() {
             </Grid>
 
             <Grid item xs={12}>
-              <Categories onChange={ selectedCategory => console.log(selectedCategory) }/>
+              <Categories onChange={ selectedCategory => setCategory(selectedCategory) }/>
             </Grid>
 
             <Grid item xs={12}>

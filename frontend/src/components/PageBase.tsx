@@ -1,9 +1,6 @@
 import { Grid } from '@material-ui/core';
-
 import AppBar from './AppBar';
 import Footer from './Footer';
-import Card from './Card';
-
 
 export default function PageBase({ children, footer = true }) {
   return (
