@@ -1,5 +1,5 @@
 import {
-  Email, Maximum, Minimum, Property, Required,
+  Email, Maximum, MaxLength, MinLength, Property, Required,
 } from '@tsed/schema';
 
 import bcrypt from 'bcrypt';
@@ -24,9 +24,12 @@ export class User {
   name: string;
 
   @Column({ length: 11 })
+  @MaxLength(11)
+  @MinLength(11)
   @Required()
   cpf: string;
 
+  @Property(Address)
   @ManyToOne(() => Address, (address) => address.users)
   address: Address;
 
@@ -37,7 +40,7 @@ export class User {
 
   @Column()
   @Maximum(100)
-  @Minimum(8)
+  @MinLength(8)
   @Required()
   password: string;
 
@@ -50,6 +53,12 @@ export class User {
 
   @OneToMany(() => Purchase, (purchase) => purchase.client)
   purchases: Purchase[];
+
+  static GetFormmatedCpf(cpf: string) {
+    let index = 0;
+    // eslint-disable-next-line no-plusplus
+    return '___.___.___-__'.replace(/_/g, () => cpf[index++]);
+  }
 
   static GetEncryptedPassword(password: string) {
     return bcrypt.hashSync(password, 8);
