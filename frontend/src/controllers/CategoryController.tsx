@@ -1,8 +1,8 @@
 import api from '../services/api';
 
-export default class AdController {
+export default class CategoryController {
     static getAll() {
-        return api.get('/ads')
+        return api.get('/categories')
             .then(response => {
                 return response.data;
             }).catch(e => {
@@ -10,8 +10,8 @@ export default class AdController {
             })
     }
 
-    static postAd(newAd) {
-        return api.post('/ads', newAd)
+    static postCategory(newCategory) {
+        return api.post('/categories', newCategory)
             .then(response => {
                 return response.data;
             }).catch(e => {

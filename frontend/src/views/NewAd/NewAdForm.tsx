@@ -5,7 +5,8 @@ import React, { useState } from 'react';
 import Address from '../../components/Address';
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
 import AdController from '../../controllers/AdController';
-import CurrencyTextField from '@unicef/material-ui-currency-textfield'
+import CurrencyTextField from '@unicef/material-ui-currency-textfield';
+import Categories from './Categories';
 
 const StyledButton = withStyles({
   root: {
@@ -66,7 +67,8 @@ export default function RegisterForm() {
   const classes = useStyles();
 
   const [address, setAddress] = useState({});
-  const [selectedState, setSelectedState] = useState(0);
+  const [category, setCategory] = useState('');
+  const [selectedState, setSelectedState] = useState();
 
   const handleSubmit = async event => {
     event.preventDefault();
@@ -76,11 +78,12 @@ export default function RegisterForm() {
       .filter((el: any) => ["INPUT","TEXTAREA"].includes(el.tagName) && el.id)
       .reduce((data: any, input: any) => ({...data, [input.id]: input.value}), {});
 
-    console.log(formData)
+    // console.log(formData)
 
     const newAd = { 
       ...formData, 
       address, 
+      category, 
       state: selectedState 
     };
 
@@ -108,15 +111,14 @@ export default function RegisterForm() {
             <Grid item xs={12}>
               <CurrencyTextField 
                 required 
+                fullWidth 
                 id="price" 
                 label="Preço"
-                fullWidth 
+                textAlign="left"
                 variant="outlined"
                 currencySymbol="R$"
                 decimalCharacter=","
                 digitGroupSeparator="."
-                textAlign="left"
-                outputFormat="number"
               />
             </Grid>
             
@@ -130,21 +132,8 @@ export default function RegisterForm() {
               />
             </Grid>
 
-            {/* TODO
-            Transformar Categoria em um componente */}
             <Grid item xs={12}>
-              <FormControl variant="outlined" fullWidth>
-                <InputLabel required id="category">Categoria</InputLabel>
-                <Select
-                  labelId="category"
-                  id="category"
-                  label="Categoria"
-                >
-                  <MenuItem key='c1' value='Categoria1'>Categoria 1</MenuItem>
-                  <MenuItem key='c2' value='Categoria2'>Categoria 2</MenuItem>
-                  <MenuItem key='cN' value='CategoriaN'>Categoria N</MenuItem>
-                </Select>
-              </FormControl>
+              <Categories onChange={ selectedCategory => console.log(selectedCategory) }/>
             </Grid>
 
             <Grid item xs={12}>
@@ -160,14 +149,14 @@ export default function RegisterForm() {
               <FormControl variant="outlined" fullWidth>
                 <InputLabel required id="state">Estado</InputLabel>
                 <Select
-                  labelId="state"
                   id="state"
                   label="Estado"
+                  labelId="state"
                   value={selectedState}
                   onChange={handleSelectState}
                 >
                   <MenuItem key='new' value={1}>Novo</MenuItem>
-                  <MenuItem key='used' value={0}>Usado</MenuItem>
+                  <MenuItem key='secondhand' value={0}>Usado</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -179,10 +168,10 @@ export default function RegisterForm() {
             <Grid item xs={12}>
               {/* https://codesandbox.io/s/vj1q68zm25 */}
               <input
-                accept="image/*"
-                id="images"
                 multiple
                 type="file"
+                id="images"
+                accept="image/*"
                 style={{ display: 'none' }}
                 // onChange={this.handleUploadClick}
               />
