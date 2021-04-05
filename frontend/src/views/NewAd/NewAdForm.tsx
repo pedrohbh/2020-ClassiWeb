@@ -7,6 +7,7 @@ import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
 import AdController from '../../controllers/AdController';
 import CurrencyTextField from '@unicef/material-ui-currency-textfield';
 import Categories from './Categories';
+import getFormData from '../../utils/getFormData';
 
 const StyledButton = withStyles({
   root: {
@@ -73,24 +74,21 @@ export default function RegisterForm() {
   const handleSubmit = async event => {
     event.preventDefault();
 
-    const inputs = Object.values(event.target);
-    const formData: any = inputs
-      .filter((el: any) => ["INPUT","TEXTAREA"].includes(el.tagName) && el.id)
-      .reduce((data: any, input: any) => ({...data, [input.id]: input.value}), {});
-
-    // console.log(formData)
+    const formData = getFormData(event);
 
     const newAd = { 
       ...formData, 
-      address, 
+      // address, 
       category, 
-      state: selectedState 
+      product_state: selectedState 
     };
+
+    delete newAd.images; // Remover esta linha após estar configurado o recebimento de imagens no backend
 
     console.log(newAd);
 
-    // const res = await AdController.postAd(newAd);
-    // console.log(res);
+    const res = await AdController.postAd(newAd);
+    console.log(res);
   }
 
   const handleSelectState = ({ target }) => {
@@ -105,7 +103,7 @@ export default function RegisterForm() {
           <Grid container spacing={1}>
 
             <Grid item xs={12}>
-              <StyledTextField required id="name" label="Nome"/>
+              <StyledTextField required id="title" label="Nome"/>
             </Grid>
 
             <Grid item xs={12}>
@@ -147,11 +145,11 @@ export default function RegisterForm() {
 
             <Grid item xs={12}>
               <FormControl variant="outlined" fullWidth>
-                <InputLabel required id="state">Estado</InputLabel>
+                <InputLabel required id="product_state">Estado</InputLabel>
                 <Select
-                  id="state"
+                  id="product_state"
                   label="Estado"
-                  labelId="state"
+                  labelId="product_state"
                   value={selectedState}
                   onChange={handleSelectState}
                 >

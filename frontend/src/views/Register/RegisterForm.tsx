@@ -8,6 +8,7 @@ import validator from 'validator';
 import Address from '../../components/Address';
 
 import UserController from '../../controllers/UserController';
+import getFormData from '../../utils/getFormData';
 
 const StyledButton = withStyles({
   root: {
@@ -94,10 +95,7 @@ export default function RegisterForm() {
   const handleSubmit = async event => {
     event.preventDefault();
 
-    const inputs = Object.values(event.target);
-    const formData: any = inputs
-      .filter((el: any) => el.tagName === "INPUT" && el.id)
-      .reduce((data: any, input: any) => ({...data, [input.id]: input.value}), {});
+    const formData = getFormData(event);
 
     const newUser = { ...formData, address };
 

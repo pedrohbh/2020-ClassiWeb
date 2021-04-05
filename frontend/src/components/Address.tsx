@@ -54,10 +54,10 @@ export default function Address({ onChange }) {
     <Grid container spacing={1}>
       <Grid item xs={4}>
         <FormControl className={classes.formControl} variant="outlined" fullWidth>
-          <InputLabel id="demo-simple-select-outlined-label">UF</InputLabel>
+          <InputLabel id="uf">UF</InputLabel>
           <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
+            labelId="uf"
+            id="uf"
             value={selectedUF}
             onChange={handleSelectUF}
             label="UF"
@@ -72,10 +72,10 @@ export default function Address({ onChange }) {
       </Grid>
       <Grid item xs={8}>
         <FormControl className={classes.formControl} variant="outlined" fullWidth>
-          <InputLabel id="demo-simple-select-outlined-label">Cidade</InputLabel>
+          <InputLabel id="city">Cidade</InputLabel>
           <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
+            labelId="city"
+            id="city"
             value={selectedCity}
             label="Cidade"
             disabled={!selectedUF}
