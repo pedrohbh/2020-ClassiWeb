@@ -1,6 +1,8 @@
 import { Inject, Service } from '@tsed/di';
 
-import { Between, LessThanOrEqual, MoreThanOrEqual } from 'typeorm';
+import {
+  Between, FindConditions, LessThanOrEqual, MoreThanOrEqual,
+} from 'typeorm';
 
 import { Address } from '../../domain/Address';
 import { Advertising, ProductState } from '../../domain/Advertising';
@@ -43,7 +45,7 @@ export class AdvertisingService {
   }
 
   async ListAdsWith(filter: Partial<AdFilter>) {
-    const whereQuery = {};
+    const whereQuery = {} as FindConditions<Advertising>;
 
     if (filter.product_state) {
       whereQuery.product_state = filter.product_state;
@@ -90,9 +92,10 @@ export class AdvertisingService {
 
     const ad = {
       ...adJson,
-      quantity: adJson.quantity ?? 1,
+      quantity: +(adJson.quantity ?? 1),
       address,
       owner,
+      price: +(adJson.price ?? 0),
     };
 
     return this.dao.Create(ad);
