@@ -4,6 +4,8 @@ import TextField from '@material-ui/core/TextField';
 import React, { useState } from 'react';
 import Address from '../../components/Address';
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
+import AdController from '../../controllers/AdController';
+import CurrencyTextField from '@unicef/material-ui-currency-textfield'
 
 const StyledButton = withStyles({
   root: {
@@ -64,10 +66,32 @@ export default function RegisterForm() {
   const classes = useStyles();
 
   const [address, setAddress] = useState({});
+  const [selectedState, setSelectedState] = useState(0);
 
+  const handleSubmit = async event => {
+    event.preventDefault();
 
-  const handleSubmit = event => {
-    console.log('');
+    const inputs = Object.values(event.target);
+    const formData: any = inputs
+      .filter((el: any) => ["INPUT","TEXTAREA"].includes(el.tagName) && el.id)
+      .reduce((data: any, input: any) => ({...data, [input.id]: input.value}), {});
+
+    console.log(formData)
+
+    const newAd = { 
+      ...formData, 
+      address, 
+      state: selectedState 
+    };
+
+    console.log(newAd);
+
+    // const res = await AdController.postAd(newAd);
+    // console.log(res);
+  }
+
+  const handleSelectState = ({ target }) => {
+    setSelectedState(target.value);
   }
 
   return (
@@ -82,7 +106,18 @@ export default function RegisterForm() {
             </Grid>
 
             <Grid item xs={12}>
-              <StyledTextField required id="price" label="Preço"/>
+              <CurrencyTextField 
+                required 
+                id="price" 
+                label="Preço"
+                fullWidth 
+                variant="outlined"
+                currencySymbol="R$"
+                decimalCharacter=","
+                digitGroupSeparator="."
+                textAlign="left"
+                outputFormat="number"
+              />
             </Grid>
             
             <Grid item xs={12}>
@@ -95,12 +130,14 @@ export default function RegisterForm() {
               />
             </Grid>
 
+            {/* TODO
+            Transformar Categoria em um componente */}
             <Grid item xs={12}>
               <FormControl variant="outlined" fullWidth>
-                <InputLabel required id="demo-simple-select-outlined-label">Categoria</InputLabel>
+                <InputLabel required id="category">Categoria</InputLabel>
                 <Select
-                  labelId="demo-simple-select-outlined-label"
-                  id="demo-simple-select-outlined"
+                  labelId="category"
+                  id="category"
                   label="Categoria"
                 >
                   <MenuItem key='c1' value='Categoria1'>Categoria 1</MenuItem>
@@ -111,19 +148,26 @@ export default function RegisterForm() {
             </Grid>
 
             <Grid item xs={12}>
-              <StyledTextField required multiline id="description" label="Descrição" />
+              <StyledTextField 
+                required 
+                multiline 
+                id="description" 
+                label="Descrição" 
+              />
             </Grid>
 
             <Grid item xs={12}>
               <FormControl variant="outlined" fullWidth>
-                <InputLabel required id="demo-simple-select-outlined-label">Estado</InputLabel>
+                <InputLabel required id="state">Estado</InputLabel>
                 <Select
-                  labelId="demo-simple-select-outlined-label"
-                  id="demo-simple-select-outlined"
+                  labelId="state"
+                  id="state"
                   label="Estado"
+                  value={selectedState}
+                  onChange={handleSelectState}
                 >
-                  <MenuItem key='new' value='Novo'>Novo</MenuItem>
-                  <MenuItem key='used' value='Usado'>Usado</MenuItem>
+                  <MenuItem key='new' value={1}>Novo</MenuItem>
+                  <MenuItem key='used' value={0}>Usado</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -136,13 +180,13 @@ export default function RegisterForm() {
               {/* https://codesandbox.io/s/vj1q68zm25 */}
               <input
                 accept="image/*"
-                id="contained-button-file"
+                id="images"
                 multiple
                 type="file"
                 style={{ display: 'none' }}
                 // onChange={this.handleUploadClick}
               />
-              <label htmlFor="contained-button-file">
+              <label htmlFor="images">
                 <StyledFab component="span" >
                   <StyledAddPhotoAlternateIcon  />
                 </StyledFab>

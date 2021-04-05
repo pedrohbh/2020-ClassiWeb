@@ -47,8 +47,6 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function RegisterForm() {
   const classes = useStyles();
 
-  const urlPost = 'url';
-
   const [address, setAddress] = useState({});
 
   const [cpfError, setCpfError] = useState("");
@@ -67,8 +65,6 @@ export default function RegisterForm() {
 
   const handleValidateCPF = event => {
     const value = event.target.value ?? "";
-    console.log(value);
-    
     
     if (validatorCPF(value)) {
       setCpfError("");
@@ -78,7 +74,6 @@ export default function RegisterForm() {
   }
 
   const handleValidatePassword = event => {
-    // TODO Ajeitar a forma de acessar o valor de password
     const password = event
       .target
       .parentElement
@@ -106,14 +101,12 @@ export default function RegisterForm() {
       .reduce((data: any, input: any) => ({...data, [input.id]: input.value}), {});
 
     const newUser = { ...formData, address };
-    // console.log(newUser);
 
     if(validatorCPF(newUser.cpf) && validator.isEmail(newUser.email) && newUser.password === newUser.passwordConfirm){
       const token = await UserController.postUser(newUser);
       console.log(token);
       return;
     }
-    
   }
 
   return (
