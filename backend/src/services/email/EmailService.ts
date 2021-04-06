@@ -17,16 +17,15 @@ export class EmailService {
     },
   });
 
-  async send(to: string) {
+  async send(to: string, subject: string, message: string) {
     const mailSend = await this.transporter.sendMail({
-        text: "Testando oi",
-        subject: "email automatico Teste",
+        subject: subject,
         from: "ClassiWeb <noreply.classiweb@gmail.com>",    // De quem
         to: [to, "noreply.classiweb@gmail.com"],            // Para quem
         html: `
         <html>
         <body>
-            Text
+            ${message}
         <body>
         <html>
         `

@@ -23,7 +23,6 @@ export class AdSubscriber implements EntitySubscriberInterface<Advertising> {
 
     //Envia e-mail
     const emailService = new EmailService();
-    emailService.send("ClassiWeb");
+    emailService.send("ClassiWeb", "Update do Anúncio", "Mudou alguma coisa no anúncio ¯\\_(ツ)_/¯");
   }
-
 }
