@@ -103,10 +103,10 @@ export class AdvertisingService {
 
   async GetAdById(adId: string) {
     const {
-      images, owner: { id: ownerId }, ...rest
+      images, owner, ...rest
     } = await this.dao.Read(adId);
 
-    const owner = await this.userService.GetUserById(ownerId);
+    // const owner = await this.userService.GetUserById(ownerId);
 
     return { ...rest, images: images.map(({ id }) => ({ id })), owner };
   }

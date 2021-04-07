@@ -11,11 +11,11 @@
     "${rootDir}/persistence/migration/**/*.{js,ts}"
   ],
   "subscribers": [
-    "${rootDir}/persistence/subscriber/**/*.{js,ts}"
+    "${rootDir}/persistence/subscribers/**/*.{js,ts}"
   ],
   "cli": {
     "entitiesDir": "${rootDir}/domain",
     "migrationsDir": "${rootDir}/persistence/migration",
-    "subscribersDir": "${rootDir}/persistence/subscriber"
+    "subscribersDir": "${rootDir}/persistence/subscribers"
   }
 }
