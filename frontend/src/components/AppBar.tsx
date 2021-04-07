@@ -236,12 +236,12 @@ export default function MyAppBar({ showCreateNewAccount = true, showLogin = true
                 showLogin ?
                   <Button href='../login'>Entrar</Button>
                   :
-                  <></>
+                  null
               }
               { showCreateNewAccount ? 
                   <Button href='../register'>Criar nova conta</Button>
                   :
-                  <></>
+                  null
               }
             </StyledButtonGroup>
           }

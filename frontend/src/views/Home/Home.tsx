@@ -28,8 +28,8 @@ export default function Home() {
             <Grid container spacing={1}>
               {
                 categories.map(({ name }) => (
-                  <Grid item xs={12}>
-                    <Button>
+                  <Grid item xs={12} key={name}>
+                    <Button key={name}>
                       <NavigateNextRoundedIcon/>
                       {name}
                     </Button>
