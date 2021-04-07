@@ -17,6 +17,7 @@ export default function Address({ onChange }) {
   const [selectedUF, setSelectedUF] = useState('');
   const [cities, setCities] = useState([]);
   const [selectedCity, setSelectedCity] = useState('');
+
   const apiURL_UFs = `https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome`;
   const apiURL_Cities = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUF}/municipios`;
 
@@ -24,8 +25,10 @@ export default function Address({ onChange }) {
 
   useEffect(() => {
     async function loadCitiesSelectedUF() {
-      const response = await axios.get(apiURL_Cities);
-      setCities(response.data);
+      await axios.get(apiURL_Cities)
+        .then(response => {
+          setCities(response.data);
+        })
     };
 
     loadCitiesSelectedUF()
@@ -33,8 +36,10 @@ export default function Address({ onChange }) {
 
   useEffect(() => {
     async function loadUFs() {
-      const response = await axios.get(apiURL_UFs);
-      setUFs(response.data);
+      await axios.get(apiURL_UFs)
+        .then(response => {
+          setUFs(response.data);
+        })
     };
 
     loadUFs()

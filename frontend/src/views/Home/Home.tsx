@@ -1,70 +1,24 @@
 import { Button, Grid } from '@material-ui/core';
-import Card from '../../components/Card';
 import PageBase from '../../components/PageBase';
-import CategoryController from '../../controllers/CategoryController';
-import NavigateNextRoundedIcon from '@material-ui/icons/NavigateNextRounded';
-
 import Logotipo from '../../assets/ClassiWeb.svg';
-import Bike from '../../assets/bicicleta.jpg';
-import Carro from '../../assets/carro.jpg';
-import Casa from '../../assets/casa.jpg';
-import { useEffect, useState } from 'react';
+import Categories from './Categories';
+import Ads from './Ads';
 
 export default function Home() {
-  const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    CategoryController.getAll()
-        .then(CategoriesList => {
-            setCategories(CategoriesList.sort((a, b) => a.name.localeCompare(b.name)));
-            // setIsLoading(false);
-        });
-  }, []);
-
   return (
     <PageBase>
       <Grid container style={{ minHeight: 'calc(100% - 10vh)', height: 'max-content' }}>
-          <Grid item xs={3} lg={2} style={{ height: 'auto', boxShadow: "2px 2px 8px 1px #dedede", padding: "20px", borderRadius: '5px' }}>
-            <Grid container spacing={1}>
-              {
-                categories.map(({ name }) => (
-                  <Grid item xs={12} key={name}>
-                    <Button key={name}>
-                      <NavigateNextRoundedIcon/>
-                      {name}
-                    </Button>
-                  </Grid>
-                ))
-              }
-            </Grid>
-          </Grid>
+
+          <Categories/>
 
           <Grid item xs={9} lg={10} style={{ flex: 1, maxHeight: 'max-content' }}>
             <Grid container>
               <Grid item xs={12}>
                 <img src={Logotipo} alt="ClassiWeb" style={{ width: "100%", height: "25vh" }} />
               </Grid>
-            
-              <Grid item xs={12} style={{ textAlign: 'center' }}>
-                <h1>Anúncios publicados recentemente</h1>
-              </Grid>
 
-              <Grid item xs={12} style={{ margin: '3vh 0' }}>
-                <Grid container spacing={3} justify="center" style={{ width: '100%', margin: 0 }}>
-                  <Grid item><Card title={'Bicicleta'} price={1520.50} imgRef={Bike} city={'Vitória'} UF={'ES'}/></Grid>
-                  <Grid item><Card title={'Carro'}     price={1520.58} imgRef={Carro} city={'Caxias'} UF={'RJ'}/></Grid>
-                  <Grid item><Card title={'Casa'}      price={1520.5} imgRef={Casa} city={'Santos'} UF={'SP'}/></Grid>
-                  <Grid item><Card title={'Bicicleta'} price={1520.5} imgRef={Bike} city={'Vitória'} UF={'ES'}/></Grid>
-                  <Grid item><Card title={'Carro'}     price={1520.5} imgRef={Carro} city={'Caxias'} UF={'RJ'}/></Grid>
-                  <Grid item><Card title={'Casa'}      price={1520.5} imgRef={Casa} city={'Santos'} UF={'SP'}/></Grid>
-                  <Grid item><Card title={'Bicicleta'} price={1520.59} imgRef={Bike} city={'Vitória'} UF={'ES'}/></Grid>
-                  <Grid item><Card title={'Carro'}     price={1520.5} imgRef={Carro} city={'Caxias'} UF={'RJ'}/></Grid>
-                  <Grid item><Card title={'Casa'}      price={1520.5} imgRef={Casa} city={'Santos'} UF={'SP'}/></Grid>
-                  <Grid item><Card title={'Bicicleta'} price={1520.5} imgRef={Bike} city={'Vitória'} UF={'ES'}/></Grid>
-                  <Grid item><Card title={'Carro'}     price={1520.5} imgRef={Carro} city={'Caxias'} UF={'RJ'}/></Grid>
-                  <Grid item><Card title={'Casa'}      price={1520.5} imgRef={Casa} city={'Santos'} UF={'SP'}/></Grid>
-                </Grid>
-              </Grid>
+              <Ads/>
+
             </Grid>
           </Grid>
         </Grid>

@@ -92,7 +92,7 @@ const StyledButtonGroup = withStyles({
       borderRight: '1px solid rgba(255, 255, 255, 0.2)'
     }
   }
-})((props: any) => <ButtonGroup {...props}/>);
+})((props: any) => <ButtonGroup {...props} />);
 
 export default function MyAppBar({ showCreateNewAccount = true, showLogin = true }) {
   const classes = useStyles();
@@ -207,7 +207,7 @@ export default function MyAppBar({ showCreateNewAccount = true, showLogin = true
 
           <div className={classes.grow} />
 
-          { isLogged ? 
+          {isLogged ?
             <div className={classes.sectionDesktop}>
               <IconButton aria-label="show 4 new mails" color="inherit">
                 <Badge badgeContent={6} color="secondary">
@@ -238,15 +238,15 @@ export default function MyAppBar({ showCreateNewAccount = true, showLogin = true
                   :
                   null
               }
-              { showCreateNewAccount ? 
-                  <Button href='../register'>Criar nova conta</Button>
-                  :
-                  null
+              {showCreateNewAccount ?
+                <Button href='../register'>Criar nova conta</Button>
+                :
+                null
               }
             </StyledButtonGroup>
           }
 
-          
+
 
           <div className={classes.sectionMobile}>
             <IconButton
@@ -261,7 +261,7 @@ export default function MyAppBar({ showCreateNewAccount = true, showLogin = true
           </div>
 
         </Toolbar>
-        
+
       </AppBar>
       {renderMobileMenu}
       {renderMenu}

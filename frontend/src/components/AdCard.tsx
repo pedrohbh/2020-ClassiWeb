@@ -32,11 +32,11 @@ export default function AdCard({ title, price, imgRef, city, UF }) {
       <CardActionArea>
         <CardMedia
           component="img"
-          alt="Contemplative Reptile"
+          alt="Imagem do anúncio"
           height="100%"
           image={imgRef}
           style={{ height: 200 }}
-          title="Contemplative Reptile"
+          title="Imagem do anúncio"
         />
         <CardContent>
 

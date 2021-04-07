@@ -7,6 +7,7 @@ export default class AdController {
                 return response.data;
             }).catch(e => {
                 console.error(e);
+                return undefined;
             })
     }
 
