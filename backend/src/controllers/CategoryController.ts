@@ -2,6 +2,7 @@ import {
   BodyParams, Controller, Delete, Get, HeaderParams, Inject, PathParams, Post,
 } from '@tsed/common';
 import { Authorize } from '@tsed/passport';
+import { Returns } from '@tsed/schema';
 
 import { CategoryService } from '../application/classes/CategoryService';
 import { Category } from '../domain/Category';
@@ -18,7 +19,8 @@ export class CategoryController {
   }
 
   @Post('/')
-  Post(@BodyParams() category: Omit<Category, 'id'>): Promise<Category> {
+  @Returns(200, Category)
+  Post(@BodyParams(Category) category: Category): Promise<Category> {
     return this.categoryService.CreateCategory(category);
   }
 

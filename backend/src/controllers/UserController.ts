@@ -1,8 +1,8 @@
 import {
   BodyParams, Controller, Delete, Get, Inject, PathParams, Post, Put,
 } from '@tsed/common';
+import { Returns } from '@tsed/schema';
 
-import { AddressService } from '../application/classes/AddressService';
 import { UserService } from '../application/classes/UserService';
 import { User } from '../domain/User';
 
@@ -10,9 +10,6 @@ import { User } from '../domain/User';
 export class UserController {
   @Inject(UserService)
   private userService: UserService;
-
-  @Inject(AddressService)
-  private addressService: AddressService;
 
   @Get('/')
   async GetAll() {
@@ -27,22 +24,19 @@ export class UserController {
   }
 
   @Get('/:id')
+  @Returns(200, User)
   async Get(@PathParams('id') userId: string) {
     return this.userService.GetUserById(userId);
   }
 
   @Post('/')
-  async Post(@BodyParams() user: Pick<User, 'name' |'cpf' | 'email' | 'password' | 'address'>) {
-    user.password = User.GetEncryptedPassword(user.password);
-
-    if (!user.address.id) {
-      user.address = await this.addressService.CreateAddress(user.address);
-    }
-
+  @Returns(200, User)
+  async Post(@BodyParams(User) user: Pick<User, 'name' |'cpf' | 'email' | 'password' | 'address'>) {
     return this.userService.CreateUser(user);
   }
 
   @Put('/:id')
+  @Returns(200, User)
   async Put(@PathParams('id') userId: string, @BodyParams() user: Partial<User>) {
     const {
       id, name, email, address,
