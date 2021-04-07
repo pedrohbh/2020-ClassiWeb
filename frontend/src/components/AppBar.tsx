@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { fade, makeStyles, Theme, createStyles, withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -94,10 +94,12 @@ const StyledButtonGroup = withStyles({
   }
 })((props: any) => <ButtonGroup {...props}/>);
 
-export default function PrimarySearchAppBar() {
+export default function MyAppBar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
+
+  const [isLogged, setIsLogged] = useState(false);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -182,7 +184,7 @@ export default function PrimarySearchAppBar() {
 
         <Toolbar>
 
-          <StyledButtonGroup variant="text" aria-label="text primary button group">
+          <StyledButtonGroup variant="text">
             <Button href="../">Início</Button>
             <Button>Categorias</Button>
             <Button>Contato</Button>
@@ -205,28 +207,37 @@ export default function PrimarySearchAppBar() {
 
           <div className={classes.grow} />
 
-          <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={6} color="secondary">
-                <ForumIcon />
-              </Badge>
-            </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={10} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </div>
+          { isLogged ? 
+            <div className={classes.sectionDesktop}>
+              <IconButton aria-label="show 4 new mails" color="inherit">
+                <Badge badgeContent={6} color="secondary">
+                  <ForumIcon />
+                </Badge>
+              </IconButton>
+              <IconButton aria-label="show 17 new notifications" color="inherit">
+                <Badge badgeContent={10} color="secondary">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+              <IconButton
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+            </div>
+            :
+            <StyledButtonGroup variant="text">
+              <Button>Entrar</Button>
+              <Button>Criar nova conta</Button>
+            </StyledButtonGroup>
+          }
+
+          
 
           <div className={classes.sectionMobile}>
             <IconButton
