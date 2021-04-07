@@ -109,7 +109,6 @@ export default function RegisterForm() {
   return (
     <Grid container direction="column" alignItems="center" style={{height: '100%', justifyContent: 'center'}}>
       <h1 className={classes.text}>Cadastre-se para começar a usar!</h1>
-      
       <form className={classes.formContainer} autoComplete="off" onSubmit={handleSubmit}>
 
           <Grid container alignItems="center" justify="space-around" spacing={1}>

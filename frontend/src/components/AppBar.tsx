@@ -94,7 +94,7 @@ const StyledButtonGroup = withStyles({
   }
 })((props: any) => <ButtonGroup {...props}/>);
 
-export default function MyAppBar() {
+export default function MyAppBar({ showCreateNewAccount = true, showLogin = true }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -232,8 +232,17 @@ export default function MyAppBar() {
             </div>
             :
             <StyledButtonGroup variant="text">
-              <Button>Entrar</Button>
-              <Button>Criar nova conta</Button>
+              {
+                showLogin ?
+                  <Button href='../login'>Entrar</Button>
+                  :
+                  <></>
+              }
+              { showCreateNewAccount ? 
+                  <Button href='../register'>Criar nova conta</Button>
+                  :
+                  <></>
+              }
             </StyledButtonGroup>
           }
 

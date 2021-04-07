@@ -54,7 +54,7 @@ export default function Login() {
 
   return (
     <>  
-    <AppBar/>  
+    <AppBar showLogin={false}/>  
     <Container component="main" maxWidth="xs" style={{height: '80vh'}}>
       <CssBaseline />
       <div className={classes.paper}>
@@ -101,12 +101,12 @@ export default function Login() {
           >
             Entrar
           </Button>
-          <Grid container>
-            <Grid item xs>
+          <Grid container justify="center">
+            {/* <Grid item xs>
               <Link href="#" variant="body2" style={{color:'black'}}>
                 Esqueceu a senha?
               </Link>
-            </Grid>
+            </Grid> */}
             <Grid item>
               <Link href="../../register" variant="body2" style={{color:'black'}}>
                 Não possui uma conta? Cadastre-se!

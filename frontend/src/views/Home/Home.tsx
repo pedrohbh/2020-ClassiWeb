@@ -1,7 +1,8 @@
-import { Grid } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 import Card from '../../components/Card';
 import PageBase from '../../components/PageBase';
 import CategoryController from '../../controllers/CategoryController';
+import NavigateNextRoundedIcon from '@material-ui/icons/NavigateNextRounded';
 
 import Logotipo from '../../assets/ClassiWeb.svg';
 import Bike from '../../assets/bicicleta.jpg';
@@ -15,7 +16,7 @@ export default function Home() {
   useEffect(() => {
     CategoryController.getAll()
         .then(CategoriesList => {
-            setCategories(CategoriesList);
+            setCategories(CategoriesList.sort((a, b) => a.name.localeCompare(b.name)));
             // setIsLoading(false);
         });
   }, []);
@@ -27,7 +28,12 @@ export default function Home() {
             <Grid container spacing={1}>
               {
                 categories.map(({ name }) => (
-                  <Grid item xs={12}>{name}</Grid>
+                  <Grid item xs={12}>
+                    <Button>
+                      <NavigateNextRoundedIcon/>
+                      {name}
+                    </Button>
+                  </Grid>
                 ))
               }
             </Grid>

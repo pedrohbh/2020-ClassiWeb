@@ -5,7 +5,7 @@ import PageBase from '../../components/PageBase';
 
 export default function Register() {
   return (
-    <PageBase footer={false}>
+    <PageBase footer={false} createNewAccount={false}>
       <Grid container style={{height: '100%'}}>
         <Grid item xs={6}>
           <Presentation/>
