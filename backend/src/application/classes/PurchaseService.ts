@@ -4,11 +4,17 @@ import { Unauthorized } from '@tsed/exceptions';
 import { getConnection } from 'typeorm';
 
 import { AdvertisingState } from '../../domain/Advertising';
+import { Feedback, Purchase } from '../../domain/Purchase';
 import { AdvertisingDAO } from '../../persistence/AdvertisingDAO';
 import { PurchaseDAO } from '../../persistence/PurchaseDAO';
 import { UserDAO } from '../../persistence/UserDAO';
 import { AdvertisingService } from './AdvertisingService';
 import { UserService } from './UserService';
+
+export type FeedbackBody = {
+  userId: string;
+  feedback: Feedback;
+}
 
 @Service()
 export class PurchaseService {
@@ -21,7 +27,7 @@ export class PurchaseService {
   private readonly adService: AdvertisingService;
 
   @Inject(PurchaseDAO)
-  private readonly purchaseDAO: PurchaseDAO;
+  private readonly dao: PurchaseDAO;
 
   @Inject(UserDAO)
   private readonly userDao: UserDAO;
@@ -37,7 +43,7 @@ export class PurchaseService {
     return user.purchases.map((purchase) => ({ ...purchase }));
   }
 
-  async DoPurchase(userId: string, adId: string) {
+  async DoPurchase(adId: string, userId: string) {
     const client = await this.userDao.Read(userId);
     const ad = await this.adDao.Read(adId);
 
@@ -49,7 +55,7 @@ export class PurchaseService {
       throw new Unauthorized(`Anúncio "${ad.title}" não possui itens disponíveis para venda`);
     }
 
-    const purchase = await this.purchaseDAO.Create({ client, ad });
+    const purchase = await this.dao.Create({ client, ad });
     await this.adService.UpdateAd(purchase.ad.id, {
       quantity: purchase.ad.quantity - 1,
       state: purchase.ad.quantity === 1
@@ -62,5 +68,31 @@ export class PurchaseService {
       client: await this.userService.GetUserById(purchase.client.id),
       ad: await this.adService.GetAdById(purchase.ad.id),
     };
+  }
+
+  async SaveFeedback(id: string, { userId, feedback }: FeedbackBody) {
+    const { client, ad } = await this.dao.Read(id);
+    const result = await this.adDao.Read(ad.id);
+
+    if (![client.id, result.owner.id].includes(userId)) {
+      throw new Unauthorized('Este usuário não está relacionado nesta compra.');
+    }
+
+    if (client.id === userId) {
+      return this.UpdatePurchase(id, {
+        client_feedback: feedback,
+      });
+    }
+
+    return this.UpdatePurchase(id, {
+      owner_feedback: feedback,
+    });
+  }
+
+  async UpdatePurchase(id: string, json: Partial<Purchase>) {
+    await this.dao.Upadate(id, json);
+    const purchase = await this.dao.Read(id);
+
+    return { ...purchase };
   }
 }
