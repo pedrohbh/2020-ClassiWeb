@@ -186,8 +186,7 @@ export default function MyAppBar({ showCreateNewAccount = true, showLogin = true
 
           <StyledButtonGroup variant="text">
             <Button href="../">Início</Button>
-            <Button>Categorias</Button>
-            <Button>Contato</Button>
+            { isLogged && <Button href="../newad">Publicar Anúncio</Button> }
             <Button>Sobre</Button>
           </StyledButtonGroup>
 

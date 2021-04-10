@@ -24,24 +24,7 @@ const StyledButton = withStyles({
   },
 })((props: any) => <Button size="large" {...props} />);
 
-export default function Ads() {
-  const [ads, setAds] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(false);
-
-  useEffect(() => {
-    AdController.getAll()
-      .then(adsList => {
-        setIsLoading(false);
-        if (adsList) {
-          setAds(adsList);
-          setError(false);
-        } else {
-          setError(true);
-        }
-      });
-  }, []);
-
+export default function Ads({ ads, isLoading, error, header="" }) {
   return (
     <Grid item xs={12} style={{ marginTop: '4vh', marginBottom: '10vh' }}>
       <Grid container spacing={3} justify="center" style={{ width: '100%', margin: 0 }}>
@@ -50,7 +33,7 @@ export default function Ads() {
             <>
               <Grid item xs={12}>
                 <Skeleton style={{ margin: 'auto' }}>
-                  <h1>Anúncios publicados recentemente</h1>
+                  <h1>{header}</h1>
                 </Skeleton>
               </Grid>
               <Grid item><Skeleton variant="rect" width={345} height={380} /></Grid>
@@ -70,7 +53,7 @@ export default function Ads() {
               :
               <>
                 <Grid item xs={12} style={{ textAlign: 'center' }}>
-                  <h1>Anúncios publicados recentemente</h1>
+                  <h1>{header}</h1>
                 </Grid>
 
                 {
@@ -87,12 +70,12 @@ export default function Ads() {
                   ))
                 }
 
-                <Grid item><AdCard title={'Bicicleta'} price={1520.50} imgRef={Bike} city={'Vitória'} UF={'ES'} /></Grid>
+                {/* <Grid item><AdCard title={'Bicicleta'} price={1520.50} imgRef={Bike} city={'Vitória'} UF={'ES'} /></Grid>
                 <Grid item><AdCard title={'Carro'} price={1520.58} imgRef={Carro} city={'Caxias'} UF={'RJ'} /></Grid>
                 <Grid item><AdCard title={'Casa'} price={1520.5} imgRef={Casa} city={'Santos'} UF={'SP'} /></Grid>
                 <Grid item><AdCard title={'Bicicleta'} price={1520.5} imgRef={Bike} city={'Vitória'} UF={'ES'} /></Grid>
                 <Grid item><AdCard title={'Carro'} price={1520.5} imgRef={Carro} city={'Caxias'} UF={'RJ'} /></Grid>
-                <Grid item><AdCard title={'Casa'} price={1520.5} imgRef={Casa} city={'Santos'} UF={'SP'} /></Grid>
+                <Grid item><AdCard title={'Casa'} price={1520.5} imgRef={Casa} city={'Santos'} UF={'SP'} /></Grid> */}
               </>
         }
       </Grid>

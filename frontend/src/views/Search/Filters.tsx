@@ -55,7 +55,7 @@ export default function Filters() {
                 <Grid item xs={6}>
                   <CurrencyTextField
                     fullWidth 
-                    id="price" 
+                    id="min_price" 
                     label="Preço mínimo"
                     textAlign="left"
                     variant="outlined"
@@ -68,7 +68,7 @@ export default function Filters() {
                 <Grid item xs={6}>
                   <CurrencyTextField
                     fullWidth 
-                    id="price" 
+                    id="max_price" 
                     label="Preço máximo"
                     textAlign="left"
                     variant="outlined"
