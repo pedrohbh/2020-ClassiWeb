@@ -26,7 +26,7 @@ export class AdvertisingDAO {
   }
 
   ReadWith(options: FindManyOptions<Advertising>) {
-    return this.repository.findAndCount(options);
+    return this.repository.find(options);
   }
 
   Update(id: string, ad: Partial<Advertising>) {

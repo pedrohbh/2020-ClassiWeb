@@ -1,8 +1,6 @@
 import { Inject, Service } from '@tsed/di';
 
-import {
-  Between, FindConditions, LessThanOrEqual, MoreThanOrEqual,
-} from 'typeorm';
+import { Between, FindConditions, LessThanOrEqual, MoreThanOrEqual } from 'typeorm';
 
 import { Address } from '../../domain/Address';
 import { Advertising, ProductState } from '../../domain/Advertising';
@@ -16,7 +14,8 @@ export interface AdFilter {
   product_state: ProductState;
   min_price: number;
   max_price: number;
-  address: Partial<Address>
+  address: Partial<Address>;
+  categories: string[];
 }
 
 @Service()
@@ -61,29 +60,30 @@ export class AdvertisingService {
       whereQuery.price = LessThanOrEqual(filter.max_price);
     }
 
-    // if (filter.address) {
-    //   whereQuery.address = {};
+    const adsDB = await this.dao.ReadWith({
+      relations: ['category', 'address', 'owner'],
+      where:
+        filter.categories?.map((category) => ({
+          ...whereQuery,
+          category: { name: category },
+        })) || whereQuery,
+    });
 
-    //   if (filter.address.state) {
-    //     whereQuery.address.state = filter.address.state;
-    //   }
+    const ads = adsDB
+      .map((ad) => ({ ...ad }))
+      .filter((ad) => {
+        const regex = new RegExp(filter.text || '', 'i');
+        return regex.test(ad.title) || regex.test(ad.description);
+      })
+      .filter((ad) =>
+        filter.address?.state
+          ? ad.address.state === filter.address.state && filter.address.city
+            ? ad.address.city === filter.address.city
+            : true
+          : true,
+      );
 
-    //   if (filter.address.city) {
-    //     whereQuery.address.city = filter.address.city;
-    //   }
-    // }
-
-    const [ads, count] = await this.dao.ReadWith({ where: whereQuery });
-
-    return [ads.map((ad) => ({
-      id: ad.id,
-      title: ad.title,
-      description: ad.description,
-      price: ad.price,
-      quantity: ad.quantity,
-      product_state: ad.product_state,
-      state: ad.state,
-    })), count];
+    return [ads.length, ads];
   }
 
   async CreateAd(adJson: Partial<Advertising>): Promise<Advertising> {
@@ -102,9 +102,7 @@ export class AdvertisingService {
   }
 
   async GetAdById(adId: string) {
-    const {
-      images, owner, ...rest
-    } = await this.dao.Read(adId);
+    const { images, owner, ...rest } = await this.dao.Read(adId);
 
     // const owner = await this.userService.GetUserById(ownerId);
 
