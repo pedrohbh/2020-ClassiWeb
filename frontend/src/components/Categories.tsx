@@ -1,8 +1,8 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 import { useEffect, useState } from 'react';
-import CategoryController from '../../controllers/CategoryController';
+import CategoryController from '../controllers/CategoryController';
 
-export default function Categories({ onChange }) {
+export default function Categories({ onChange, required = true }) {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
 
@@ -21,7 +21,7 @@ export default function Categories({ onChange }) {
 
   return (
     <FormControl variant="outlined" fullWidth>
-      <InputLabel required id="category">Categoria</InputLabel>
+      <InputLabel required={required} id="category">Categoria</InputLabel>
       <Select
           id="category"
           label="Categoria"

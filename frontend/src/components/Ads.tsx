@@ -1,11 +1,11 @@
 import { Button, Grid, withStyles } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import { useEffect, useState } from 'react';
-import Bike from '../../assets/bicicleta.jpg';
-import Carro from '../../assets/carro.jpg';
-import Casa from '../../assets/casa.jpg';
-import AdCard from '../../components/AdCard';
-import AdController from '../../controllers/AdController';
+import Bike from '../assets/bicicleta.jpg';
+import Carro from '../assets/carro.jpg';
+import Casa from '../assets/casa.jpg';
+import AdCard from './AdCard';
+import AdController from '../controllers/AdController';
 import RefreshIcon from '@material-ui/icons/Refresh';
 
 const StyledButton = withStyles({

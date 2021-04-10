@@ -2,7 +2,7 @@ import { Button, Grid } from '@material-ui/core';
 import PageBase from '../../components/PageBase';
 import Logotipo from '../../assets/ClassiWeb.svg';
 import Categories from './Categories';
-import Ads from './Ads';
+import Ads from '../../components/Ads';
 
 export default function Home() {
   return (

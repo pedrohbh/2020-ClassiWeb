@@ -7,6 +7,7 @@ import Login from './views/Login/Login'
 import NewAd from './views/NewAd/NewAd'
 import Ad from './views/Ad/Ad'
 import Users from './views/Users/Users';
+import Search from './views/Search/Search';
 
 export default function Routes() {
     return (
@@ -18,6 +19,7 @@ export default function Routes() {
                 <Route path='/newad' component={NewAd} />
                 <Route path='/ad' component={Ad} />
                 <Route path='/users' component={Users}/>
+                <Route path='/search' component={Search} />
             </Switch>
         </BrowserRouter>
     );

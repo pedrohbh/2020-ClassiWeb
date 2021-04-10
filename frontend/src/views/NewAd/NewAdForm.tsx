@@ -6,7 +6,7 @@ import Address from '../../components/Address';
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
 import AdController from '../../controllers/AdController';
 import CurrencyTextField from '@unicef/material-ui-currency-textfield';
-import Categories from './Categories';
+import Categories from '../../components/Categories';
 import getFormData from '../../utils/getFormData';
 
 const StyledButton = withStyles({
