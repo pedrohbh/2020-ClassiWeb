@@ -81,7 +81,9 @@ export default function RegisterForm() {
       ...formData, 
       address, 
       category, 
-      product_state: productState 
+      product_state: productState,
+      state: 1,
+      ownerId: "1b670b0f-ddeb-47bd-8567-63bf5b389110"
     };
 
     const price = newAd.price
@@ -94,7 +96,7 @@ export default function RegisterForm() {
 
     delete newAd.images; // Remover esta linha após estar configurado o recebimento de imagens no backend
 
-    console.log(newAd);
+    console.log(JSON.stringify(newAd));
 
     const res = await AdController.postAd(newAd);
     console.log(res);

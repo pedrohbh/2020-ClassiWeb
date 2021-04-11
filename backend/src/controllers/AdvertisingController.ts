@@ -24,7 +24,7 @@ export class AdvertisingController {
 
   @Post('/')
   @Returns(200, Advertising)
-  Post(@BodyParams(Advertising) ad: Partial<Advertising>) {
+  Post(@BodyParams() ad: Partial<Advertising>) {
     return this.adService.CreateAd(ad);
   }
 

@@ -13,8 +13,8 @@ export class CategoryController {
   private categoryService: CategoryService;
 
   @Get('/')
-  // @Authorize('jwt')
-  GetAll(@HeaderParams('auth') auth: string): Promise<Category[]> {
+  // @Authorize('jwt') 
+  GetAll(/*@HeaderParams('auth') auth: string*/): Promise<Category[]> {
     return this.categoryService.ListAllCategories();
   }
 

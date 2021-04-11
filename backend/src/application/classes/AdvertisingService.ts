@@ -90,15 +90,15 @@ export class AdvertisingService {
     const address = await this.addressService.CreateAddress(adJson.address);
     const owner = await this.userService.GetUserById(adJson.ownerId);
 
-    const ad = {
+    const { id } = await this.dao.Create({
       ...adJson,
       quantity: +(adJson.quantity ?? 1),
       address,
       owner,
       price: +(adJson.price ?? 0),
-    };
+    });
 
-    return this.dao.Create(ad);
+    return this.GetAdById(id);
   }
 
   async GetAdById(adId: string) {
