@@ -1,14 +1,14 @@
-import { Button, Grid } from '@material-ui/core';
+import { Button, Fab, FormControl, Grid, InputLabel, MenuItem, Select } from '@material-ui/core';
 import { createStyles, makeStyles, Theme, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import { validate as validatorCPF } from 'gerador-validador-cpf';
 import React, { useState } from 'react';
-import NumberFormat from 'react-number-format';
-import validator from 'validator';
 import Address from '../../components/Address';
-
-import UserController from '../../controllers/UserController';
+import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
+import AdController from '../../controllers/AdController';
+import CurrencyTextField from '@unicef/material-ui-currency-textfield';
+import Categories from '../../components/Categories';
 import getFormData from '../../utils/getFormData';
+import ProductState from '../../components/ProductState';
 
 const StyledButton = withStyles({
   root: {
@@ -37,129 +37,147 @@ const useStyles = makeStyles((theme: Theme) =>
     formContainer: {
       display: "flex",
       flexDirection: "column",
-      width: "80%",
+      width: "40%",
       alignItems: "center",
-      marginTop: "5%",
+      margin: "2%"
     },
   }),
 );
+
+const StyledAddPhotoAlternateIcon = withStyles({
+  root: {
+    color: '#c4c4c4'
+  }
+})((props: any) => <AddPhotoAlternateIcon {...props}/>);
+
+const StyledFab = withStyles({
+  root: {
+    backgroundColor: 'transparent',
+    '&:hover *': {
+      color: '#a4a4a4',
+      backgroundColor: 'transparent',
+    },
+    '&:hover': {
+      backgroundColor: 'transparent',
+    },
+    boxShadow: 'none',
+    border: '1px solid #c4c4c4'
+  }
+})((props: any) => <Fab {...props}/>);
 
 export default function RegisterForm() {
   const classes = useStyles();
 
   const [address, setAddress] = useState({});
-
-  const [cpfError, setCpfError] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-
-  const handleValidateEmail = event => {
-    const value = event.target.value ?? "";
-    
-    if (validator.isEmail(value)) {
-      setEmailError("");
-    } else {
-      setEmailError("E-mail inválido");
-    }
-  }
-
-  const handleValidateCPF = event => {
-    const value = event.target.value ?? "";
-    
-    if (validatorCPF(value)) {
-      setCpfError("");
-    } else {
-      setCpfError("CPF inválido");
-    }
-  }
-
-  const handleValidatePassword = event => {
-    const password = event
-      .target
-      .parentElement
-      .parentElement
-      .parentElement
-      .parentElement
-      .querySelector("#password")
-      .value;
-
-    const passwordConfirm = event.target.value;
-    
-    if (password === passwordConfirm) {
-      setPasswordError("");
-    } else {
-      setPasswordError("Senhas diferentes");
-    }
-  }
+  const [category, setCategory] = useState('');
+  const [productState, setProductState] = useState('');
 
   const handleSubmit = async event => {
     event.preventDefault();
 
     const formData = getFormData(event);
 
-    const newUser = { ...formData, address };
+    const newAd = { 
+      ...formData, 
+      address, 
+      category, 
+      product_state: productState,
+      state: 1,
+      ownerId: "e346f341-7881-44a2-83b7-81a1baeb22f9"
+    };
 
-    if(validatorCPF(newUser.cpf) && validator.isEmail(newUser.email) && newUser.password === newUser.passwordConfirm){
-      const token = await UserController.postUser(newUser);
-      console.log(token);
-      return;
-    }
+    const price = newAd.price
+      .replace('.', '')
+      .replace(',', '.');
+    
+    newAd.price = parseFloat(price);
+    newAd.quantity = parseInt(newAd.quantity, 10);
+
+    delete newAd.images; // Remover esta linha após estar configurado o recebimento de imagens no backend
+
+    console.log(JSON.stringify(newAd));
+
+    const res = await AdController.postAd(newAd);
+    console.log(res);
   }
 
   return (
     <Grid container direction="column" alignItems="center" style={{height: '100%', justifyContent: 'center'}}>
-      <h1 className={classes.text}>Cadastre-se para começar a usar!</h1>
+      <h1 className={classes.text}>Publique agora um novo anúncio!</h1>
+      
       <form className={classes.formContainer} autoComplete="off" onSubmit={handleSubmit}>
-
-          <Grid container alignItems="center" justify="space-around" spacing={1}>
+          <Grid container spacing={1}>
 
             <Grid item xs={12}>
-              <StyledTextField required id="name" label="Nome"/>
+              <StyledTextField required id="title" label="Nome"/>
             </Grid>
 
             <Grid item xs={12}>
-              <NumberFormat format="###.###.###-##" mask="_" customInput={(props) => (
-                <StyledTextField required id="cpf" label="CPF"
-                error={!!cpfError} helperText={cpfError} {...props} onBlur={handleValidateCPF}/>
-              )}/>
+              <CurrencyTextField 
+                required 
+                fullWidth 
+                id="price" 
+                label="Preço"
+                textAlign="left"
+                variant="outlined"
+                currencySymbol="R$"
+                decimalCharacter=","
+                digitGroupSeparator="."
+              />
             </Grid>
-
+            
             <Grid item xs={12}>
-              <Address onChange={ newAddress => setAddress(newAddress) }/>
-            </Grid>
-
-            <Grid item xs={12}>
-              <StyledTextField required id="email" type="email" label="E-mail" 
-                error={!!emailError} helperText={emailError} onBlur={handleValidateEmail} 
+              <StyledTextField 
+                required 
+                id="quantity" 
+                type="number" 
+                label="Quantidade Disponível" 
+                InputProps={{ inputProps: { min: 1 } }}
               />
             </Grid>
 
             <Grid item xs={12}>
-              <StyledTextField 
-                required 
-                id="password" 
-                type="password" 
-                label="Senha" 
-                inputProps={{ minLength: 8, maxLength: 100 }}/>
+              <Categories onChange={ selectedCategory => setCategory(selectedCategory) }/>
             </Grid>
 
             <Grid item xs={12}>
               <StyledTextField 
                 required 
-                id="passwordConfirm" 
-                type="password" 
-                label="Confirmar Senha"
-                error={!!passwordError} 
-                helperText={passwordError} 
-                onBlur={handleValidatePassword}/>
+                multiline 
+                id="description" 
+                label="Descrição" 
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <ProductState onChange={ selectedProductState => setProductState(selectedProductState) }/>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Address onChange={ newAddress => setAddress(newAddress) }/>
+            </Grid> 
+
+            <Grid item xs={12}>
+              {/* https://codesandbox.io/s/vj1q68zm25 */}
+              <input
+                multiple
+                type="file"
+                id="images"
+                accept="image/*"
+                style={{ display: 'none' }}
+                // onChange={this.handleUploadClick}
+              />
+              <label htmlFor="images">
+                <StyledFab component="span" >
+                  <StyledAddPhotoAlternateIcon  />
+                </StyledFab>
+              </label>
             </Grid>
 
           </Grid>
-
           <StyledButton type="submit" variant="contained">
-            Cadastrar!
+            Publicar
           </StyledButton>
-          
       </form>
     </Grid>
   );

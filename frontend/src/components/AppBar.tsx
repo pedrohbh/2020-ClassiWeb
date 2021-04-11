@@ -121,6 +121,13 @@ export default function MyAppBar({ showCreateNewAccount = true, showLogin = true
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleKey = (event) => {
+    if(event.key == 'Enter'){
+      localStorage.setItem('searchText', event.target.value);
+      window.location.href = '/search';
+    }
+  }
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -201,6 +208,7 @@ export default function MyAppBar({ showCreateNewAccount = true, showLogin = true
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'buscar' }}
+              onKeyUp={handleKey}
             />
           </div>
 

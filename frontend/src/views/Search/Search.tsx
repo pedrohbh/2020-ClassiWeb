@@ -6,7 +6,7 @@ import AdController from "../../controllers/AdController";
 import Filters from './Filters';
 
 const f = {
-  text: "",
+  text: localStorage.getItem('searchText'),
   address: {},
   category: "",
   min_price: "",
