@@ -16,7 +16,9 @@ export class AdvertisingDAO {
   }
 
   ReadAll() {
-    return this.repository.find();
+    return this.repository.find({
+      relations: ['category', 'address', 'owner', 'images'],
+    });
   }
 
   Read(id: string) {

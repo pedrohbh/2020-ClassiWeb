@@ -5,6 +5,8 @@ import { Between, FindConditions, LessThanOrEqual, MoreThanOrEqual } from 'typeo
 import { Address } from '../../domain/Address';
 import { Advertising, ProductState } from '../../domain/Advertising';
 import { AdvertisingDAO } from '../../persistence/AdvertisingDAO';
+import { CategoryDAO } from '../../persistence/CategoryDAO';
+import { UserDAO } from '../../persistence/UserDAO';
 import { AddressService } from './AddressService';
 import { UserService } from './UserService';
 
@@ -26,6 +28,12 @@ export class AdvertisingService {
   @Inject(AddressService)
   private readonly addressService: AddressService;
 
+  @Inject(UserDAO)
+  private readonly userDao: UserDAO;
+
+  @Inject(CategoryDAO)
+  private readonly categoryDAO: CategoryDAO;
+
   @Inject(UserService)
   private readonly userService: UserService;
 
@@ -33,13 +41,12 @@ export class AdvertisingService {
     const ads = await this.dao.ReadAll();
 
     return ads.map((ad) => ({
-      id: ad.id,
-      title: ad.title,
-      description: ad.description,
-      price: ad.price,
-      quantity: ad.quantity,
-      product_state: ad.product_state,
-      state: ad.state,
+      ...ad,
+      owner: ad.owner && {
+        id: ad.owner.id,
+        name: ad.owner.name,
+        email: ad.owner.email,
+      },
     }));
   }
 
@@ -87,18 +94,22 @@ export class AdvertisingService {
   }
 
   async CreateAd(adJson: Partial<Advertising>): Promise<Advertising> {
-    const address = await this.addressService.CreateAddress(adJson.address);
-    const owner = await this.userService.GetUserById(adJson.ownerId);
+    const [address, owner, category] = await Promise.all([
+      await this.addressService.CreateAddress(adJson.address),
+      await this.userDao.Read(adJson.ownerId),
+      await this.categoryDAO.Read(adJson.category),
+    ]);
 
-    const ad = {
+    const { id } = await this.dao.Create({
       ...adJson,
       quantity: +(adJson.quantity ?? 1),
+      category,
       address,
       owner,
       price: +(adJson.price ?? 0),
-    };
+    });
 
-    return this.dao.Create(ad);
+    return this.GetAdById(id);
   }
 
   async GetAdById(adId: string) {
@@ -106,7 +117,15 @@ export class AdvertisingService {
 
     // const owner = await this.userService.GetUserById(ownerId);
 
-    return { ...rest, images: images.map(({ id }) => ({ id })), owner };
+    return {
+      ...rest,
+      images: images.map(({ id }) => ({ id })),
+      owner: owner && {
+        id: owner.id,
+        name: owner.name,
+        email: owner.email,
+      },
+    };
   }
 
   async UpdateAd(id: string, ad: Partial<Advertising>) {
