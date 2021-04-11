@@ -15,16 +15,13 @@ export class PurchaseDAO {
     return this.repository.save(purchase);
   }
 
-  // ReadAll() {
-  //   return this.repository.find();
-  // }
+  Read(id: string) {
+    return this.repository.findOneOrFail(id, {
+      relations: ['client', 'ad'],
+    });
+  }
 
-  // Read(id: string) {
-  //   return this.repository.findOneOrFail(id);
-  // }
-
-  // async Delete(id: string) {
-  //   const deleteResults = await this.repository.delete(id);
-  //   return (deleteResults.affected ?? 0) > 0;
-  // }
+  Upadate(id: string, purchase: Partial<Purchase>) {
+    return this.repository.update(id, purchase);
+  }
 }

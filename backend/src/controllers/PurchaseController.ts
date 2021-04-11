@@ -1,9 +1,11 @@
 import {
+  BodyParams,
   Controller, Get, Inject, PathParams, Post,
 } from '@tsed/common';
 import { Returns } from '@tsed/schema';
 
-import { PurchaseService } from '../application/classes/PurchaseService';
+import { FeedbackBody, PurchaseService } from '../application/classes/PurchaseService';
+import { Purchase } from '../domain/Purchase';
 
 @Controller('/purchases')
 export class PurchaseController {
@@ -15,15 +17,15 @@ export class PurchaseController {
     return this.purchaseService.GetUserPurchases(userId);
   }
 
-  @Post('/:adId/:userId')
-  @Returns(200)
-  PostPurchase(@PathParams('adId') adId: string, @PathParams('userId') userId: string) {
-    return this.purchaseService.DoPurchase(userId, adId);
+  @Post('/feedback/:id')
+  @Returns(200, Purchase)
+  PostFeedback(@PathParams('id') id: string, @BodyParams() body: FeedbackBody) {
+    return this.purchaseService.SaveFeedback(id, body);
   }
 
   @Post('/:adId/:userId')
-  @Returns(200)
-  PostFeedback(@PathParams('adId') adId: string, @PathParams('userId') userId: string) {
-    return this.purchaseService.DoPurchase(userId, adId);
+  @Returns(200, Purchase)
+  PostPurchase(@PathParams('adId') adId: string, @PathParams('userId') userId: string) {
+    return this.purchaseService.DoPurchase(adId, userId);
   }
 }
