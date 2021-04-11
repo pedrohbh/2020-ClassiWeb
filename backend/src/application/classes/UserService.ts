@@ -1,6 +1,8 @@
 import { Inject, Service } from '@tsed/di';
 import { BadRequest } from '@tsed/exceptions';
 
+import { FindManyOptions } from 'typeorm';
+
 import { User } from '../../domain/User';
 import { UserDAO } from '../../persistence/UserDAO';
 import { AddressService } from './AddressService';
@@ -46,6 +48,15 @@ export class UserService {
       ...user,
       cpf: User.GetFormmatedCpf(user.cpf),
     };
+  }
+
+  async GetFromUser(userId: string, options: FindManyOptions<User>) {
+    const [user] = await this.dao.ReadWith({
+      ...options,
+      where: { id: userId, ...(options.where || {}) },
+    });
+
+    return { ...user };
   }
 
   ListAllUsers() {

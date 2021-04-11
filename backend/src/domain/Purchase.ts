@@ -1,6 +1,8 @@
 import { Property } from '@tsed/schema';
 
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn,
+} from 'typeorm';
 
 import { Advertising } from './Advertising';
 import { User } from './User';
@@ -22,10 +24,10 @@ export class Purchase {
   @CreateDateColumn()
   date: Date;
 
-  @Column({ type: 'int8' })
+  @Column({ type: 'int8', nullable: true })
   owner_feedback: Feedback;
 
-  @Column({ type: 'int8' })
+  @Column({ type: 'int8', nullable: true })
   client_feedback: Feedback;
 
   @ManyToOne(() => User, (user) => user.purchases)

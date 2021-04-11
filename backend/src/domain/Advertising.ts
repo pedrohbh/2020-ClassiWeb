@@ -69,6 +69,6 @@ export class Advertising {
 
   @AfterUpdate()
   updateAd() {
-      // Anúncio foi atualizado
+    // Anúncio foi atualizado
   }
 }
