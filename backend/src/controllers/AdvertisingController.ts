@@ -18,10 +18,6 @@ export class AdvertisingController {
   }
 
   @Post('/')
-<<<<<<< HEAD
-  @Returns(200, Advertising)
-=======
->>>>>>> c5f920d9f1aede693ae76cef872ee09e1dc22d8e
   Post(@BodyParams() ad: Partial<Advertising>) {
     return this.adService.CreateAd(ad);
   }
