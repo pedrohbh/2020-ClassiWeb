@@ -1,8 +1,4 @@
-import {
-  BodyParams, Controller, Delete, Get, Inject, PathParams, Post, Put,
-} from '@tsed/common';
-import { Returns } from '@tsed/schema';
-
+import { BodyParams, Controller, Delete, Get, Inject, PathParams, Post, Put } from '@tsed/common';
 import { AdFilter, AdvertisingService } from '../application/classes/AdvertisingService';
 import { Advertising } from '../domain/Advertising';
 
@@ -17,13 +13,15 @@ export class AdvertisingController {
   }
 
   @Get('/:id')
-  @Returns(200, Advertising)
   Get(@PathParams('id') id: string) {
     return this.adService.GetAdById(id);
   }
 
   @Post('/')
+<<<<<<< HEAD
   @Returns(200, Advertising)
+=======
+>>>>>>> c5f920d9f1aede693ae76cef872ee09e1dc22d8e
   Post(@BodyParams() ad: Partial<Advertising>) {
     return this.adService.CreateAd(ad);
   }
@@ -34,7 +32,6 @@ export class AdvertisingController {
   }
 
   @Put('/:id')
-  @Returns(200, Advertising)
   Put(@PathParams('id') id: string, @BodyParams() ad: Partial<Advertising>) {
     return this.adService.UpdateAd(id, ad);
   }
