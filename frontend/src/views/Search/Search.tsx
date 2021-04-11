@@ -6,18 +6,20 @@ import AdController from "../../controllers/AdController";
 import Filters from './Filters';
 
 const f = {
-  "text": "",
-  "product_state": "",
-  "min_price": "",
-  "max_price": "",
-  "address": {}
+  text: "",
+  address: {},
+  category: "",
+  min_price: "",
+  max_price: "",
+  product_state: ""
 };
 
-export default function Search({ filters = f }) {
+export default function Search({ initialFilters = f }) {
   const [ads, setAds] = useState([]);
   const [numberOfResults, setNumberOfResults] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [filters, setFilters] = useState(initialFilters);
 
   useEffect(() => {
     AdController.search(filters)
@@ -33,11 +35,29 @@ export default function Search({ filters = f }) {
       });
   }, []);
 
+  const handleChangeFilters = async newFilters => {
+    setFilters(newFilters);
+    setIsLoading(true);
+    setError(false);
+
+    AdController.search(newFilters)
+      .then(adsList => {
+        setIsLoading(false);
+        if (adsList) {
+          setAds(adsList[0]);
+          setNumberOfResults(adsList[1]);
+          setError(false);
+        } else {
+          setError(true);
+        }
+      });
+  }
+
   return (
     <PageBase footer={false}>
       <Grid container style={{ minHeight: 'calc(100% - 10vh)', height: 'max-content' }}>
 
-        <Filters />
+        <Filters onChange={ newFilters => handleChangeFilters(newFilters) }/>
 
         <Grid item xs={9} lg={10} style={{ flex: 1, maxHeight: 'max-content' }}>
           <Grid container>

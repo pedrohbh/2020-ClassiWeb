@@ -4,6 +4,7 @@ import Address from "../../components/Address";
 import Categories from "../../components/Categories";
 import CurrencyTextField from '@unicef/material-ui-currency-textfield';
 import { FaFilter } from 'react-icons/fa';
+import ProductState from "../../components/ProductState";
 
 const StyledButton = withStyles({
   root: {
@@ -17,9 +18,35 @@ const StyledButton = withStyles({
   },
 })((props: any) => <Button size="large" {...props}/>);
 
-export default function Filters() {
+export default function Filters({ onChange }) {
   const [category, setCategory] = useState('');
   const [address, setAddress] = useState({});
+  const [productState, setProductState] = useState('');
+
+  const handleChangeFilters = async event => {
+    event.preventDefault();
+    
+    const min_price = (document.querySelector('#min_price') as HTMLInputElement)?.value
+      .replace('.', '')
+      .replace(',', '.');
+
+    const max_price = (document.querySelector('#max_price') as HTMLInputElement)?.value
+      .replace('.', '')
+      .replace(',', '.');
+
+    const newFilters = {
+      text: "", // TODO Settar a string de busca
+      address, 
+      category, 
+      min_price,
+      max_price,
+      product_state: productState
+    };
+
+    // console.log(newFilters)
+
+    onChange(newFilters);
+  }
 
   return (
     <Grid
@@ -41,7 +68,17 @@ export default function Filters() {
           <Grid container spacing={2}>
 
             <Grid item xs={12}>
-              <Categories required={false} onChange={selectedCategory => setCategory(selectedCategory)} />
+              <Categories 
+                required={false} 
+                onChange={selectedCategory => setCategory(selectedCategory)} 
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <ProductState 
+                required={false} 
+                onChange={selectedProductState => setProductState(selectedProductState)} 
+              />
             </Grid>
 
             <Grid item xs={12}>
@@ -83,7 +120,7 @@ export default function Filters() {
             </Grid>
 
             <Grid item xs={12} style={{ display: 'flex', justifyContent: 'center' }}>
-              <StyledButton>
+              <StyledButton onClick={handleChangeFilters}>
                 <FaFilter style={{ fontSize: '15px', marginRight: '4.5px' }}/>
                 &nbsp;Filtrar
               </StyledButton>

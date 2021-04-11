@@ -8,6 +8,7 @@ import AdController from '../../controllers/AdController';
 import CurrencyTextField from '@unicef/material-ui-currency-textfield';
 import Categories from '../../components/Categories';
 import getFormData from '../../utils/getFormData';
+import ProductState from '../../components/ProductState';
 
 const StyledButton = withStyles({
   root: {
@@ -69,7 +70,7 @@ export default function RegisterForm() {
 
   const [address, setAddress] = useState({});
   const [category, setCategory] = useState('');
-  const [selectedState, setSelectedState] = useState();
+  const [productState, setProductState] = useState('');
 
   const handleSubmit = async event => {
     event.preventDefault();
@@ -78,10 +79,18 @@ export default function RegisterForm() {
 
     const newAd = { 
       ...formData, 
-      // address, 
+      address, 
       category, 
-      product_state: selectedState 
+      product_state: productState 
     };
+
+    const price = newAd.price
+      .replace('.', '')
+      .replace(',', '.');
+    
+    newAd.price = parseFloat(price);
+
+    newAd.quantity = parseInt(newAd.quantity, 10);
 
     delete newAd.images; // Remover esta linha após estar configurado o recebimento de imagens no backend
 
@@ -89,10 +98,6 @@ export default function RegisterForm() {
 
     const res = await AdController.postAd(newAd);
     console.log(res);
-  }
-
-  const handleSelectState = ({ target }) => {
-    setSelectedState(target.value);
   }
 
   return (
@@ -144,19 +149,7 @@ export default function RegisterForm() {
             </Grid>
 
             <Grid item xs={12}>
-              <FormControl variant="outlined" fullWidth>
-                <InputLabel required id="product_state">Estado</InputLabel>
-                <Select
-                  id="product_state"
-                  label="Estado"
-                  labelId="product_state"
-                  value={selectedState}
-                  onChange={handleSelectState}
-                >
-                  <MenuItem key='new' value={1}>Novo</MenuItem>
-                  <MenuItem key='secondhand' value={0}>Usado</MenuItem>
-                </Select>
-              </FormControl>
+              <ProductState onChange={ selectedProductState => setProductState(selectedProductState) }/>
             </Grid>
 
             <Grid item xs={12}>
