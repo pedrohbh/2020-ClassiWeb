@@ -6,6 +6,7 @@ import {
 
 import { Address } from '../../domain/Address';
 import { Advertising, ProductState } from '../../domain/Advertising';
+import { User } from '../../domain/User';
 import { AdvertisingDAO } from '../../persistence/AdvertisingDAO';
 import { CategoryDAO } from '../../persistence/CategoryDAO';
 import { UserDAO } from '../../persistence/UserDAO';
@@ -47,20 +48,24 @@ export class AdvertisingService {
   @Inject(WishListService)
   private readonly wishListService: WishListService;
 
-  async ListAllAds() {
-    const ads = await this.dao.ReadAll();
+  async ListAllAds(page: number, pageSize: number): Promise<[any[], number]> {
+    const [ads, total] = await this.dao.ReadAll(page, pageSize);
 
-    return ads.map((ad) => ({
+    return [ads.map((ad) => ({
       ...ad,
       owner: ad.owner && {
         id: ad.owner.id,
         name: ad.owner.name,
         email: ad.owner.email,
       },
-    }));
+    })), total];
   }
 
-  async ListAdsWith(filter: Partial<AdFilter>) {
+  async ListAdsWith(
+    filter: Partial<AdFilter>,
+    page: number,
+    pageSize: number,
+  ): Promise<[any[], number]> {
     const whereQuery = {} as FindConditions<Advertising>;
 
     if (filter.product_state) {
@@ -77,14 +82,14 @@ export class AdvertisingService {
       whereQuery.price = LessThanOrEqual(filter.max_price);
     }
 
-    const adsDB = await this.dao.ReadWith({
+    const [adsDB, total] = await this.dao.ReadWith({
       relations: ['category', 'address', 'owner'],
       where:
         filter.categories?.map((category) => ({
           ...whereQuery,
           category: { name: category },
         })) || whereQuery,
-    });
+    }, page, pageSize);
 
     const ads = adsDB
       .map((ad) => ({ ...ad }))
@@ -98,7 +103,7 @@ export class AdvertisingService {
           : true
         : true));
 
-    return [ads.length, ads];
+    return [ads, total];
   }
 
   async CreateAd(adJson: any): Promise<any> {
@@ -123,8 +128,6 @@ export class AdvertisingService {
   async GetAdById(adId: string) {
     const { images, owner, ...rest } = await this.dao.Read(adId);
 
-    // const owner = await this.userService.GetUserById(ownerId);
-
     return {
       ...rest,
       images: images.map(({ id }) => ({ id })),
@@ -138,11 +141,18 @@ export class AdvertisingService {
 
   async UpdateAd(id: string, adJSON: Partial<Advertising>) {
     await this.dao.Update(id, adJSON);
+
     const ad = await this.GetAdById(id);
     const users = await this.wishListService.GetListFromAd(id);
-    users.forEach((user) => {
-      this.emailService.send(user.email, 'Alteração no produto da sua lista de desejos', `Alteraram um produto que estava na sua lista de desejos: ${ad.title}`);
+
+    users.forEach((user: User) => {
+      this.emailService.send(
+        user.email,
+        'Alteração no produto da sua lista de desejos',
+        `Alteraram um produto que estava na sua lista de desejos: ${ad.title}`,
+      );
     });
+
     return ad;
   }
 
