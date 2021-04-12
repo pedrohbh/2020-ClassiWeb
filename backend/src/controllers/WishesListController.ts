@@ -1,9 +1,11 @@
 import {
-  Controller, Delete, Get, Inject, PathParams, Post,
+  Controller, Delete, Get, HeaderParams, Inject, PathParams, Post,
 } from '@tsed/common';
-import { Returns } from '@tsed/schema';
+import { Authorize } from '@tsed/passport';
 
 import { WishListService } from '../application/classes/WishListService';
+import { UserTypes } from '../domain/User';
+import { Roles } from '../middlewares/Roles';
 
 @Controller('/wish-list')
 export class WishesListController {
@@ -11,18 +13,31 @@ export class WishesListController {
   private wishListService: WishListService;
 
   @Get('/:userId')
-  GetAll(@PathParams('userId') id: string) {
+  @Roles([UserTypes.NORMAL])
+  @Authorize('jwt')
+  GetAll(@HeaderParams('auth') auth: string, @PathParams('userId') id: string) {
     return this.wishListService.GetList(id);
   }
 
   @Post('/:userId/:adId')
-  @Returns(200)
-  Post(@PathParams('userId') userId: string, @PathParams('adId') adId: string) {
+  @Roles([UserTypes.NORMAL])
+  @Authorize('jwt')
+  Post(
+    @HeaderParams('auth') auth: string,
+    @PathParams('userId') userId: string,
+    @PathParams('adId') adId: string,
+  ) {
     return this.wishListService.AddAdOnList(userId, adId);
   }
 
   @Delete('/:userId/:adId')
-  async Delete(@PathParams('userId') userId: string, @PathParams('adId') adId: string) {
+  @Roles([UserTypes.NORMAL])
+  @Authorize('jwt')
+  async Delete(
+    @HeaderParams('auth') auth: string,
+    @PathParams('userId') userId: string,
+    @PathParams('adId') adId: string,
+  ) {
     return this.wishListService.RemoveAdFromList(userId, adId);
   }
 }

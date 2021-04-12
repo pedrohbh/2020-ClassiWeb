@@ -1,6 +1,11 @@
-import { BodyParams, Controller, Delete, Get, Inject, PathParams, Post, Put } from '@tsed/common';
+import {
+  BodyParams, Controller, Delete, Get, HeaderParams, Inject, PathParams, Post, Put,
+} from '@tsed/common';
+import { Authorize } from '@tsed/passport';
+
 import { UserService } from '../application/classes/UserService';
-import { User } from '../domain/User';
+import { User, UserTypes } from '../domain/User';
+import { Roles } from '../middlewares/Roles';
 
 @Controller('/users')
 export class UserController {
@@ -20,7 +25,9 @@ export class UserController {
   }
 
   @Get('/:id')
-  async Get(@PathParams('id') userId: string) {
+  @Roles([UserTypes.NORMAL])
+  @Authorize('jwt')
+  async Get(@HeaderParams('auth') auth: string, @PathParams('id') userId: string) {
     return this.userService.GetUserById(userId);
   }
 
@@ -30,8 +37,16 @@ export class UserController {
   }
 
   @Put('/:id')
-  async Put(@PathParams('id') userId: string, @BodyParams() user: Partial<User>) {
-    const { id, name, email, address } = await this.userService.UpdateUser(userId, user);
+  @Roles([UserTypes.NORMAL])
+  @Authorize('jwt')
+  async Put(
+    @HeaderParams('auth') auth: string,
+    @PathParams('id') userId: string,
+    @BodyParams() user: Partial<User>,
+  ) {
+    const {
+      id, name, email, address,
+    } = await this.userService.UpdateUser(userId, user);
 
     return {
       id,
@@ -42,7 +57,9 @@ export class UserController {
   }
 
   @Delete('/:id')
-  async Delete(@PathParams('id') id: string) {
+  @Roles([UserTypes.NORMAL])
+  @Authorize('jwt')
+  async Delete(@HeaderParams('auth') auth: string, @PathParams('id') id: string) {
     await this.userService.DeleteUser(id);
   }
 }

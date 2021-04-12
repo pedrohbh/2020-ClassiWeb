@@ -1,4 +1,6 @@
-import { BodyParams, Controller, Get, Inject, Post } from '@tsed/common';
+import {
+  BodyParams, Controller, Get, Inject, Post,
+} from '@tsed/common';
 
 import { ImageService } from '../application/classes/ImageService';
 

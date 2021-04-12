@@ -11,7 +11,7 @@ class ImageRepository extends Repository<Image> {}
 export class ImageDAO {
   constructor(private readonly repository: ImageRepository) {}
 
-  Create(base64: string) {
+  Create(base64: any) {
     return this.repository.save(base64);
   }
 

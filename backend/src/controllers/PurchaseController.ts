@@ -1,11 +1,12 @@
 import {
   BodyParams,
-  Controller, Get, Inject, PathParams, Post,
+  Controller, Get, HeaderParams, Inject, PathParams, Post,
 } from '@tsed/common';
-import { Returns } from '@tsed/schema';
+import { Authorize } from '@tsed/passport';
 
 import { FeedbackBody, PurchaseService } from '../application/classes/PurchaseService';
-import { Purchase } from '../domain/Purchase';
+import { UserTypes } from '../domain/User';
+import { Roles } from '../middlewares/Roles';
 
 @Controller('/purchases')
 export class PurchaseController {
@@ -13,19 +14,31 @@ export class PurchaseController {
   private purchaseService: PurchaseService;
 
   @Get('/:userId')
-  GetAll(@PathParams('userId') userId: string) {
+  @Roles([UserTypes.NORMAL])
+  @Authorize('jwt')
+  GetAll(@HeaderParams('auth') auth: string, @PathParams('userId') userId: string) {
     return this.purchaseService.GetUserPurchases(userId);
   }
 
   @Post('/feedback/:id')
-  @Returns(200, Purchase)
-  PostFeedback(@PathParams('id') id: string, @BodyParams() body: FeedbackBody) {
+  @Roles([UserTypes.NORMAL])
+  @Authorize('jwt')
+  PostFeedback(
+    @HeaderParams('auth') auth: string,
+    @PathParams('id') id: string,
+    @BodyParams() body: FeedbackBody,
+  ) {
     return this.purchaseService.SaveFeedback(id, body);
   }
 
   @Post('/:adId/:userId')
-  @Returns(200, Purchase)
-  PostPurchase(@PathParams('adId') adId: string, @PathParams('userId') userId: string) {
+  @Roles([UserTypes.NORMAL])
+  @Authorize('jwt')
+  PostPurchase(
+    @HeaderParams('auth') auth: string,
+    @PathParams('adId') adId: string,
+    @PathParams('userId') userId: string,
+  ) {
     return this.purchaseService.DoPurchase(adId, userId);
   }
 }

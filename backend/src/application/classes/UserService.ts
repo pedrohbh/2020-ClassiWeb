@@ -5,6 +5,7 @@ import { FindManyOptions } from 'typeorm';
 
 import { User } from '../../domain/User';
 import { UserDAO } from '../../persistence/UserDAO';
+import { EmailService } from '../../services/email/EmailService';
 import { AddressService } from './AddressService';
 
 @Service()
@@ -15,6 +16,9 @@ export class UserService {
   @Inject(AddressService)
   private addressService: AddressService;
 
+  @Inject(EmailService)
+  private readonly emailService: EmailService;
+
   async CreateUser(user: Pick<User, 'name' |'cpf' | 'email' | 'password' | 'address'>) {
     const cpf = user.cpf.replace(/\D/g, '');
 
@@ -22,7 +26,7 @@ export class UserService {
       throw new BadRequest('CPF inválido');
     }
 
-    return this.dao.Create({
+    const newUser = await this.dao.Create({
       ...user,
       password: User.GetEncryptedPassword(user.password),
       address: user.address.id
@@ -30,6 +34,10 @@ export class UserService {
         : await this.addressService.CreateAddress(user.address),
       cpf,
     });
+
+    this.emailService.send(newUser.email, 'Bem vindo ao ClassiWeb', `Parabéns ${newUser.name} você acabou de criar sua conta!`);
+
+    return newUser;
   }
 
   async GetUserById(userId: string) {
@@ -44,16 +52,13 @@ export class UserService {
 
   async GetUserByEmail(email: string) {
     const [user] = await this.dao.ReadWith({ where: { email } });
-    return {
-      ...user,
-      cpf: User.GetFormmatedCpf(user.cpf),
-    };
+    return user;
   }
 
   async GetFromUser(userId: string, options: FindManyOptions<User>) {
     const [user] = await this.dao.ReadWith({
       ...options,
-      where: { id: userId, ...(options.where || {}) },
+      where: { id: userId, ...(options.where as any || {}) },
     });
 
     return { ...user };

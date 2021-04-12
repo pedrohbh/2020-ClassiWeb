@@ -11,6 +11,11 @@ import { Address } from './Address';
 import { Advertising } from './Advertising';
 import { Purchase } from './Purchase';
 
+export enum UserTypes {
+  ADMIN = 'Admin',
+  NORMAL = 'Normal'
+}
+
 @Entity()
 @Unique(['cpf', 'email'])
 export class User {
@@ -47,7 +52,7 @@ export class User {
   @OneToMany(() => Advertising, (ad) => ad.owner)
   ads: Advertising[];
 
-  @ManyToMany(() => Advertising)
+  @ManyToMany(() => Advertising, (ad) => ad.wishes_list)
   @JoinTable()
   wishes_list: Advertising[];
 

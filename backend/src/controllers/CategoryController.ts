@@ -2,10 +2,11 @@ import {
   BodyParams, Controller, Delete, Get, HeaderParams, Inject, PathParams, Post,
 } from '@tsed/common';
 import { Authorize } from '@tsed/passport';
-import { Returns } from '@tsed/schema';
 
 import { CategoryService } from '../application/classes/CategoryService';
 import { Category } from '../domain/Category';
+import { UserTypes } from '../domain/User';
+import { Roles } from '../middlewares/Roles';
 
 @Controller('/categories')
 export class CategoryController {
@@ -13,19 +14,27 @@ export class CategoryController {
   private categoryService: CategoryService;
 
   @Get('/')
-  // @Authorize('jwt') 
-  GetAll(/*@HeaderParams('auth') auth: string*/): Promise<Category[]> {
+  GetAll(): Promise<Category[]> {
     return this.categoryService.ListAllCategories();
   }
 
   @Post('/')
-  @Returns(200, Category)
-  Post(@BodyParams(Category) category: Category): Promise<Category> {
+  @Roles([UserTypes.ADMIN])
+  @Authorize('jwt')
+  Post(
+    @HeaderParams('auth') auth: string,
+    @BodyParams(Category) category: Category,
+  ): Promise<Category> {
     return this.categoryService.CreateCategory(category);
   }
 
   @Delete('/:name')
-  async Delete(@PathParams('name') name: string): Promise<void> {
+  @Roles([UserTypes.ADMIN])
+  @Authorize('jwt')
+  async Delete(
+    @HeaderParams('auth') auth: string,
+    @PathParams('name') name: string,
+  ): Promise<void> {
     await this.categoryService.Delete(name);
   }
 }

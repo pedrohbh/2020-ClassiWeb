@@ -15,9 +15,11 @@ export class AdvertisingDAO {
     return this.repository.save(ad);
   }
 
-  ReadAll() {
-    return this.repository.find({
+  ReadAll(page: number, pageSize: number) {
+    return this.repository.findAndCount({
       relations: ['category', 'address', 'owner', 'images'],
+      take: pageSize,
+      skip: (page - 1) * (pageSize ?? 0),
     });
   }
 
@@ -27,8 +29,12 @@ export class AdvertisingDAO {
     });
   }
 
-  ReadWith(options: FindManyOptions<Advertising>) {
-    return this.repository.find(options);
+  ReadWith(options: FindManyOptions<Advertising>, page = 1, pageSize = 0) {
+    return this.repository.findAndCount({
+      ...options,
+      take: pageSize,
+      skip: (page - 1) * (pageSize ?? 0),
+    });
   }
 
   Update(id: string, ad: Partial<Advertising>) {

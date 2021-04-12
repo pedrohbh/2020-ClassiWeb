@@ -1,14 +1,19 @@
 import { Inject, Service } from '@tsed/di';
 
-import { Between, FindConditions, LessThanOrEqual, MoreThanOrEqual } from 'typeorm';
+import {
+  Between, FindConditions, LessThanOrEqual, MoreThanOrEqual,
+} from 'typeorm';
 
 import { Address } from '../../domain/Address';
 import { Advertising, ProductState } from '../../domain/Advertising';
+import { User } from '../../domain/User';
 import { AdvertisingDAO } from '../../persistence/AdvertisingDAO';
 import { CategoryDAO } from '../../persistence/CategoryDAO';
 import { UserDAO } from '../../persistence/UserDAO';
+import { EmailService } from '../../services/email/EmailService';
 import { AddressService } from './AddressService';
 import { UserService } from './UserService';
+import { WishListService } from './WishListService';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export interface AdFilter {
@@ -37,20 +42,30 @@ export class AdvertisingService {
   @Inject(UserService)
   private readonly userService: UserService;
 
-  async ListAllAds() {
-    const ads = await this.dao.ReadAll();
+  @Inject(EmailService)
+  private readonly emailService: EmailService;
 
-    return ads.map((ad) => ({
+  @Inject(WishListService)
+  private readonly wishListService: WishListService;
+
+  async ListAllAds(page: number, pageSize: number): Promise<[any[], number]> {
+    const [ads, total] = await this.dao.ReadAll(page, pageSize);
+
+    return [ads.map((ad) => ({
       ...ad,
       owner: ad.owner && {
         id: ad.owner.id,
         name: ad.owner.name,
         email: ad.owner.email,
       },
-    }));
+    })), total];
   }
 
-  async ListAdsWith(filter: Partial<AdFilter>) {
+  async ListAdsWith(
+    filter: Partial<AdFilter>,
+    page: number,
+    pageSize: number,
+  ): Promise<[any[], number]> {
     const whereQuery = {} as FindConditions<Advertising>;
 
     if (Number.isInteger(filter.product_state)) {
@@ -67,33 +82,38 @@ export class AdvertisingService {
       whereQuery.price = LessThanOrEqual(filter.max_price);
     }
 
-    const adsDB = await this.dao.ReadWith({
+    const [adsDB, total] = await this.dao.ReadWith({
       relations: ['category', 'address', 'owner'],
       where:
         filter.categories?.map((category) => ({
           ...whereQuery,
           category: { name: category },
         })) || whereQuery,
-    });
+    }, page, pageSize);
 
     const ads = adsDB
-      .map((ad) => ({ ...ad }))
+      .map(({ owner, ...ad }) => ({
+        ...ad,
+        owner: owner && {
+          id: owner.id,
+          name: owner.name,
+          email: owner.email,
+        },
+      }))
       .filter((ad) => {
         const regex = new RegExp(filter.text || '', 'i');
         return regex.test(ad.title) || regex.test(ad.description);
       })
-      .filter((ad) =>
-        filter.address?.state
-          ? ad.address.state === filter.address.state && filter.address.city
-            ? ad.address.city === filter.address.city
-            : true
-          : true,
-      );
+      .filter((ad) => (filter.address?.state
+        ? ad.address.state === filter.address.state && filter.address.city
+          ? ad.address.city === filter.address.city
+          : true
+        : true));
 
-    return [ads.length, ads];
+    return [ads, total];
   }
 
-  async CreateAd(adJson: Partial<Advertising>): Promise<Advertising> {
+  async CreateAd(adJson: any): Promise<any> {
     const [address, owner, category] = await Promise.all([
       await this.addressService.CreateAddress(adJson.address),
       await this.userDao.Read(adJson.ownerId),
@@ -115,8 +135,6 @@ export class AdvertisingService {
   async GetAdById(adId: string) {
     const { images, owner, ...rest } = await this.dao.Read(adId);
 
-    // const owner = await this.userService.GetUserById(ownerId);
-
     return {
       ...rest,
       images: images.map(({ id }) => ({ id })),
@@ -128,9 +146,25 @@ export class AdvertisingService {
     };
   }
 
-  async UpdateAd(id: string, ad: Partial<Advertising>) {
-    await this.dao.Update(id, ad);
-    return this.GetAdById(id);
+  async UpdateAd(id: string, adJson: Partial<Advertising>) {
+    if (adJson.address) {
+      adJson.address = await this.addressService.CreateAddress(adJson.address);
+    }
+
+    await this.dao.Update(id, adJson);
+
+    const ad = await this.GetAdById(id);
+    const users = await this.wishListService.GetListFromAd(id);
+
+    users.forEach((user: User) => {
+      this.emailService.send(
+        user.email,
+        'Alteração no produto da sua lista de desejos',
+        `Alteraram um produto que estava na sua lista de desejos: ${ad.title}`,
+      );
+    });
+
+    return ad;
   }
 
   RemoveAd(id: string) {

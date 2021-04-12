@@ -1,6 +1,12 @@
-import { BodyParams, Controller, Delete, Get, Inject, PathParams, Post, Put } from '@tsed/common';
+import {
+  BodyParams, Controller, Delete, Get, HeaderParams, Inject, PathParams, Post, Put, Response,
+} from '@tsed/common';
+import { Authorize } from '@tsed/passport';
+
 import { AdFilter, AdvertisingService } from '../application/classes/AdvertisingService';
 import { Advertising } from '../domain/Advertising';
+import { UserTypes } from '../domain/User';
+import { Roles } from '../middlewares/Roles';
 
 @Controller('/ads')
 export class AdvertisingController {
@@ -8,8 +14,15 @@ export class AdvertisingController {
   private adService: AdvertisingService;
 
   @Get('/')
-  GetAll() {
-    return this.adService.ListAllAds();
+  async GetAll(
+    @HeaderParams('page') page: number,
+    @HeaderParams('page-size') pageSize: number,
+    @Response() response: Response,
+  ) {
+    const [ads, total] = await this.adService.ListAllAds(page ?? 1, pageSize);
+    response.setHeader('page-count', Math.ceil(total / pageSize) || 1);
+
+    return ads;
   }
 
   @Get('/:id')
@@ -18,22 +31,40 @@ export class AdvertisingController {
   }
 
   @Post('/')
-  Post(@BodyParams() ad: Partial<Advertising>) {
+  @Roles([UserTypes.NORMAL])
+  @Authorize('jwt')
+  Post(@HeaderParams('auth') auth: string, @BodyParams() ad: Partial<Advertising>) {
     return this.adService.CreateAd(ad);
   }
 
   @Post('/search')
-  PostSearch(@BodyParams() filter: Partial<AdFilter>) {
-    return this.adService.ListAdsWith(filter);
+  async PostSearch(
+    @HeaderParams('page') page: number,
+    @HeaderParams('page-size') pageSize: number,
+    @BodyParams() filter: Partial<AdFilter>,
+    @Response() response: Response,
+  ) {
+    const [ads, total] = await this.adService.ListAdsWith(filter, page ?? 1, pageSize);
+    response.setHeader('page-count', Math.ceil(total / pageSize) || 1);
+
+    return ads;
   }
 
   @Put('/:id')
-  Put(@PathParams('id') id: string, @BodyParams() ad: Partial<Advertising>) {
+  @Roles([UserTypes.NORMAL])
+  @Authorize('jwt')
+  Put(
+    @HeaderParams('auth') auth: string,
+    @PathParams('id') id: string,
+    @BodyParams() ad: Partial<Advertising>,
+  ) {
     return this.adService.UpdateAd(id, ad);
   }
 
   @Delete('/:id')
-  async Delete(@PathParams('id') id: string) {
+  @Roles([UserTypes.NORMAL])
+  @Authorize('jwt')
+  async Delete(@HeaderParams('auth') auth: string, @PathParams('id') id: string) {
     await this.adService.RemoveAd(id);
   }
 }
