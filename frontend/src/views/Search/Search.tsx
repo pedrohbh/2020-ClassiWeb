@@ -6,7 +6,7 @@ import AdController from "../../controllers/AdController";
 import Filters from './Filters';
 
 const f = {
-  text: localStorage.getItem('searchText'),
+  text: "", // localStorage.getItem('searchText'),
   address: {},
   category: "",
   min_price: "",
@@ -24,10 +24,11 @@ export default function Search({ initialFilters = f }) {
   useEffect(() => {
     AdController.search(filters)
       .then(adsList => {
+        console.log(adsList[1])
         setIsLoading(false);
         if (adsList) {
-          setAds(adsList[0]);
-          setNumberOfResults(adsList[1]);
+          setAds(adsList[1]);
+          setNumberOfResults(adsList[0]);
           setError(false);
         } else {
           setError(true);
@@ -44,8 +45,8 @@ export default function Search({ initialFilters = f }) {
       .then(adsList => {
         setIsLoading(false);
         if (adsList) {
-          setAds(adsList[0]);
-          setNumberOfResults(adsList[1]);
+          setAds(adsList[1]);
+          setNumberOfResults(adsList[0]);
           setError(false);
         } else {
           setError(true);

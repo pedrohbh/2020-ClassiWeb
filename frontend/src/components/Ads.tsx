@@ -57,14 +57,14 @@ export default function Ads({ ads, isLoading, error, header="" }) {
                 </Grid>
 
                 {
-                  ads.map(({ id, title, price, imgRef, city, uf }) => (
+                  ads.map(({ id, title, price, imgRef, address }) => (
                     <Grid item key={id}>
                       <AdCard
                         title={title}
                         price={price}
                         imgRef={imgRef}
-                        city={city}
-                        UF={uf}
+                        city={address.city}
+                        UF={address.state}
                       />
                     </Grid>
                   ))
