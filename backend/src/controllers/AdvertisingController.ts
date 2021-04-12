@@ -1,9 +1,12 @@
 import {
   BodyParams, Controller, Delete, Get, HeaderParams, Inject, PathParams, Post, Put, Response,
 } from '@tsed/common';
+import { Authorize } from '@tsed/passport';
 
 import { AdFilter, AdvertisingService } from '../application/classes/AdvertisingService';
 import { Advertising } from '../domain/Advertising';
+import { UserTypes } from '../domain/User';
+import { Roles } from '../middlewares/Roles';
 
 @Controller('/ads')
 export class AdvertisingController {
@@ -28,7 +31,9 @@ export class AdvertisingController {
   }
 
   @Post('/')
-  Post(@BodyParams() ad: Partial<Advertising>) {
+  @Roles([UserTypes.NORMAL])
+  @Authorize('jwt')
+  Post(@HeaderParams('auth') auth: string, @BodyParams() ad: Partial<Advertising>) {
     return this.adService.CreateAd(ad);
   }
 
@@ -46,12 +51,20 @@ export class AdvertisingController {
   }
 
   @Put('/:id')
-  Put(@PathParams('id') id: string, @BodyParams() ad: Partial<Advertising>) {
+  @Roles([UserTypes.NORMAL])
+  @Authorize('jwt')
+  Put(
+    @HeaderParams('auth') auth: string,
+    @PathParams('id') id: string,
+    @BodyParams() ad: Partial<Advertising>,
+  ) {
     return this.adService.UpdateAd(id, ad);
   }
 
   @Delete('/:id')
-  async Delete(@PathParams('id') id: string) {
+  @Roles([UserTypes.NORMAL])
+  @Authorize('jwt')
+  async Delete(@HeaderParams('auth') auth: string, @PathParams('id') id: string) {
     await this.adService.RemoveAd(id);
   }
 }

@@ -11,6 +11,11 @@ import { Address } from './Address';
 import { Advertising } from './Advertising';
 import { Purchase } from './Purchase';
 
+export enum UserTypes {
+  ADMIN = 'Admin',
+  NORMAL = 'Normal'
+}
+
 @Entity()
 @Unique(['cpf', 'email'])
 export class User {

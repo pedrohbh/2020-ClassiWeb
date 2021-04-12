@@ -7,7 +7,7 @@ import { IStrategyOptions, Strategy } from 'passport-local';
 import { AdminService } from '../application/classes/AdminService';
 import { UserService } from '../application/classes/UserService';
 import { Admin } from '../domain/Admin';
-import { User } from '../domain/User';
+import { User, UserTypes } from '../domain/User';
 import { JWT_SUPER_SECRET } from './JwtProtocol';
 
 export type Credentials = {
@@ -44,7 +44,10 @@ export class LoginLocalProtocol implements OnVerify {
       if (error) return;
 
       token = jwt.sign(
-        { id: result.id, admin: result instanceof Admin },
+        {
+          id: result.id,
+          role: result instanceof Admin ? UserTypes.ADMIN : UserTypes.NORMAL,
+        },
         JWT_SUPER_SECRET,
         { expiresIn: '1d' },
       );

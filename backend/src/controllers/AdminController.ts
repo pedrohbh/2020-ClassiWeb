@@ -1,9 +1,12 @@
 import {
-  BodyParams, Controller, Delete, Get, Inject, PathParams, Post,
+  BodyParams, Controller, Delete, Get, HeaderParams, Inject, PathParams, Post,
 } from '@tsed/common';
+import { Authorize } from '@tsed/passport';
 
 import { AdminService } from '../application/classes/AdminService';
 import { Admin } from '../domain/Admin';
+import { UserTypes } from '../domain/User';
+import { Roles } from '../middlewares/Roles';
 
 @Controller('/admin')
 export class AdminController {
@@ -22,7 +25,9 @@ export class AdminController {
   }
 
   @Get('/:id')
-  async Get(@PathParams('id') id: string) {
+  @Roles([UserTypes.ADMIN])
+  @Authorize('jwt')
+  async Get(@HeaderParams('auth') auth: string, @PathParams('id') id: string) {
     return this.adminService.GetAdminById(id);
   }
 
@@ -34,7 +39,9 @@ export class AdminController {
   }
 
   @Delete('/:id')
-  async Delete(@PathParams('id') id: string) {
+  @Roles([UserTypes.ADMIN])
+  @Authorize('jwt')
+  async Delete(@HeaderParams('auth') auth: string, @PathParams('id') id: string) {
     await this.adminService.DeleteAdmin(id);
   }
 }
