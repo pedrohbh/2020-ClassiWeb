@@ -35,7 +35,7 @@ export class UserService {
       cpf,
     });
 
-    this.emailService.send(newUser.email, "Bem vindo ao ClassiWeb", `Parabéns ${newUser.name} você acabou de criar sua conta!`);
+    this.emailService.send(newUser.email, 'Bem vindo ao ClassiWeb', `Parabéns ${newUser.name} você acabou de criar sua conta!`);
 
     return newUser;
   }
@@ -52,16 +52,13 @@ export class UserService {
 
   async GetUserByEmail(email: string) {
     const [user] = await this.dao.ReadWith({ where: { email } });
-    return {
-      ...user,
-      cpf: User.GetFormmatedCpf(user.cpf),
-    };
+    return user;
   }
 
   async GetFromUser(userId: string, options: FindManyOptions<User>) {
     const [user] = await this.dao.ReadWith({
       ...options,
-      where: { id: userId, ...(options.where || {}) },
+      where: { id: userId, ...(options.where as any || {}) },
     });
 
     return { ...user };

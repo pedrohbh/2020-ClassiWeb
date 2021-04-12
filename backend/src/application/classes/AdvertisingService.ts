@@ -1,6 +1,8 @@
 import { Inject, Service } from '@tsed/di';
 
-import { Between, FindConditions, LessThanOrEqual, MoreThanOrEqual } from 'typeorm';
+import {
+  Between, FindConditions, LessThanOrEqual, MoreThanOrEqual,
+} from 'typeorm';
 
 import { Address } from '../../domain/Address';
 import { Advertising, ProductState } from '../../domain/Advertising';
@@ -90,18 +92,16 @@ export class AdvertisingService {
         const regex = new RegExp(filter.text || '', 'i');
         return regex.test(ad.title) || regex.test(ad.description);
       })
-      .filter((ad) =>
-        filter.address?.state
-          ? ad.address.state === filter.address.state && filter.address.city
-            ? ad.address.city === filter.address.city
-            : true
-          : true,
-      );
+      .filter((ad) => (filter.address?.state
+        ? ad.address.state === filter.address.state && filter.address.city
+          ? ad.address.city === filter.address.city
+          : true
+        : true));
 
     return [ads.length, ads];
   }
 
-  async CreateAd(adJson: Partial<Advertising>): Promise<Advertising> {
+  async CreateAd(adJson: any): Promise<any> {
     const [address, owner, category] = await Promise.all([
       await this.addressService.CreateAddress(adJson.address),
       await this.userDao.Read(adJson.ownerId),
@@ -140,9 +140,9 @@ export class AdvertisingService {
     await this.dao.Update(id, adJSON);
     const ad = await this.GetAdById(id);
     const users = await this.wishListService.GetListFromAd(id);
-    users.forEach(user => {
-      this.emailService.send(user.email, "Alteração no produto da sua lista de desejos", `Alteraram um produto que estava na sua lista de desejos: ${ad.title}`);
-    })
+    users.forEach((user) => {
+      this.emailService.send(user.email, 'Alteração no produto da sua lista de desejos', `Alteraram um produto que estava na sua lista de desejos: ${ad.title}`);
+    });
     return ad;
   }
 
