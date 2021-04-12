@@ -29,4 +29,15 @@ export default class AdController {
         return undefined;
       })
   }
+
+  static images(data) {
+    return api.post('/images', data)
+      .then(response => {
+        console.log(response.data);
+        return response.data;
+      }).catch(e => {
+        console.error(e);
+        return undefined;
+      })
+  }
 }

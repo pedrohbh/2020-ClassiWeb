@@ -72,6 +72,17 @@ export default function RegisterForm() {
   const [category, setCategory] = useState('');
   const [productState, setProductState] = useState('');
 
+  function handleUploadClick(){
+    var formData = new FormData();
+    const input : any = document.querySelector('#images');
+    [...input.files].forEach(element => {
+      formData.append(element.name,element);
+    });
+
+    const ret = AdController.images(input.files);
+    console.log(ret);
+  }
+
   const handleSubmit = async event => {
     event.preventDefault();
 
@@ -166,7 +177,7 @@ export default function RegisterForm() {
                 id="images"
                 accept="image/*"
                 style={{ display: 'none' }}
-                // onChange={this.handleUploadClick}
+                onChange={handleUploadClick}
               />
               <label htmlFor="images">
                 <StyledFab component="span" >
