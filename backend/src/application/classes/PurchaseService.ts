@@ -8,6 +8,7 @@ import { Feedback, Purchase } from '../../domain/Purchase';
 import { AdvertisingDAO } from '../../persistence/AdvertisingDAO';
 import { PurchaseDAO } from '../../persistence/PurchaseDAO';
 import { UserDAO } from '../../persistence/UserDAO';
+import { EmailService } from '../../services/email/EmailService';
 import { AdvertisingService } from './AdvertisingService';
 import { UserService } from './UserService';
 
@@ -34,6 +35,9 @@ export class PurchaseService {
 
   @Inject(AdvertisingDAO)
   private readonly adDao: AdvertisingDAO;
+
+  @Inject(EmailService)
+  private readonly emailService: EmailService;
 
   async GetUserPurchases(userId: string) {
     const user = await this.userService.GetFromUser(userId, {
@@ -62,6 +66,9 @@ export class PurchaseService {
         ? AdvertisingState.HIDDEN
         : AdvertisingState.VISIBLE,
     });
+
+    //Envia e-mail
+    this.emailService.send(ad.owner.email, "Compraram seu produto", `Realizaram a compra do seu produto ${ad.title}`);
 
     return {
       ...purchase,
