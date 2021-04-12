@@ -26,8 +26,8 @@ export default function Search({ initialFilters = f }) {
       .then(adsList => {
         setIsLoading(false);
         if (adsList) {
-          setAds(adsList[1]);
-          setNumberOfResults(adsList[0]);
+          setAds(adsList);
+          setNumberOfResults(adsList.length);
           setError(false);
         } else {
           setError(true);
@@ -42,15 +42,12 @@ export default function Search({ initialFilters = f }) {
     setIsLoading(true);
     setError(false);
 
-    console.log(newFilters);
-
     AdController.search(newFilters)
       .then(adsList => {
         setIsLoading(false);
         if (adsList) {
-          setAds(adsList[1]);
-          console.log(adsList[1]);
-          setNumberOfResults(adsList[0]);
+          setAds(adsList);
+          setNumberOfResults(adsList.length);
           setError(false);
         } else {
           setError(true);

@@ -12,6 +12,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Logotipo from '../../assets/ClassiWeb.svg';
 import PageBase from '../../components/PageBase';
+import AuthController from '../../controllers/AuthController';
+import getFormData from '../../utils/getFormData';
 
 function Copyright() {
   return (
@@ -52,6 +54,14 @@ const useStyles = makeStyles((theme) => ({
 export default function Login() {
   const classes = useStyles();
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const { email, password } = getFormData(event);
+    
+    AuthController.login(email, password);
+  }
+
   return (
     <PageBase footer={false} login={false}>
       <Grid container style={{height: '100%'}}>
@@ -65,7 +75,7 @@ export default function Login() {
             <Typography component="h1" variant="h5">
               Identifique-se
             </Typography>
-            <form className={classes.form} noValidate>
+            <form className={classes.form} noValidate onSubmit={handleSubmit}>
               <TextField
                 variant="outlined"
                 margin="normal"

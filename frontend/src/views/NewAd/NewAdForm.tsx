@@ -107,9 +107,9 @@ export default function RegisterForm() {
     };
 
     const price = newAd.price
-      .replace('.', '')
-      .replace(',', '.');
-    
+      .replaceAll('.', '')
+      .replaceAll(',', '.');
+
     newAd.price = parseFloat(price);
 
     newAd.quantity = parseInt(newAd.quantity, 10);

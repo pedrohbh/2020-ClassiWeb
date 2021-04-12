@@ -43,7 +43,7 @@ export default function Filters({ onChange }) {
     try {
       categories = JSON.parse(category);
     } catch (error) {
-      categories = [category];
+      categories = category === "" ? [] : [category];
     };
 
     const newFilters = {
@@ -54,6 +54,8 @@ export default function Filters({ onChange }) {
       max_price,
       product_state: productState
     };
+
+    console.log(newFilters);
 
     onChange(newFilters);
   }
