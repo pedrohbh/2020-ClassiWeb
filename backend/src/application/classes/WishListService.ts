@@ -56,10 +56,10 @@ export class WishListService {
 
   async GetListFromAd(id: string) {
     const [ad] = await this.adDao.ReadWith({
-      where: {id},
+      where: { id },
       relations: ['wishes_list'],
     });
 
-    return ad.wishes_list.map((user) => ({ ...user }));
+    return (ad.wishes_list || []).map((user: User) => ({ ...user }));
   }
 }

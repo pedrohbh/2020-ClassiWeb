@@ -68,7 +68,7 @@ export class AdvertisingService {
   ): Promise<[any[], number]> {
     const whereQuery = {} as FindConditions<Advertising>;
 
-    if (filter.product_state) {
+    if (Number.isInteger(filter.product_state)) {
       whereQuery.product_state = filter.product_state;
     }
 
@@ -92,7 +92,14 @@ export class AdvertisingService {
     }, page, pageSize);
 
     const ads = adsDB
-      .map((ad) => ({ ...ad }))
+      .map(({ owner, ...ad }) => ({
+        ...ad,
+        owner: owner && {
+          id: owner.id,
+          name: owner.name,
+          email: owner.email,
+        },
+      }))
       .filter((ad) => {
         const regex = new RegExp(filter.text || '', 'i');
         return regex.test(ad.title) || regex.test(ad.description);
@@ -139,8 +146,12 @@ export class AdvertisingService {
     };
   }
 
-  async UpdateAd(id: string, adJSON: Partial<Advertising>) {
-    await this.dao.Update(id, adJSON);
+  async UpdateAd(id: string, adJson: Partial<Advertising>) {
+    if (adJson.address) {
+      adJson.address = await this.addressService.CreateAddress(adJson.address);
+    }
+
+    await this.dao.Update(id, adJson);
 
     const ad = await this.GetAdById(id);
     const users = await this.wishListService.GetListFromAd(id);
