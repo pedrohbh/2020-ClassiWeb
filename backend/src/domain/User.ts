@@ -47,7 +47,7 @@ export class User {
   @OneToMany(() => Advertising, (ad) => ad.owner)
   ads: Advertising[];
 
-  @ManyToMany(() => Advertising)
+  @ManyToMany(() => Advertising, (ad) => ad.wishes_list)
   @JoinTable()
   wishes_list: Advertising[];
 

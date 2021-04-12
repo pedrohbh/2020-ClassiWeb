@@ -3,6 +3,7 @@ import { Inject, Service } from '@tsed/di';
 import { getConnection } from 'typeorm';
 
 import { Advertising } from '../../domain/Advertising';
+import { User } from '../../domain/User';
 import { AdvertisingDAO } from '../../persistence/AdvertisingDAO';
 import { UserDAO } from '../../persistence/UserDAO';
 import { UserService } from './UserService';
@@ -51,5 +52,14 @@ export class WishListService {
     await this.connection.manager.save(user);
 
     return this.GetList(userId);
+  }
+
+  async GetListFromAd(id: string) {
+    const [ad] = await this.adDao.ReadWith({
+      where: {id},
+      relations: ['wishes_list'],
+    });
+
+    return ad.wishes_list.map((user) => ({ ...user }));
   }
 }

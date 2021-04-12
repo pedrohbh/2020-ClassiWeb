@@ -7,8 +7,10 @@ import { Advertising, ProductState } from '../../domain/Advertising';
 import { AdvertisingDAO } from '../../persistence/AdvertisingDAO';
 import { CategoryDAO } from '../../persistence/CategoryDAO';
 import { UserDAO } from '../../persistence/UserDAO';
+import { EmailService } from '../../services/email/EmailService';
 import { AddressService } from './AddressService';
 import { UserService } from './UserService';
+import { WishListService } from './WishListService';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export interface AdFilter {
@@ -36,6 +38,12 @@ export class AdvertisingService {
 
   @Inject(UserService)
   private readonly userService: UserService;
+
+  @Inject(EmailService)
+  private readonly emailService: EmailService;
+
+  @Inject(WishListService)
+  private readonly wishListService: WishListService;
 
   async ListAllAds() {
     const ads = await this.dao.ReadAll();
@@ -128,9 +136,14 @@ export class AdvertisingService {
     };
   }
 
-  async UpdateAd(id: string, ad: Partial<Advertising>) {
-    await this.dao.Update(id, ad);
-    return this.GetAdById(id);
+  async UpdateAd(id: string, adJSON: Partial<Advertising>) {
+    await this.dao.Update(id, adJSON);
+    const ad = await this.GetAdById(id);
+    const users = await this.wishListService.GetListFromAd(id);
+    users.forEach(user => {
+      this.emailService.send(user.email, "Alteração no produto da sua lista de desejos", `Alteraram um produto que estava na sua lista de desejos: ${ad.title}`);
+    })
+    return ad;
   }
 
   RemoveAd(id: string) {
