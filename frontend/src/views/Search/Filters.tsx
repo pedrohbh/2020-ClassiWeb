@@ -1,4 +1,4 @@
-import { Button, Grid, withStyles } from "@material-ui/core";
+import { Button, Grid, TextField, withStyles } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import Address from "../../components/Address";
 import Categories from "../../components/Categories";
@@ -18,7 +18,10 @@ const StyledButton = withStyles({
   },
 })((props: any) => <Button size="large" {...props}/>);
 
+const StyledTextField = props => <TextField fullWidth variant="outlined" {...props} />
+
 export default function Filters({ onChange }) {
+  const [text, setText] = useState(localStorage.getItem('searchText'));
   const [category, setCategory] = useState('');
   const [address, setAddress] = useState({});
   const [productState, setProductState] = useState('');
@@ -34,16 +37,23 @@ export default function Filters({ onChange }) {
       .replace('.', '')
       .replace(',', '.');
 
+    let categories;
+    
+    // Tenta converter as categorias para um array
+    try {
+      categories = JSON.parse(category);
+    } catch (error) {
+      categories = [category];
+    };
+
     const newFilters = {
-      text: "", // TODO Settar a string de busca
+      text,
       address, 
-      category, 
+      categories, 
       min_price,
       max_price,
       product_state: productState
     };
-
-    // console.log(newFilters)
 
     onChange(newFilters);
   }
@@ -66,6 +76,15 @@ export default function Filters({ onChange }) {
         <Grid item>
 
           <Grid container spacing={2}>
+
+            <Grid item xs={12}>
+              <StyledTextField
+                variant="outlined"
+                label="Texto da busca"
+                value={text}
+                onChange={ event => setText(event.target.value) }
+              />
+            </Grid>
 
             <Grid item xs={12}>
               <Categories 

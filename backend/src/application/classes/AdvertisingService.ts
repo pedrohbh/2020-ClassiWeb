@@ -53,7 +53,7 @@ export class AdvertisingService {
   async ListAdsWith(filter: Partial<AdFilter>) {
     const whereQuery = {} as FindConditions<Advertising>;
 
-    if (filter.product_state) {
+    if (Number.isInteger(filter.product_state)) {
       whereQuery.product_state = filter.product_state;
     }
 

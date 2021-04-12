@@ -29,6 +29,9 @@ export default function Categories({ onChange, required = true }) {
           value={selectedCategory}
           onChange={handleSelectCategory}
       >
+        { !required && 
+          <MenuItem key={'Todas'} value={JSON.stringify(categories.map(({ name }) => name )) }>{'Todas'}</MenuItem> 
+        }
         {
             categories.map(({ name }) => (
               <MenuItem key={name} value={name}>{name}</MenuItem>

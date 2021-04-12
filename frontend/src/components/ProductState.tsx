@@ -1,5 +1,6 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
 import { useState } from "react";
+import { ProductState as State } from '../controllers/AdController';
 
 export default function ProductState({ required = true, onChange }) {
   const [selectedState, setSelectedState] = useState();
@@ -19,8 +20,8 @@ export default function ProductState({ required = true, onChange }) {
         value={selectedState}
         onChange={handleSelectState}
       >
-        <MenuItem key='new' value={1}>Novo</MenuItem>
-        <MenuItem key='secondhand' value={0}>Usado</MenuItem>
+        <MenuItem key='new' value={State.NEW}>Novo</MenuItem>
+        <MenuItem key='secondhand' value={State.SECONDHAND}>Usado</MenuItem>
       </Select>
     </FormControl>
   );

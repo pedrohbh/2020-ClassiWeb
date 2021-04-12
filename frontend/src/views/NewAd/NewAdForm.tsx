@@ -9,6 +9,7 @@ import CurrencyTextField from '@unicef/material-ui-currency-textfield';
 import Categories from '../../components/Categories';
 import getFormData from '../../utils/getFormData';
 import ProductState from '../../components/ProductState';
+import { AdvertisingState } from '../../controllers/AdController';
 
 const StyledButton = withStyles({
   root: {
@@ -72,14 +73,22 @@ export default function RegisterForm() {
   const [category, setCategory] = useState('');
   const [productState, setProductState] = useState('');
 
-  function handleUploadClick(){
-    var formData = new FormData();
+  async function handleUploadClick(){
     const input : any = document.querySelector('#images');
-    [...input.files].forEach(element => {
-      formData.append(element.name,element);
-    });
 
-    const ret = AdController.images(input.files);
+    function getBase64(file) {
+      return new Promise(resolve => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.readAsDataURL(file);
+      });
+    }
+
+    const files = await Promise.all([...input.files].map(element => {
+      return getBase64(element);
+    }));
+
+    const ret = await AdController.images({files});
     console.log(ret);
   }
 
@@ -93,8 +102,8 @@ export default function RegisterForm() {
       address, 
       category, 
       product_state: productState,
-      state: 1,
-      ownerId: "1b670b0f-ddeb-47bd-8567-63bf5b389110"
+      ownerId: "1b670b0f-ddeb-47bd-8567-63bf5b389110",
+      state: AdvertisingState.VISIBLE
     };
 
     const price = newAd.price

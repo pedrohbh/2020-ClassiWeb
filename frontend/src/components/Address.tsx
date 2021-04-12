@@ -48,6 +48,7 @@ export default function Address({ onChange }) {
   const handleSelectUF = ({ target }) => {
     setSelectedUF(target.value);
     setSelectedCity("");
+    onChange({ state: target.value });
   };
 
   const handleSelectCity = ({ target }) => {

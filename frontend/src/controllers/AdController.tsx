@@ -1,5 +1,15 @@
 import api from '../services/api';
 
+export enum ProductState {
+  NEW,
+  SECONDHAND,
+}
+
+export enum AdvertisingState {
+  VISIBLE,
+  HIDDEN,
+}
+
 export default class AdController {
   static getAll() {
     return api.get('/ads')
@@ -31,6 +41,7 @@ export default class AdController {
   }
 
   static images(data) {
+    console.log(data);
     return api.post('/images', data)
       .then(response => {
         console.log(response.data);
