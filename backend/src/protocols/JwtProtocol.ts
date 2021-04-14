@@ -1,6 +1,7 @@
 import { Inject, Req } from '@tsed/common';
 import { Arg, OnVerify, Protocol } from '@tsed/passport';
 
+import jwt from 'jsonwebtoken';
 import { ExtractJwt, Strategy, StrategyOptions } from 'passport-jwt';
 
 import { UserService } from '../application/classes/UserService';
@@ -23,5 +24,10 @@ export class JwtProtocol implements OnVerify {
     const user = await this.userService.GetUserById(jwtPayload.id);
 
     return user || false;
+  }
+
+  static getUserIdFromToken(token: string) {
+    const { id } = jwt.decode(token) as any;
+    return id;
   }
 }

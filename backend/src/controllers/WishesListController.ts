@@ -6,38 +6,42 @@ import { Authorize } from '@tsed/passport';
 import { WishListService } from '../application/classes/WishListService';
 import { UserTypes } from '../domain/User';
 import { Roles } from '../middlewares/Roles';
+import { JwtProtocol } from '../protocols/JwtProtocol';
 
 @Controller('/wish-list')
 export class WishesListController {
   @Inject(WishListService)
   private wishListService: WishListService;
 
-  @Get('/:userId')
+  @Get('/')
   @Roles([UserTypes.NORMAL])
   @Authorize('jwt')
-  GetAll(@HeaderParams('auth') auth: string, @PathParams('userId') id: string) {
-    return this.wishListService.GetList(id);
+  GetAll(
+    @HeaderParams('auth') auth: string,
+  ) {
+    const userId = JwtProtocol.getUserIdFromToken(auth);
+    return this.wishListService.GetList(userId);
   }
 
-  @Post('/:userId/:adId')
+  @Post('/:adId')
   @Roles([UserTypes.NORMAL])
   @Authorize('jwt')
   Post(
     @HeaderParams('auth') auth: string,
-    @PathParams('userId') userId: string,
     @PathParams('adId') adId: string,
   ) {
+    const userId = JwtProtocol.getUserIdFromToken(auth);
     return this.wishListService.AddAdOnList(userId, adId);
   }
 
-  @Delete('/:userId/:adId')
+  @Delete('/:adId')
   @Roles([UserTypes.NORMAL])
   @Authorize('jwt')
   async Delete(
     @HeaderParams('auth') auth: string,
-    @PathParams('userId') userId: string,
     @PathParams('adId') adId: string,
   ) {
+    const userId = JwtProtocol.getUserIdFromToken(auth);
     return this.wishListService.RemoveAdFromList(userId, adId);
   }
 }

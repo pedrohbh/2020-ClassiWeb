@@ -7,16 +7,18 @@ import { Authorize } from '@tsed/passport';
 import { FeedbackBody, PurchaseService } from '../application/classes/PurchaseService';
 import { UserTypes } from '../domain/User';
 import { Roles } from '../middlewares/Roles';
+import { JwtProtocol } from '../protocols/JwtProtocol';
 
 @Controller('/purchases')
 export class PurchaseController {
   @Inject(PurchaseService)
   private purchaseService: PurchaseService;
 
-  @Get('/:userId')
+  @Get('/')
   @Roles([UserTypes.NORMAL])
   @Authorize('jwt')
-  GetAll(@HeaderParams('auth') auth: string, @PathParams('userId') userId: string) {
+  GetAll(@HeaderParams('auth') auth: string) {
+    const userId = JwtProtocol.getUserIdFromToken(auth);
     return this.purchaseService.GetUserPurchases(userId);
   }
 
@@ -31,14 +33,14 @@ export class PurchaseController {
     return this.purchaseService.SaveFeedback(id, body);
   }
 
-  @Post('/:adId/:userId')
+  @Post('/:adId')
   @Roles([UserTypes.NORMAL])
   @Authorize('jwt')
   PostPurchase(
     @HeaderParams('auth') auth: string,
     @PathParams('adId') adId: string,
-    @PathParams('userId') userId: string,
   ) {
+    const userId = JwtProtocol.getUserIdFromToken(auth);
     return this.purchaseService.DoPurchase(adId, userId);
   }
 }
