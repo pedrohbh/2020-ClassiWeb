@@ -114,11 +114,15 @@ export class AdvertisingService {
         )
           || regex.test(this.removeAccents(ad.description));
       })
-      .filter((ad) => (filter.address?.state
-        ? ad.address.state === filter.address.state && filter.address.city
+      .filter((ad) => {
+        if (!filter.address?.state) {
+          return true;
+        }
+
+        return ad.address.state === filter.address.state && (filter.address.city
           ? ad.address.city === filter.address.city
-          : true
-        : true));
+          : true);
+      });
 
     return [ads, total];
   }
