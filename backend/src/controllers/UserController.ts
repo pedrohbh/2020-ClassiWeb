@@ -1,11 +1,12 @@
 import {
-  BodyParams, Controller, Delete, Get, HeaderParams, Inject, PathParams, Post, Put,
+  BodyParams, Controller, Delete, Get, HeaderParams, Inject, PathParams, Post, Put, Request,
 } from '@tsed/common';
 import { Authorize } from '@tsed/passport';
 
 import { UserService } from '../application/classes/UserService';
 import { User, UserTypes } from '../domain/User';
 import { Roles } from '../middlewares/Roles';
+import { LoginLocalProtocol } from '../protocols/LoginProtocol';
 
 @Controller('/users')
 export class UserController {
@@ -32,8 +33,12 @@ export class UserController {
   }
 
   @Post('/')
-  async Post(@BodyParams() user: Pick<User, 'name' | 'cpf' | 'email' | 'password' | 'address'>) {
-    return this.userService.CreateUser(user);
+  async Post(
+    @Request() request: Request,
+    @BodyParams() user: Pick<User, 'name' | 'cpf' | 'email' | 'password' | 'address'>,
+  ) {
+    const newUser = await this.userService.CreateUser(user);
+    return LoginLocalProtocol.Login(request, newUser, false);
   }
 
   @Put('/:id')
