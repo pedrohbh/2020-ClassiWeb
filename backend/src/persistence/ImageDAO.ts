@@ -1,6 +1,6 @@
 import { Injectable } from '@tsed/di';
 
-import { EntityRepository, Repository } from 'typeorm';
+import { DeepPartial, EntityRepository, Repository } from 'typeorm';
 
 import { Image } from '../domain/Image';
 
@@ -11,8 +11,8 @@ class ImageRepository extends Repository<Image> {}
 export class ImageDAO {
   constructor(private readonly repository: ImageRepository) {}
 
-  Create(base64: any) {
-    return this.repository.save(base64);
+  Create(image: DeepPartial<Image>) {
+    return this.repository.save(image);
   }
 
   ReadAll() {
@@ -21,5 +21,9 @@ export class ImageDAO {
 
   Read(id: string) {
     return this.repository.findOneOrFail(id);
+  }
+
+  Delete(id: string) {
+    return this.repository.delete(id);
   }
 }

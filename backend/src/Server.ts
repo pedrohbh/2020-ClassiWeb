@@ -1,4 +1,4 @@
-import { $log, PlatformApplication } from '@tsed/common';
+import { $log, PlatformApplication, Req } from '@tsed/common';
 import { Env } from '@tsed/core';
 import { Configuration, Inject } from '@tsed/di';
 
@@ -16,6 +16,7 @@ import '@tsed/typeorm';
 import typeormConfig from '../ormconfig.json';
 
 import { IndexController } from './controllers/pages/IndexController';
+import { BadRequest } from '@tsed/exceptions';
 
 export const rootDir = __dirname;
 export const isProduction = process.env.NODE_ENV === Env.PROD;
@@ -53,7 +54,21 @@ if (isProduction) {
   componentsScan: [
     `${rootDir}/protocols/*.ts`, // scan protocols directory
   ],
-  passport: {},
+  multer: {
+    dest: `${rootDir}/../uploads`,
+    limits: {
+      fileSize: 5 * 1024 ** 2, // tamanho máximo de arquivo (5mb)
+    },
+    fileFilter: (request, file, cb) => {
+      const allowedMimeTypes = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif'];
+
+      if (allowedMimeTypes.includes(file.mimetype)) {
+        cb(null, true);
+      } else {
+        cb(new BadRequest('Formato de arquivo inválido'));
+      }
+    },
+  },
   swagger: [
     {
       path: '/v2/docs',
