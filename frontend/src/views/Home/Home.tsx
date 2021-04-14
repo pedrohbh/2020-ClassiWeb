@@ -1,4 +1,4 @@
-import { Button, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import PageBase from '../../components/PageBase';
 import Logotipo from '../../assets/ClassiWeb.svg';
 import Categories from './Categories';

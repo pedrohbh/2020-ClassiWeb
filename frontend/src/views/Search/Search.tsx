@@ -5,26 +5,27 @@ import PageBase from "../../components/PageBase";
 import AdController from "../../controllers/AdController";
 import Filters from './Filters';
 
-const f = {
-  text: localStorage.getItem('searchText'),
-  address: {},
-  category: [],
-  min_price: "",
-  max_price: "",
-  product_state: ""
-};
-
-export default function Search({ initialFilters = f }) {
+export default function Search() {
   const [ads, setAds] = useState([]);
   const [numberOfResults, setNumberOfResults] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [filters, setFilters] = useState(initialFilters);
+  const [filters, setFilters] = useState({
+    text: localStorage.getItem('searchText'),
+    address: {},
+    category: [localStorage.getItem('searchCategory') || ''],
+    min_price: "",
+    max_price: "",
+    product_state: ""
+  });
 
   useEffect(() => {
+    console.log(filters)
     AdController.search(filters)
       .then(adsList => {
+        console.log(adsList)
         setIsLoading(false);
+        
         if (adsList) {
           setAds(adsList);
           setNumberOfResults(adsList.length);
@@ -34,27 +35,14 @@ export default function Search({ initialFilters = f }) {
         }
 
         localStorage.setItem('searchText', '');
+        localStorage.setItem('searchCategory', '');
       });
-  }, []);
+  }, [filters]);
 
   const handleChangeFilters = async newFilters => {
     setFilters(newFilters);
     setIsLoading(true);
     setError(false);
-
-    AdController.search(newFilters)
-      .then(adsList => {
-        setIsLoading(false);
-        if (adsList) {
-          setAds(adsList);
-          setNumberOfResults(adsList.length);
-          setError(false);
-        } else {
-          setError(true);
-        }
-      });
-
-      localStorage.setItem('searchText', '');
   }
 
   return (

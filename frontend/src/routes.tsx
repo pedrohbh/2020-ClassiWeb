@@ -6,7 +6,6 @@ import Register from './views/Register/Register'
 import Login from './views/Login/Login'
 import NewAd from './views/NewAd/NewAd'
 import Ad from './views/Ad/Ad'
-import Users from './views/Users/Users';
 import Search from './views/Search/Search';
 import AdminPanel from './views/AdminPanel/AdminPanel';
 import UserPanel from './views/UserPanel/UserPanel';
@@ -20,7 +19,6 @@ export default function Routes() {
         <Route path='/login' component={Login} />
         <Route path='/newad' component={NewAd} />
         <Route path='/ad' component={Ad} />
-        <Route path='/users' component={Users} />
         <Route path='/search' component={Search} />
         <Route path='/admin' component={AdminPanel} />
         <Route path='/userpanel' component={UserPanel} />

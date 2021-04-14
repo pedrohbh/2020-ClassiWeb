@@ -1,4 +1,4 @@
-import { Button, Fab, FormControl, Grid, InputLabel, MenuItem, Select } from '@material-ui/core';
+import { Button, Fab, Grid } from '@material-ui/core';
 import { createStyles, makeStyles, Theme, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import React, { useState } from 'react';
@@ -10,6 +10,7 @@ import Categories from '../../components/Categories';
 import getFormData from '../../utils/getFormData';
 import ProductState from '../../components/ProductState';
 import { AdvertisingState } from '../../controllers/AdController';
+import { useHistory } from 'react-router';
 
 const StyledButton = withStyles({
   root: {
@@ -67,6 +68,7 @@ const StyledFab = withStyles({
 })((props: any) => <Fab {...props}/>);
 
 export default function RegisterForm() {
+  const history = useHistory();
   const classes = useStyles();
 
   const [address, setAddress] = useState({});
@@ -102,8 +104,8 @@ export default function RegisterForm() {
       address, 
       category, 
       product_state: productState,
-      ownerId: "1b670b0f-ddeb-47bd-8567-63bf5b389110",
-      state: AdvertisingState.VISIBLE
+      state: AdvertisingState.VISIBLE,
+      token: localStorage.getItem('token')
     };
 
     const price = newAd.price
@@ -120,6 +122,7 @@ export default function RegisterForm() {
 
     const res = await AdController.postAd(newAd);
     console.log(res);
+    // history.push('userpanel');
   }
 
   return (

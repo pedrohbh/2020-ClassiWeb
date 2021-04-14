@@ -1,11 +1,6 @@
 import { Button, Grid, withStyles } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
-import { useEffect, useState } from 'react';
-import Bike from '../assets/bicicleta.jpg';
-import Carro from '../assets/carro.jpg';
-import Casa from '../assets/casa.jpg';
 import AdCard from './AdCard';
-import AdController from '../controllers/AdController';
 import RefreshIcon from '@material-ui/icons/Refresh';
 
 const StyledButton = withStyles({
@@ -69,13 +64,6 @@ export default function Ads({ ads, isLoading, error, header="" }) {
                     </Grid>
                   ))
                 }
-
-                {/* <Grid item><AdCard title={'Bicicleta'} price={1520.50} imgRef={Bike} city={'Vitória'} UF={'ES'} /></Grid>
-                <Grid item><AdCard title={'Carro'} price={1520.58} imgRef={Carro} city={'Caxias'} UF={'RJ'} /></Grid>
-                <Grid item><AdCard title={'Casa'} price={1520.5} imgRef={Casa} city={'Santos'} UF={'SP'} /></Grid>
-                <Grid item><AdCard title={'Bicicleta'} price={1520.5} imgRef={Bike} city={'Vitória'} UF={'ES'} /></Grid>
-                <Grid item><AdCard title={'Carro'} price={1520.5} imgRef={Carro} city={'Caxias'} UF={'RJ'} /></Grid>
-                <Grid item><AdCard title={'Casa'} price={1520.5} imgRef={Casa} city={'Santos'} UF={'SP'} /></Grid> */}
               </>
         }
       </Grid>

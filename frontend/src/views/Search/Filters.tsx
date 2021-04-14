@@ -22,7 +22,7 @@ const StyledTextField = props => <TextField fullWidth variant="outlined" {...pro
 
 export default function Filters({ onChange }) {
   const [text, setText] = useState(localStorage.getItem('searchText'));
-  const [category, setCategory] = useState('');
+  const [category, setCategory] = useState(localStorage.getItem('searchCategory') || '');
   const [address, setAddress] = useState({});
   const [productState, setProductState] = useState('');
 
@@ -91,7 +91,8 @@ export default function Filters({ onChange }) {
             <Grid item xs={12}>
               <Categories 
                 required={false} 
-                onChange={selectedCategory => setCategory(selectedCategory)} 
+                preSelected={category} 
+                onChange={selectedCategory => setCategory(selectedCategory)}
               />
             </Grid>
 

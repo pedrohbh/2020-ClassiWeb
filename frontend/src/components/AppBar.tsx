@@ -1,19 +1,16 @@
-import React, { useState } from 'react';
 import { fade, makeStyles, Theme, createStyles, withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import InputBase from '@material-ui/core/InputBase';
 import Badge from '@material-ui/core/Badge';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import ForumIcon from '@material-ui/icons/Forum';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -95,16 +92,15 @@ const StyledButtonGroup = withStyles({
 })((props: any) => <ButtonGroup {...props} />);
 
 export default function MyAppBar({ showCreateNewAccount = true, showLogin = true }) {
+  const history = useHistory();
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const isLogged = !!localStorage.getItem('token');
 
   const handleKey = (event) => {
-    if(event.key == 'Enter'){
+    if(event.key === 'Enter'){
       localStorage.setItem('searchText', event.target.value);
-      window.location.href = '/search';
+      history.push('/search');
     }
   }
 
@@ -115,8 +111,14 @@ export default function MyAppBar({ showCreateNewAccount = true, showLogin = true
         <Toolbar>
 
           <StyledButtonGroup variant="text">
-            <Button href="../">Início</Button>
-            { isLogged && <Button href="../newad">Publicar Anúncio</Button> }
+            <Button onClick={ () => history.push('/') }>
+              Início
+            </Button>
+            { isLogged && 
+              <Button onClick={ () => history.push('/newad') }>
+                Publicar Anúncio
+              </Button> 
+            }
             <Button>Sobre</Button>
           </StyledButtonGroup>
 
@@ -164,14 +166,19 @@ export default function MyAppBar({ showCreateNewAccount = true, showLogin = true
             <StyledButtonGroup variant="text">
               {
                 showLogin ?
-                  <Button href='../login'>Entrar</Button>
+                  <Button onClick={ () => history.push('/login') }>
+                    Entrar
+                  </Button>
                   :
                   null
               }
-              {showCreateNewAccount ?
-                <Button href='../register'>Criar nova conta</Button>
-                :
-                null
+              {
+                showCreateNewAccount ?
+                  <Button onClick={ () => history.push('/register') }>
+                    Criar nova conta
+                  </Button>
+                  :
+                  null
               }
             </StyledButtonGroup>
           }

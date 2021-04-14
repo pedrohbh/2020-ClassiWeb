@@ -14,6 +14,7 @@ import Logotipo from '../../assets/ClassiWeb.svg';
 import PageBase from '../../components/PageBase';
 import AuthController from '../../controllers/AuthController';
 import getFormData from '../../utils/getFormData';
+import { useHistory } from 'react-router';
 
 function Copyright() {
   return (
@@ -52,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Login() {
+  const history = useHistory();
   const classes = useStyles();
 
   const handleSubmit = (event) => {
@@ -60,6 +62,7 @@ export default function Login() {
     const { email, password } = getFormData(event);
     
     AuthController.login(email, password);
+    history.push("/");
   }
 
   return (
@@ -118,7 +121,11 @@ export default function Login() {
                   </Link>
                 </Grid> */}
                 <Grid item>
-                  <Link href="../../register" variant="body2" style={{color:'black'}}>
+                  <Link 
+                    variant="body2" 
+                    style={{color:'black'}}
+                    onClick={ () => history.push('/register') }
+                  >
                     Não possui uma conta? Cadastre-se!
                   </Link>
                 </Grid>
