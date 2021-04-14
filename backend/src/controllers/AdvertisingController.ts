@@ -7,6 +7,7 @@ import { AdFilter, AdvertisingService } from '../application/classes/Advertising
 import { Advertising } from '../domain/Advertising';
 import { UserTypes } from '../domain/User';
 import { Roles } from '../middlewares/Roles';
+import { JwtProtocol } from '../protocols/JwtProtocol';
 
 @Controller('/ads')
 export class AdvertisingController {
@@ -34,6 +35,7 @@ export class AdvertisingController {
   @Roles([UserTypes.NORMAL])
   @Authorize('jwt')
   Post(@HeaderParams('auth') auth: string, @BodyParams() ad: Partial<Advertising>) {
+    ad.ownerId = JwtProtocol.getUserIdFromToken(auth);
     return this.adService.CreateAd(ad);
   }
 
