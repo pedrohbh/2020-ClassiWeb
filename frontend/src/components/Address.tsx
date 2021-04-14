@@ -12,11 +12,12 @@ const useStyles = makeStyles(() =>
   }
 ));
 
-export default function Address() {
+export default function Address({ onChange }) {
   const [UFs, setUFs] = useState([]);
   const [selectedUF, setSelectedUF] = useState('');
   const [cities, setCities] = useState([]);
   const [selectedCity, setSelectedCity] = useState('');
+
   const apiURL_UFs = `https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome`;
   const apiURL_Cities = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUF}/municipios`;
 
@@ -24,8 +25,10 @@ export default function Address() {
 
   useEffect(() => {
     async function loadCitiesSelectedUF() {
-      const response = await axios.get(apiURL_Cities);
-      setCities(response.data);
+      await axios.get(apiURL_Cities)
+        .then(response => {
+          setCities(response.data);
+        })
     };
 
     loadCitiesSelectedUF()
@@ -33,8 +36,10 @@ export default function Address() {
 
   useEffect(() => {
     async function loadUFs() {
-      const response = await axios.get(apiURL_UFs);
-      setUFs(response.data);
+      await axios.get(apiURL_UFs)
+        .then(response => {
+          setUFs(response.data);
+        })
     };
 
     loadUFs()
@@ -43,20 +48,22 @@ export default function Address() {
   const handleSelectUF = ({ target }) => {
     setSelectedUF(target.value);
     setSelectedCity("");
+    onChange({ state: target.value });
   };
 
   const handleSelectCity = ({ target }) => {
     setSelectedCity(target.value);
+    onChange({ state: selectedUF, city: target.value });
   };
 
   return (
     <Grid container spacing={1}>
       <Grid item xs={4}>
         <FormControl className={classes.formControl} variant="outlined" fullWidth>
-          <InputLabel id="demo-simple-select-outlined-label">UF</InputLabel>
+          <InputLabel id="uf">UF</InputLabel>
           <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
+            labelId="uf"
+            id="uf"
             value={selectedUF}
             onChange={handleSelectUF}
             label="UF"
@@ -71,10 +78,10 @@ export default function Address() {
       </Grid>
       <Grid item xs={8}>
         <FormControl className={classes.formControl} variant="outlined" fullWidth>
-          <InputLabel id="demo-simple-select-outlined-label">Cidade</InputLabel>
+          <InputLabel id="city">Cidade</InputLabel>
           <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
+            labelId="city"
+            id="city"
             value={selectedCity}
             label="Cidade"
             disabled={!selectedUF}

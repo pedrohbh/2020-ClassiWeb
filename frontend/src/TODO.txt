@@ -1,3 +1,0 @@
-Validar email
-Validar CPF
-Importar os estados brasileiros e suas respectivas cidades

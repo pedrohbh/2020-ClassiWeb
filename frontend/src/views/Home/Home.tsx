@@ -1,97 +1,50 @@
 import { Grid } from '@material-ui/core';
-
-import AppBar from '../../components/AppBar';
-import Footer from '../../components/Footer';
-
+import PageBase from '../../components/PageBase';
 import Logotipo from '../../assets/ClassiWeb.svg';
+import Categories from './Categories';
+import Ads from '../../components/Ads';
+import { useEffect, useState } from 'react';
+import AdController from '../../controllers/AdController';
 
 export default function Home() {
+  const [ads, setAds] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    AdController.getAll()
+      .then(adsList => {
+        setIsLoading(false);
+        if (adsList) {
+          setAds(adsList);
+          setError(false);
+        } else {
+          setError(true);
+        }
+      });
+  }, []);
+
   return (
-    <>
-    <Grid container direction="column" justify="flex-start"  style={{minHeight: "89vh"}}>
+    <PageBase>
+      <Grid container style={{ minHeight: 'calc(100% - 10vh)', height: 'max-content' }}>
 
-      <Grid item xs={12}>
-        <AppBar/>
-      </Grid>
+          <Categories/>
 
-      <Grid item xs={12}>
-        <Grid container style={{ height:"100%", marginTop: "70px" }}>
-          
-          <Grid item xs={2} style={{ height: "max-content", boxShadow: "2px 2px 8px 1px #dedede", padding: "20px", borderRadius: '5px' }}>
+          <Grid item xs={9} lg={10} style={{ flex: 1, maxHeight: 'max-content' }}>
             <Grid container>
-              <Grid item xs={12}>Categoria 1</Grid>
-              <Grid item xs={12}>Categoria 1</Grid>
-              <Grid item xs={12}>Categoria 1</Grid>
-              <Grid item xs={12}>Categoria 1</Grid>
-              <Grid item xs={12}>Categoria 1</Grid>
-              <Grid item xs={12}>Categoria 1</Grid>
-              <Grid item xs={12}>Categoria 1</Grid>
-              <Grid item xs={12}>Categoria 1</Grid>
-              <Grid item xs={12}>Categoria 1</Grid>
-              <Grid item xs={12}>Categoria 1</Grid>
-              <Grid item xs={12}>Categoria 1</Grid>
-              <Grid item xs={12}>Categoria 1</Grid>
-              <Grid item xs={12}>Categoria 1</Grid>
-              <Grid item xs={12}>Categoria 1</Grid>
-              <Grid item xs={12}>Categoria 1</Grid>
-              <Grid item xs={12}>Categoria 1</Grid>
-              <Grid item xs={12}>Categoria 1</Grid>
-              <Grid item xs={12}>Categoria 1</Grid>
-              <Grid item xs={12}>Categoria 1</Grid>
-              <Grid item xs={12}>Categoria 1</Grid>
-            </Grid>
-          </Grid>
+              <Grid item xs={12}>
+                <img src={Logotipo} alt="ClassiWeb" style={{ width: "100%", height: "25vh" }} />
+              </Grid>
 
-          <Grid item xs={10} style={{ height: "max-content" }}>
-            
-            <Grid item xs={12}>
-              <img src={Logotipo} alt="ClassiWeb" style={{ width: "100%", height: "25vh" }} />
-            </Grid>
-          
-            <Grid container item xs={12} style={{ padding: "20px"}}>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
-              <Grid item xs={12}>Produto</Grid>
+              <Ads 
+                ads={ads}
+                isLoading={isLoading}
+                error={error}
+              />
+
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
-      
-    </Grid>
-    <Footer/>
-    </>
-  );
+    </PageBase>
+  )
 }
