@@ -51,14 +51,17 @@ export class AdvertisingService {
   async ListAllAds(page: number, pageSize: number): Promise<[any[], number]> {
     const [ads, total] = await this.dao.ReadAll(page, pageSize);
 
-    return [ads.map((ad) => ({
-      ...ad,
-      owner: ad.owner && {
-        id: ad.owner.id,
-        name: ad.owner.name,
-        email: ad.owner.email,
-      },
-    })), total];
+    return [
+      ads.map((ad) => ({
+        ...ad,
+        owner: ad.owner && {
+          id: ad.owner.id,
+          name: ad.owner.name,
+          email: ad.owner.email,
+        },
+      })),
+      total,
+    ];
   }
 
   async ListAdsWith(
@@ -82,14 +85,18 @@ export class AdvertisingService {
       whereQuery.price = LessThanOrEqual(filter.max_price);
     }
 
-    const [adsDB, total] = await this.dao.ReadWith({
-      relations: ['category', 'address', 'owner'],
-      where:
-        filter.categories?.map((category) => ({
-          ...whereQuery,
-          category: { name: category },
-        })) || whereQuery,
-    }, page, pageSize);
+    const [adsDB, total] = await this.dao.ReadWith(
+      {
+        relations: ['category', 'address', 'owner'],
+        where:
+          filter.categories?.map((category) => ({
+            ...whereQuery,
+            category: { name: category },
+          })) || whereQuery,
+      },
+      page,
+      pageSize,
+    );
 
     const ads = adsDB
       .map(({ owner, ...ad }) => ({
@@ -101,8 +108,11 @@ export class AdvertisingService {
         },
       }))
       .filter((ad) => {
-        const regex = new RegExp(filter.text || '', 'i');
-        return regex.test(ad.title) || regex.test(ad.description);
+        const regex = new RegExp(this.removeAccents(filter.text) || '', 'i');
+        return regex.test(
+          this.removeAccents(ad.title),
+        )
+          || regex.test(this.removeAccents(ad.description));
       })
       .filter((ad) => (filter.address?.state
         ? ad.address.state === filter.address.state && filter.address.city
@@ -111,6 +121,10 @@ export class AdvertisingService {
         : true));
 
     return [ads, total];
+  }
+
+  private removeAccents(str = '') {
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   }
 
   async CreateAd(adJson: any): Promise<any> {
