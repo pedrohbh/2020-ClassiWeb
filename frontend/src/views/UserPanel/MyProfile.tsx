@@ -1,6 +1,8 @@
 import { Button, Grid, TextField, withStyles } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
+import Swal from "sweetalert2";
+
 import validator from "validator";
 import Address from "../../components/Address";
 import UserController from "../../controllers/UserController";
@@ -63,9 +65,23 @@ export default function MyAds() {
 
     console.log(newUserData)
     if (validator.isEmail(email)) {
-      const response = await UserController.update(newUserData);
-      console.log(response);
-      alert('Informações atualizadas!');
+      Swal.fire({
+        text: "Deseja atualizar as informações desse anúncio?",
+        buttons: ['Cancelar', 'Atualizar']
+      })
+      .then(async (update) => {
+        if (update) {
+          await UserController.update(newUserData)
+            .then(response => {
+              console.log(response);
+              Swal.fire({
+                text: "Informações atualizadas!",
+                icon: "success",
+                confirmButtonColor: "#8CD4F5"
+              });
+            });
+        }
+      });
     }
   }
 

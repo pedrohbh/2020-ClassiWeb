@@ -21,11 +21,16 @@ export default function MyAds() {
   }, []);
 
   return (
-    <Ads
-      ads={ads}
-      isLoading={isLoading}
-      error={error}
-      myAds={true}
-    />
+    ads.length === 0 ?
+      <p style={{ textAlign: 'center' }}>
+        Você ainda publicou anúncios.
+      </p>
+      :
+      <Ads
+        ads={ads}
+        isLoading={isLoading}
+        error={error}
+        myAds={true}
+      />
   )
 }

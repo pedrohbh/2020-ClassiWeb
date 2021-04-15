@@ -66,15 +66,15 @@ export default function Address({ onChange, required=true, preSelectedState = ''
             id="uf"
             value={selectedUF}
             onChange={handleSelectUF}
-            label="UF"
+            label="UF"            
           >
             {
               required &&
               <MenuItem key={''} value={''} disabled style={{ display: 'none' }}></MenuItem>
             }
             {
-              UFs.map(({ sigla }) => (
-                <MenuItem key={sigla} value={sigla}>{sigla}</MenuItem>
+              UFs.map(({ sigla }) => (                
+                <MenuItem key={sigla} value={sigla} selected={sigla === preSelectedState} >{sigla}</MenuItem>
               ))
             }
           </Select>

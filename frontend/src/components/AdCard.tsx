@@ -16,6 +16,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import { useHistory } from 'react-router';
 import AdController from '../controllers/AdController';
 import WishListController from '../controllers/WishListController';
+import swal from 'sweetalert';
 
 const useStyles = makeStyles({
   root: {
@@ -44,7 +45,17 @@ export default function AdCard({ id='', title, price, imgRef, city, UF, myAds=fa
   }
 
   const handleRemoveFromWishList = () => {
-    WishListController.delete(id);
+    swal({
+      text: "Deseja remover da Lista de Desejos?",
+      icon: "warning",
+      buttons: ['Cancelar', 'Remover'],
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        WishListController.delete(id);
+      }
+    });
   }
 
   const handleAddToWishList = () => {
@@ -52,7 +63,17 @@ export default function AdCard({ id='', title, price, imgRef, city, UF, myAds=fa
   }
 
   const handleDeleteAd = () => {
-    AdController.delete(id);
+    swal({
+      text: "Deseja excluir permanentemente o anúncio?",
+      icon: "warning",
+      buttons: ['Cancelar', 'Excluir'],
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        AdController.delete(id);
+      }
+    });
   }
 
   const handleBuy = () => {

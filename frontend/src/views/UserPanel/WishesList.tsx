@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Ads from "../../components/Ads";
 import WishListController from "../../controllers/WishListController";
 
-export default function MyAds() {
+export default function WishesList() {
   const [ads, setAds] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -10,7 +10,6 @@ export default function MyAds() {
   useEffect(() => {
     WishListController.get()
       .then(adsList => {
-        console.log(adsList[0])
         setIsLoading(false);
         if (adsList) {
           setAds(adsList);
@@ -22,11 +21,16 @@ export default function MyAds() {
   }, []);
 
   return (
-    <Ads
-      ads={ads}
-      isLoading={isLoading}
-      error={error}
-      wishList={true}
-    />
+    ads.length === 0 ?
+      <p style={{ textAlign: 'center' }}>
+        Você ainda não adicionou anúncios a sua lista de desejos.
+      </p>
+      :
+      <Ads
+        ads={ads}
+        isLoading={isLoading}
+        error={error}
+        wishList={true}
+      />
   )
 }
