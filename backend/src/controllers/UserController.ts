@@ -6,6 +6,7 @@ import { Authorize } from '@tsed/passport';
 import { UserService } from '../application/classes/UserService';
 import { User, UserTypes } from '../domain/User';
 import { Roles } from '../middlewares/Roles';
+import { JwtProtocol } from '../protocols/JwtProtocol';
 import { LoginLocalProtocol } from '../protocols/LoginProtocol';
 
 @Controller('/users')
@@ -13,7 +14,7 @@ export class UserController {
   @Inject(UserService)
   private userService: UserService;
 
-  @Get('/')
+  @Get('/list')
   async GetAll() {
     const allUsers = await this.userService.ListAllUsers();
 
@@ -25,10 +26,11 @@ export class UserController {
     }));
   }
 
-  @Get('/:id')
+  @Get('/')
   @Roles([UserTypes.NORMAL])
   @Authorize('jwt')
-  async Get(@HeaderParams('auth') auth: string, @PathParams('id') userId: string) {
+  async Get(@HeaderParams('auth') auth: string) {
+    const userId = JwtProtocol.getUserIdFromToken(auth);
     return this.userService.GetUserById(userId);
   }
 
@@ -41,14 +43,15 @@ export class UserController {
     return LoginLocalProtocol.Login(request, newUser, false);
   }
 
-  @Put('/:id')
+  @Put('/')
   @Roles([UserTypes.NORMAL])
   @Authorize('jwt')
   async Put(
     @HeaderParams('auth') auth: string,
-    @PathParams('id') userId: string,
     @BodyParams() user: Partial<User>,
   ) {
+    const userId = JwtProtocol.getUserIdFromToken(auth);
+
     const {
       id, name, email, address,
     } = await this.userService.UpdateUser(userId, user);
@@ -61,10 +64,12 @@ export class UserController {
     };
   }
 
-  @Delete('/:id')
+  @Delete('/')
   @Roles([UserTypes.NORMAL])
   @Authorize('jwt')
-  async Delete(@HeaderParams('auth') auth: string, @PathParams('id') id: string) {
-    await this.userService.DeleteUser(id);
+  async Delete(@HeaderParams('auth') auth: string) {
+    const userId = JwtProtocol.getUserIdFromToken(auth);
+
+    await this.userService.DeleteUser(userId);
   }
 }
