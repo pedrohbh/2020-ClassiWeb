@@ -160,6 +160,7 @@ export class AdvertisingService {
         id: owner.id,
         name: owner.name,
         email: owner.email,
+        feedback: await this.userService.GetUserFeedback(owner.id),
       },
     };
   }

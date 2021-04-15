@@ -5,6 +5,7 @@ import { AdminService } from '../application/AdminService';
 import { Admin } from '../domain/Admin';
 import { UserTypes } from '../domain/User';
 import { Roles } from '../middlewares/Roles';
+import { JwtProtocol } from '../protocols/JwtProtocol';
 import { LoginLocalProtocol } from '../protocols/LoginProtocol';
 
 @Controller('/admin')
@@ -12,7 +13,7 @@ export class AdminController {
   @Inject(AdminService)
   private adminService: AdminService;
 
-  @Get('/')
+  @Get('/list')
   async GetAll() {
     const allAdmins = await this.adminService.ListAllAdmins();
 
@@ -23,11 +24,13 @@ export class AdminController {
     }));
   }
 
-  @Get('/:id')
+  @Get('/')
   @Roles([UserTypes.ADMIN])
   @Authorize('jwt')
-  async Get(@HeaderParams('auth') auth: string, @PathParams('id') id: string) {
-    return this.adminService.GetAdminById(id);
+  async Get(@HeaderParams('auth') auth: string) {
+    const adminId = JwtProtocol.getUserIdFromToken(auth);
+
+    return this.adminService.GetAdminById(adminId);
   }
 
   @Post('/')
@@ -38,10 +41,12 @@ export class AdminController {
     return LoginLocalProtocol.Login(request, newAdminer, true);
   }
 
-  @Delete('/:id')
+  @Delete('/')
   @Roles([UserTypes.ADMIN])
   @Authorize('jwt')
-  async Delete(@HeaderParams('auth') auth: string, @PathParams('id') id: string) {
-    await this.adminService.DeleteAdmin(id);
+  async Delete(@HeaderParams('auth') auth: string) {
+    const adminId = JwtProtocol.getUserIdFromToken(auth);
+
+    await this.adminService.DeleteAdmin(adminId);
   }
 }

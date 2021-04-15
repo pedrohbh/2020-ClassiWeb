@@ -1,6 +1,6 @@
 import { Injectable } from '@tsed/di';
 
-import { EntityRepository, Repository } from 'typeorm';
+import { EntityRepository, FindManyOptions, Repository } from 'typeorm';
 
 import { Purchase } from '../domain/Purchase';
 
@@ -19,6 +19,10 @@ export class PurchaseDAO {
     return this.repository.findOneOrFail(id, {
       relations: ['client', 'ad'],
     });
+  }
+
+  ReadWith(options: FindManyOptions<Purchase>) {
+    return this.repository.find(options);
   }
 
   Upadate(id: string, purchase: Partial<Purchase>) {

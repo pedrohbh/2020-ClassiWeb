@@ -37,7 +37,7 @@ export class LoginLocalProtocol implements OnVerify {
       return false; // OR throw new NotAuthorized("Wrong credentials")
     }
 
-    return LoginLocalProtocol.Login(request, result.id, result instanceof Admin);
+    return LoginLocalProtocol.Login(request, result, result instanceof Admin);
   }
 
   static Login(request: Req, user: User | Admin, isAdmin: boolean) {
