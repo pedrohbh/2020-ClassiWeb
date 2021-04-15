@@ -4,6 +4,7 @@ import { BadRequest } from '@tsed/exceptions';
 import { FindManyOptions } from 'typeorm';
 
 import { User } from '../../domain/User';
+import { PurchaseDAO } from '../../persistence/PurchaseDAO';
 import { UserDAO } from '../../persistence/UserDAO';
 import { EmailService } from '../../services/email/EmailService';
 import { AddressService } from './AddressService';
@@ -12,6 +13,9 @@ import { AddressService } from './AddressService';
 export class UserService {
   @Inject(UserDAO)
   private readonly dao: UserDAO;
+
+  @Inject(PurchaseDAO)
+  private readonly purchaseDao: PurchaseDAO;
 
   @Inject(AddressService)
   private addressService: AddressService;
@@ -46,8 +50,49 @@ export class UserService {
     } = await this.dao.Read(userId);
 
     return {
-      id, name, email, address, cpf: User.GetFormmatedCpf(cpf),
+      id,
+      name,
+      email,
+      address,
+      cpf: User.GetFormmatedCpf(cpf),
+      feedback: await this.GetUserFeedback(userId),
     };
+  }
+
+  async GetUserFeedback(userId: string) {
+    const purchases = await this.purchaseDao.ReadWith({
+      relations: ['client', 'ad'],
+      where: [
+        {
+          client: {
+            id: userId,
+          },
+        },
+        {
+          ad: {
+            owner: {
+              id: userId,
+            },
+          },
+        },
+      ],
+    });
+
+    const feedback = purchases.reduce(({ ranking, votes }, purchase) => {
+      if (userId === purchase.client.id) {
+        return {
+          ranking: ranking + purchase.owner_feedback || 0,
+          votes: votes + +!!purchase.owner_feedback,
+        };
+      }
+
+      return {
+        ranking: ranking + purchase.client_feedback || 0,
+        votes: votes + +!!purchase.client_feedback,
+      };
+    }, { ranking: 0, votes: 0 });
+
+    return (feedback.ranking / feedback.votes) || 0;
   }
 
   async GetUserByEmail(email: string) {

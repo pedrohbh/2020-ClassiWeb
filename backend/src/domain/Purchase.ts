@@ -8,11 +8,11 @@ import { Advertising } from './Advertising';
 import { User } from './User';
 
 export enum Feedback {
-  EXCELLENT = 'Muito Satisfeito',
-  GOOD = 'Satisfeito',
-  NORMAL = 'Normal',
-  BAD = 'Insatisfeito',
-  TERRIBLE = 'Muito Insatisfeito',
+  TERRIBLE = 1,
+  BAD,
+  NORMAL,
+  GOOD,
+  EXCELLENT,
 }
 
 @Entity()
