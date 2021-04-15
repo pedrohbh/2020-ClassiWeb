@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Ads from "../../components/Ads";
-import AdController from '../../controllers/AdController';
+import WishListController from "../../controllers/WishListController";
 
 export default function MyAds() {
   const [ads, setAds] = useState([]);
@@ -8,8 +8,9 @@ export default function MyAds() {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    AdController.getAll() // TODO trocar o get
+    WishListController.get()
       .then(adsList => {
+        console.log(adsList[0])
         setIsLoading(false);
         if (adsList) {
           setAds(adsList);

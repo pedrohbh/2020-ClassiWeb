@@ -14,6 +14,8 @@ import { FaHandshake } from 'react-icons/fa';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { useHistory } from 'react-router';
+import AdController from '../controllers/AdController';
+import WishListController from '../controllers/WishListController';
 
 const useStyles = makeStyles({
   root: {
@@ -42,15 +44,15 @@ export default function AdCard({ id='', title, price, imgRef, city, UF, myAds=fa
   }
 
   const handleRemoveFromWishList = () => {
-    
+    WishListController.delete(id);
   }
 
   const handleAddToWishList = () => {
-
+    WishListController.post(id);
   }
 
   const handleDeleteAd = () => {
-
+    AdController.delete(id);
   }
 
   const handleBuy = () => {

@@ -49,6 +49,15 @@ export default class AdController {
       });
   }
 
+  static delete(id) {
+    return api.delete(`/ads/${id}`)
+      .then(response => {
+        return response.data;
+      }).catch(e => {
+        console.error(e);
+      });
+  }
+
   static search(filters) {
     return api.post('/ads/search', filters)
       .then(response => {
