@@ -1,6 +1,6 @@
 import { Grid } from "@material-ui/core";
 import PageBase from "../../components/PageBase";
-import Panel from '../../components/Panel'
+import Panel from './Panel'
 
 export default function AdminPanel() {
   return (
@@ -9,7 +9,7 @@ export default function AdminPanel() {
         <Grid item xs={12} style={{ textAlign: 'center', margin: '2%'}}>
           <h1>Painel do Administrador</h1>
         </Grid>
-        <Grid>
+        <Grid item xs={12}>
           <Panel/>
         </Grid>
       </Grid>

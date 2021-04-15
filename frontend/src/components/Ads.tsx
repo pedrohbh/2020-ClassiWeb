@@ -19,9 +19,9 @@ const StyledButton = withStyles({
   },
 })((props: any) => <Button size="large" {...props} />);
 
-export default function Ads({ ads, isLoading, error, header="" }) {
+export default function Ads({ ads, isLoading, error, header="", myAds=false, wishList=false, myShopping=false }) {
   return (
-    <Grid item xs={12} style={{ marginTop: '4vh', marginBottom: '10vh' }}>
+    <Grid item xs={12} style={{ marginBottom: '10vh'}}>
       <Grid container spacing={3} justify="center" style={{ width: '100%', margin: 0 }}>
         {
           isLoading ?
@@ -60,6 +60,9 @@ export default function Ads({ ads, isLoading, error, header="" }) {
                         imgRef={imgRef}
                         city={address.city}
                         UF={address.state}
+                        myAds={myAds}
+                        myShopping={myShopping}
+                        wishList={wishList}
                       />
                     </Grid>
                   ))

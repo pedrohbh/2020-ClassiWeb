@@ -13,7 +13,7 @@ export default function Search() {
   const [filters, setFilters] = useState({
     text: localStorage.getItem("searchText"),
     address: {},
-    categories: [localStorage.getItem("searchCategory") || ""],
+    categories: localStorage.getItem("searchCategory") ? [localStorage.getItem("searchCategory")] : [],
     min_price: "",
     max_price: "",
     product_state: "",

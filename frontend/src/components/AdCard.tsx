@@ -11,10 +11,12 @@ import NumberFormat from 'react-number-format';
 import RoomIcon from '@material-ui/icons/Room';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { FaHandshake } from 'react-icons/fa';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345,
+    width: 345
   },
 });
 
@@ -22,9 +24,9 @@ const StyledButton = withStyles({
   root: {
     color: '#E65252'
   },
-})((props: any) => <Button size="large" {...props}/>);
+})((props: any) => <Button size="large" {...props} />);
 
-export default function AdCard({ title, price, imgRef, city, UF }) {
+export default function AdCard({ title, price, imgRef, city, UF, myAds=false, wishList=false, myShopping=false }) {
   const classes = useStyles();
 
   return (
@@ -41,34 +43,64 @@ export default function AdCard({ title, price, imgRef, city, UF }) {
         <CardContent>
 
           <Typography gutterBottom variant="h5" component="h2">
-            { title }
+            {title}
           </Typography>
 
-          <NumberFormat 
-            value={price} 
-            displayType={'text'} 
-            thousandSeparator={'.'} 
-            decimalSeparator={','} 
-            prefix={'R$'} 
+          <NumberFormat
+            value={price}
+            displayType={'text'}
+            thousandSeparator={'.'}
+            decimalSeparator={','}
+            prefix={'R$'}
             decimalScale={2}
             fixedDecimalScale={true}
             style={{ fontSize: 18 }}
           />
-          
-          <Typography gutterBottom component="h5" style={{ display: 'flex', alignItems: 'center', marginLeft: -3, marginTop: 10}}>
-            <RoomIcon style={{ fontSize: 20 }}/> {city}, {UF}
+
+          <Typography gutterBottom component="h5" style={{ display: 'flex', alignItems: 'center', marginLeft: -3, marginTop: 10 }}>
+            <RoomIcon style={{ fontSize: 20 }} /> {city}, {UF}
           </Typography>
-          
+
         </CardContent>
       </CardActionArea>
-      <CardActions style={{ justifyContent: 'center' }}>
+      <CardActions style={{ justifyContent: 'space-between' }}>
         <StyledButton size="small" color="primary">
-          <FavoriteIcon style={{ fontSize: 20 }}/>
-          Adicionar à Lista de Desejos
+          {myAds ?
+            <>
+              <EditIcon style={{ fontSize: 20 }} />
+              &nbsp;&nbsp;Editar
+            </>
+            :
+            wishList ?
+              <>
+                <DeleteIcon style={{ fontSize: 20 }} />
+                &nbsp;&nbsp;Remover
+              </>
+              :
+              myShopping ?
+                null
+                :
+                <>
+                  <FavoriteIcon style={{ fontSize: 20 }} />
+                  Adicionar à Lista de Desejos
+                </>
+          }
         </StyledButton>
         <StyledButton size="small" color="primary">
-          <FaHandshake style={{ fontSize: 20, marginRight: '4.5px' }}/>
-          Comprar
+          {myAds ?
+            <>
+              <DeleteIcon style={{ fontSize: 20, marginRight: '4.5px' }} />
+              Excluir
+            </>
+            :
+            myShopping ?
+              null
+              :
+              <>
+                <FaHandshake style={{ fontSize: 20, marginRight: '4.5px' }} />
+                Comprar
+              </>
+          }
         </StyledButton>
       </CardActions>
     </Card>

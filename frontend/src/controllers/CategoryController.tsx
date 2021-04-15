@@ -19,4 +19,13 @@ export default class CategoryController {
         console.error(e);
       });
   }
+
+  static deleteCategory(category) {
+    return api.delete('/categories', category)
+      .then(response => {
+        return response.data;
+      }).catch(e => {
+        console.error(e);
+      });
+  }
 }

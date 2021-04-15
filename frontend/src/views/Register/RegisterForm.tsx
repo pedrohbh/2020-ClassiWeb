@@ -9,6 +9,7 @@ import TextField from "@material-ui/core/TextField";
 import { validate as validatorCPF } from "gerador-validador-cpf";
 import React, { useState } from "react";
 import NumberFormat from "react-number-format";
+import { useHistory } from "react-router";
 import validator from "validator";
 import Address from "../../components/Address";
 
@@ -53,6 +54,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function RegisterForm() {
   const classes = useStyles();
+  const history = useHistory();
 
   const [address, setAddress] = useState({});
 
@@ -106,9 +108,10 @@ export default function RegisterForm() {
       validator.isEmail(newUser.email) &&
       newUser.password === newUser.passwordConfirm
     ) {
-      const token = await UserController.postUser(newUser);
-      console.log(token);
-      return;
+      const response = await UserController.postUser(newUser);
+      // console.log(response)
+      localStorage.setItem('token', response.token);
+      history.push('/');
     }
   };
 
