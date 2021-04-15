@@ -19,8 +19,8 @@ export default class UserController {
       });
   }
 
-  static getUserById(id) {
-    return api.get('/users', id)
+  static getUser(token) {
+    return api.get('/users', token)
       .then(response => {
         return response.data;
       }).catch(e => {

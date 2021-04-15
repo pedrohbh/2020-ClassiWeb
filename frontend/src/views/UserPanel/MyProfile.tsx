@@ -2,6 +2,7 @@ import { Button, Grid, TextField, withStyles } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import validator from "validator";
 import Address from "../../components/Address";
+import UserController from "../../controllers/UserController";
 
 const StyledTextField = (props) => (
   <TextField fullWidth variant="outlined" {...props} />
@@ -20,11 +21,20 @@ const StyledButton = withStyles({
 })((props: any) => <Button size="large" {...props} />);
 
 export default function MyAds() {
+  const token = localStorage.getItem('token');
+  const [userData, setUserData] = useState({});
   const [ads, setAds] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const [address, setAddress] = useState({});
   const [emailError, setEmailError] = useState("");
+
+  useEffect(() => {
+    UserController.getUser(token)
+      .then(user => {
+        console.log(user);
+      });
+  }, []);
 
   const handleValidateEmail = (event) => {
     const value = event.target.value ?? "";
