@@ -1,9 +1,7 @@
-import {
-  BodyParams, Controller, Delete, Get, HeaderParams, Inject, PathParams, Post, Request,
-} from '@tsed/common';
+import { BodyParams, Controller, Delete, Get, HeaderParams, Inject, PathParams, Post, Request } from '@tsed/common';
 import { Authorize } from '@tsed/passport';
 
-import { AdminService } from '../application/classes/AdminService';
+import { AdminService } from '../application/AdminService';
 import { Admin } from '../domain/Admin';
 import { UserTypes } from '../domain/User';
 import { Roles } from '../middlewares/Roles';
@@ -33,10 +31,7 @@ export class AdminController {
   }
 
   @Post('/')
-  async Post(
-    @Request() request: Request,
-    @BodyParams() admin: Pick<Admin, 'name' |'registration' | 'email' | 'password'>,
-  ) {
+  async Post(@Request() request: Request, @BodyParams() admin: Pick<Admin, 'name' | 'registration' | 'email' | 'password'>) {
     admin.password = Admin.GetEncryptedPassword(admin.password);
     const newAdminer = await this.adminService.CreateAdmin(admin);
 

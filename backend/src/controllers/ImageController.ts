@@ -13,7 +13,7 @@ import {
 } from '@tsed/common';
 import { Authorize } from '@tsed/passport';
 
-import { ImageService } from '../application/classes/ImageService';
+import { ImageService } from '../application/ImageService';
 import { UserTypes } from '../domain/User';
 import { Roles } from '../middlewares/Roles';
 

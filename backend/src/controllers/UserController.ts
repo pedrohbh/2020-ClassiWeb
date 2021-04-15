@@ -1,9 +1,7 @@
-import {
-  BodyParams, Controller, Delete, Get, HeaderParams, Inject, PathParams, Post, Put, Request,
-} from '@tsed/common';
+import { BodyParams, Controller, Delete, Get, HeaderParams, Inject, PathParams, Post, Put, Request } from '@tsed/common';
 import { Authorize } from '@tsed/passport';
 
-import { UserService } from '../application/classes/UserService';
+import { UserService } from '../application/UserService';
 import { User, UserTypes } from '../domain/User';
 import { Roles } from '../middlewares/Roles';
 import { LoginLocalProtocol } from '../protocols/LoginProtocol';
@@ -33,10 +31,7 @@ export class UserController {
   }
 
   @Post('/')
-  async Post(
-    @Request() request: Request,
-    @BodyParams() user: Pick<User, 'name' | 'cpf' | 'email' | 'password' | 'address'>,
-  ) {
+  async Post(@Request() request: Request, @BodyParams() user: Pick<User, 'name' | 'cpf' | 'email' | 'password' | 'address'>) {
     const newUser = await this.userService.CreateUser(user);
     return LoginLocalProtocol.Login(request, newUser, false);
   }
@@ -44,14 +39,8 @@ export class UserController {
   @Put('/:id')
   @Roles([UserTypes.NORMAL])
   @Authorize('jwt')
-  async Put(
-    @HeaderParams('auth') auth: string,
-    @PathParams('id') userId: string,
-    @BodyParams() user: Partial<User>,
-  ) {
-    const {
-      id, name, email, address,
-    } = await this.userService.UpdateUser(userId, user);
+  async Put(@HeaderParams('auth') auth: string, @PathParams('id') userId: string, @BodyParams() user: Partial<User>) {
+    const { id, name, email, address } = await this.userService.UpdateUser(userId, user);
 
     return {
       id,
