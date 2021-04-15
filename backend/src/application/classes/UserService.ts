@@ -69,7 +69,12 @@ export class UserService {
   }
 
   async UpdateUser(id: string, userJson: Partial<User>) {
-    const user = await this.dao.Update(id, userJson);
+    if (userJson.address) {
+      userJson.address = await this.addressService.CreateAddress(userJson.address);
+    }
+
+    await this.dao.Update(id, userJson);
+    const user = await this.GetUserById(id);
 
     return {
       ...user,
