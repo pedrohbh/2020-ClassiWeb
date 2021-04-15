@@ -156,7 +156,7 @@ export default function MyAppBar({ showCreateNewAccount = true, showLogin = true
                 aria-label="account of current user"
                 aria-controls='menuId'
                 aria-haspopup="true"
-                // onClick={handleProfileMenuOpen}
+                onClick={() => history.push('/userpanel') }
                 color="inherit"
               >
                 <AccountCircle />

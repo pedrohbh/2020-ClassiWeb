@@ -63,9 +63,9 @@ export default function MyAds() {
 
     console.log(newUserData)
     if (validator.isEmail(email)) {
-      // const response = await UserController.update(newUserData);
-      // console.log(response);
-      // alert('Informações atualizadas!');
+      const response = await UserController.update(newUserData);
+      console.log(response);
+      alert('Informações atualizadas!');
     }
   }
 
