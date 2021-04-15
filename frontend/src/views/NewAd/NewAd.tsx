@@ -4,7 +4,7 @@ import PageBase from '../../components/PageBase'
 
 export default function Register() {
   return (
-    <PageBase footer={false}>
+    <PageBase footer={false} newAd={true}>
       <Grid container style={{ height: '100%' }}>
         <NewAdForm/>
       </Grid>

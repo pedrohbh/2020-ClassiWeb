@@ -18,7 +18,7 @@ export default function Routes() {
         <Route path='/register' component={Register} />
         <Route path='/login' component={Login} />
         <Route path='/newad' component={NewAd} />
-        <Route path='/ad' component={Ad} />
+        <Route path='/ad/:id' component={Ad} />
         <Route path='/search' component={Search} />
         <Route path='/admin' component={AdminPanel} />
         <Route path='/userpanel' component={UserPanel} />

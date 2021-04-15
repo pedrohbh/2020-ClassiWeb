@@ -13,6 +13,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import { FaHandshake } from 'react-icons/fa';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles({
   root: {
@@ -26,12 +27,17 @@ const StyledButton = withStyles({
   },
 })((props: any) => <Button size="large" {...props} />);
 
-export default function AdCard({ title, price, imgRef, city, UF, myAds=false, wishList=false, myShopping=false }) {
+export default function AdCard({ id='', title, price, imgRef, city, UF, myAds=false, wishList=false, myShopping=false }) {
   const classes = useStyles();
+  const history = useHistory();
+
+  const handleClickAd = () => {
+    history.push(`/ad/${id}`);
+  }
 
   return (
     <Card className={classes.root}>
-      <CardActionArea>
+      <CardActionArea onClick={handleClickAd}>
         <CardMedia
           component="img"
           alt="Imagem do anúncio"

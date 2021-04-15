@@ -21,6 +21,16 @@ export default class AdController {
       })
   }
 
+  static get(id) {
+    return api.get(`/ads/${id}`)
+      .then(response => {
+        return response.data;
+      }).catch(e => {
+        console.error(e);
+        return undefined;
+      })
+  }
+
   static postAd(newAd) {
     return api.post('/ads', newAd)
       .then(response => {

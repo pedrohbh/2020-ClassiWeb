@@ -1,24 +1,55 @@
 import { Button, Grid, Paper, withStyles } from '@material-ui/core';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaHandshake } from 'react-icons/fa';
 import PageBase from '../../components/PageBase';
 import RoomIcon from '@material-ui/icons/Room';
 import DescriptionIcon from '@material-ui/icons/Description';
 import { Rating } from '@material-ui/lab';
+import AdController from '../../controllers/AdController';
+import NumberFormat from 'react-number-format';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
 const StyledButton = withStyles({
   root: {
-    width: '150px',
+    width: '100%',
     maxWidth: '70%',
-    background: '#E65252',
+    background: '#72d678',
     '&:hover':{
-        background: '#fc7474',
+        background: '#66ba6b',
     },
     color: 'white',
   },
 })((props: any) => <Button size="large" {...props}/>);
 
-export default function Ad() {
+export default function Ad({ match }) {
+  const id = match.params.id;
+  const [title, setTitle] = useState('');
+  const [address, setAddress] = useState({ id: '', state: '', city: '' });
+  const [category, setCategory] = useState('');
+  const [description, setDescription] = useState('');
+  const [productState, setProductState] = useState('');
+  const [images, setImages] = useState([]);
+  const [owner, setOwner] = useState({ name: '' });
+  const [price, setPrice] = useState();
+  const [quantity, setQuantity] = useState();
+  const [state, setState] = useState();
+
+  useEffect(() => {
+    AdController.get(id)
+      .then(data => {
+        // console.log(data);
+        setTitle(data.title);
+        setOwner(data.owner);
+        setPrice(data.price);
+        setCategory(data.category.name);
+        setAddress(data.address);
+        setQuantity(data.quantity);
+        setDescription(data.description);
+        setProductState(data.product_state);
+        // setImages();
+        // setState();
+      })
+  }, []);
 
   return (
     <PageBase footer={false}>
@@ -34,7 +65,7 @@ export default function Ad() {
               <Grid container direction='column' spacing={2} style={{ padding: '2vw' }}>
 
                 <Grid item style={{ width: '100%', textAlign: 'center' }}>
-                  <h1>Título do anúncio</h1>
+                  <h1>{title}</h1>
                 </Grid>
 
                 <Grid item style={{ width: '100%' }}>
@@ -52,7 +83,7 @@ export default function Ad() {
                     </Grid>
 
                     <Grid item xs={12}>
-                      <p>Vitória, ES</p>
+                      <p>{address.city}, {address.state}</p>
                     </Grid>
                     
                   </Grid>
@@ -71,12 +102,7 @@ export default function Ad() {
 
                     <Grid item xs={12}>
                       <p style={{ textAlign:'justify' }}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. */}
+                        {description}
                       </p>
                     </Grid>
                     
@@ -107,11 +133,25 @@ export default function Ad() {
                       justifyContent: 'center'
                     }}
                   >
-                    <h1>R$ 5920,55</h1>
+                    <h1>
+                      <NumberFormat
+                        value={price}
+                        displayType={'text'}
+                        thousandSeparator={'.'}
+                        decimalSeparator={','}
+                        prefix={'R$'}
+                        decimalScale={2}
+                        fixedDecimalScale={true}
+                      />
+                    </h1>
                   </Paper>
                 </Grid>
 
                 <Grid item style={{ width: '100%', textAlign: 'center', margin: '10% auto' }}>
+                  <StyledButton style={{  marginBottom: '2%', background: '#fa6161' }}>
+                    <FavoriteIcon style={{ fontSize: '20px', marginRight: '4.5px' }}/>
+                    &nbsp;Adicionar a lista de desejos
+                  </StyledButton>
                   <StyledButton>
                     <FaHandshake style={{ fontSize: '20px', marginRight: '4.5px' }}/>
                     &nbsp;Comprar
@@ -122,12 +162,12 @@ export default function Ad() {
 
                   <Grid container justify='center' alignItems='center' spacing={2}>
 
-                    <Grid item style={{ display: 'flex', justifyContent: 'center' }}>
+                    {/* <Grid item style={{ display: 'flex', justifyContent: 'center' }}>
                       <div style={{ borderRadius: '50%', width: '60px', height: '60px', backgroundColor: '#b7b7b7'}}></div>
-                    </Grid>
+                    </Grid> */}
 
                     <Grid item style={{ textAlign: 'center' }}>
-                      <p>FULANO DE TAL</p>
+                      <p>{owner.name}</p>
                     </Grid>
 
                   </Grid>

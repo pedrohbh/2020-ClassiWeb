@@ -91,7 +91,7 @@ const StyledButtonGroup = withStyles({
   }
 })((props: any) => <ButtonGroup {...props} />);
 
-export default function MyAppBar({ showCreateNewAccount = true, showLogin = true }) {
+export default function MyAppBar({ showCreateNewAccount = true, showLogin = true, newAd=false }) {
   const history = useHistory();
   const classes = useStyles();
 
@@ -114,7 +114,7 @@ export default function MyAppBar({ showCreateNewAccount = true, showLogin = true
             <Button onClick={ () => history.push('/') }>
               Início
             </Button>
-            { isLogged && 
+            { isLogged && !newAd &&
               <Button onClick={ () => history.push('/newad') }>
                 Publicar Anúncio
               </Button> 

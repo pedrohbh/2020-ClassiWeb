@@ -55,6 +55,7 @@ export default function Ads({ ads, isLoading, error, header="", myAds=false, wis
                   ads.map(({ id, title, price, imgRef, address }) => (
                     <Grid item key={id}>
                       <AdCard
+                        id={id}
                         title={title}
                         price={price}
                         imgRef={imgRef}
