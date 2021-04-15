@@ -35,6 +35,28 @@ export default function AdCard({ id='', title, price, imgRef, city, UF, myAds=fa
     history.push(`/ad/${id}`);
   }
 
+  const handleEditAd = () => {
+    localStorage.setItem('adId', id);
+    history.push(`/editad`);
+    // history.push(`/ad/edit/${id}`);
+  }
+
+  const handleRemoveFromWishList = () => {
+    
+  }
+
+  const handleAddToWishList = () => {
+
+  }
+
+  const handleDeleteAd = () => {
+
+  }
+
+  const handleBuy = () => {
+
+  }
+
   return (
     <Card className={classes.root}>
       <CardActionArea onClick={handleClickAd}>
@@ -70,44 +92,41 @@ export default function AdCard({ id='', title, price, imgRef, city, UF, myAds=fa
         </CardContent>
       </CardActionArea>
       <CardActions style={{ justifyContent: 'space-between' }}>
-        <StyledButton size="small" color="primary">
-          {myAds ?
-            <>
+        {myAds ?
+            <StyledButton size="small" color="primary" onClick={handleEditAd}>
               <EditIcon style={{ fontSize: 20 }} />
               &nbsp;&nbsp;Editar
-            </>
+            </StyledButton>
             :
             wishList ?
-              <>
+              <StyledButton size="small" color="primary" onClick={handleRemoveFromWishList}>
                 <DeleteIcon style={{ fontSize: 20 }} />
                 &nbsp;&nbsp;Remover
-              </>
+              </StyledButton>
               :
               myShopping ?
                 null
                 :
-                <>
+                <StyledButton size="small" color="primary" onClick={handleAddToWishList}>
                   <FavoriteIcon style={{ fontSize: 20 }} />
                   Adicionar à Lista de Desejos
-                </>
+                </StyledButton>
           }
-        </StyledButton>
-        <StyledButton size="small" color="primary">
-          {myAds ?
-            <>
+
+        {myAds ?
+            <StyledButton size="small" color="primary" onClick={handleDeleteAd}>
               <DeleteIcon style={{ fontSize: 20, marginRight: '4.5px' }} />
               Excluir
-            </>
+            </StyledButton>
             :
             myShopping ?
               null
               :
-              <>
+              <StyledButton size="small" color="primary" onClick={handleBuy}>
                 <FaHandshake style={{ fontSize: 20, marginRight: '4.5px' }} />
                 Comprar
-              </>
+              </StyledButton>
           }
-        </StyledButton>
       </CardActions>
     </Card>
   );

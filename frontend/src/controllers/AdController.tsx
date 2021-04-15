@@ -40,6 +40,15 @@ export default class AdController {
       });
   }
 
+  static update(editAd) {
+    return api.put('/ads', editAd)
+      .then(response => {
+        return response.data;
+      }).catch(e => {
+        console.error(e);
+      });
+  }
+
   static search(filters) {
     return api.post('/ads/search', filters)
       .then(response => {

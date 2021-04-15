@@ -1,7 +1,7 @@
 import { Button, Fab, Grid } from '@material-ui/core';
 import { createStyles, makeStyles, Theme, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Address from '../../components/Address';
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
 import AdController from '../../controllers/AdController';
@@ -67,13 +67,39 @@ const StyledFab = withStyles({
   }
 })((props: any) => <Fab {...props}/>);
 
-export default function NewAdForm() {
+export default function EditAdForm() {
   const history = useHistory();
   const classes = useStyles();
 
-  const [address, setAddress] = useState({});
+  const [title, setTitle] = useState('');
+  const [address, setAddress] = useState({ id: '', state: '', city: '' });
   const [category, setCategory] = useState('');
+  const [description, setDescription] = useState('');
   const [productState, setProductState] = useState('');
+  const [images, setImages] = useState([]);
+  const [owner, setOwner] = useState({ name: '' });
+  const [price, setPrice] = useState();
+  const [quantity, setQuantity] = useState(0);
+  const [state, setState] = useState();
+
+  const id = localStorage.getItem('adId');
+
+  useEffect(() => {
+    AdController.get(id)
+      .then(data => {
+        console.log(data);
+        setTitle(data.title);
+        setOwner(data.owner);
+        setPrice(data.price);
+        setCategory(data.category.name);
+        setAddress(data.address);
+        setQuantity(data.quantity);
+        setDescription(data.description);
+        setProductState(data.product_state);
+        // setImages();
+        // setState();
+      })
+  }, []);
 
   async function handleUploadClick(){
     const input : any = document.querySelector('#images');
@@ -120,20 +146,26 @@ export default function NewAdForm() {
 
     console.log(JSON.stringify(newAd));
 
-    const res = await AdController.postAd(newAd);
+    const res = await AdController.update(newAd);
     console.log(res);
+    alert('Informações do anúncio atualizadas!');
     // history.push('userpanel');
   }
 
   return (
     <Grid container direction="column" alignItems="center" style={{height: '100%', justifyContent: 'center'}}>
-      <h1 className={classes.text}>Publique agora um novo anúncio!</h1>
+      <h1 className={classes.text}>Atualizar informações do anúncio</h1>
       
       <form className={classes.formContainer} autoComplete="off" onSubmit={handleSubmit}>
           <Grid container spacing={1}>
 
             <Grid item xs={12}>
-              <StyledTextField required id="title" label="Nome"/>
+              <StyledTextField 
+                required id="title" 
+                label="Nome"
+                value={title}
+                onChange={ event => setTitle(event.target.value) }
+              />
             </Grid>
 
             <Grid item xs={12}>
@@ -147,6 +179,7 @@ export default function NewAdForm() {
                 currencySymbol="R$"
                 decimalCharacter=","
                 digitGroupSeparator="."
+                value={price}
               />
             </Grid>
             
@@ -157,6 +190,8 @@ export default function NewAdForm() {
                 type="number" 
                 label="Quantidade Disponível" 
                 InputProps={{ inputProps: { min: 1 } }}
+                value={quantity}
+                onChange={ event => setQuantity(event.target.value) }
               />
             </Grid>
 
@@ -170,15 +205,25 @@ export default function NewAdForm() {
                 multiline 
                 id="description" 
                 label="Descrição" 
+                value={description}
+                onChange={ event => setDescription(event.target.value) }
               />
             </Grid>
 
             <Grid item xs={12}>
-              <ProductState onChange={ selectedProductState => setProductState(selectedProductState) }/>
+              <ProductState 
+                // value={productState}
+                onChange={ selectedProductState => setProductState(selectedProductState) }
+              />
             </Grid>
 
             <Grid item xs={12}>
-              <Address onChange={ newAddress => setAddress(newAddress) }/>
+              <Address 
+                required={false}
+                preSelectedCity={address.city}
+                preSelectedState={address.state}
+                onChange={(newAddress) => setAddress(newAddress)} 
+              />
             </Grid> 
 
             <Grid item xs={12}>
@@ -200,7 +245,7 @@ export default function NewAdForm() {
 
           </Grid>
           <StyledButton type="submit" variant="contained">
-            Publicar
+            Atualizar
           </StyledButton>
       </form>
     </Grid>
