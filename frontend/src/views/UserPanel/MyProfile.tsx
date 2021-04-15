@@ -66,11 +66,16 @@ export default function MyAds() {
     console.log(newUserData)
     if (validator.isEmail(email)) {
       Swal.fire({
-        text: "Deseja atualizar as informações desse anúncio?",
-        buttons: ['Cancelar', 'Atualizar']
+        text: "Deseja atualizar seus dados?",
+        showCancelButton: true,
+        cancelButtonText: "Cancelar",
+        icon: 'warning',
+        cancelButtonColor: 'red',
+        confirmButtonColor: 'green',
+        reverseButtons: true
       })
-      .then(async (update) => {
-        if (update) {
+      .then(async (result) => {
+        if (result.isConfirmed) {
           await UserController.update(newUserData)
             .then(response => {
               console.log(response);
