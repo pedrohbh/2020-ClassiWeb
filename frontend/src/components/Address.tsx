@@ -10,13 +10,13 @@ const useStyles = makeStyles(() =>
       minWidth: 60,
     },
   }
-));
+  ));
 
-export default function Address({ onChange }) {
+export default function Address({ onChange, required=true, preSelectedState = '', preSelectedCity = '' }) {
   const [UFs, setUFs] = useState([]);
-  const [selectedUF, setSelectedUF] = useState('');
   const [cities, setCities] = useState([]);
-  const [selectedCity, setSelectedCity] = useState('');
+  const [selectedUF, setSelectedUF] = useState(preSelectedState);
+  const [selectedCity, setSelectedCity] = useState(preSelectedCity);
 
   const apiURL_UFs = `https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome`;
   const apiURL_Cities = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUF}/municipios`;
@@ -60,7 +60,7 @@ export default function Address({ onChange }) {
     <Grid container spacing={1}>
       <Grid item xs={4}>
         <FormControl className={classes.formControl} variant="outlined" fullWidth>
-          <InputLabel id="uf">UF</InputLabel>
+          <InputLabel required={required} id="uf">UF</InputLabel>
           <Select
             labelId="uf"
             id="uf"
@@ -68,6 +68,10 @@ export default function Address({ onChange }) {
             onChange={handleSelectUF}
             label="UF"
           >
+            {
+              required &&
+              <MenuItem key={''} value={''} disabled style={{ display: 'none' }}></MenuItem>
+            }
             {
               UFs.map(({ sigla }) => (
                 <MenuItem key={sigla} value={sigla}>{sigla}</MenuItem>
@@ -78,7 +82,7 @@ export default function Address({ onChange }) {
       </Grid>
       <Grid item xs={8}>
         <FormControl className={classes.formControl} variant="outlined" fullWidth>
-          <InputLabel id="city">Cidade</InputLabel>
+          <InputLabel required={required} id="city">Cidade</InputLabel>
           <Select
             labelId="city"
             id="city"
@@ -87,6 +91,10 @@ export default function Address({ onChange }) {
             disabled={!selectedUF}
             onChange={handleSelectCity}
           >
+            {
+              required &&
+              <MenuItem key={''} value={''} disabled style={{ display: 'none' }}></MenuItem>
+            }
             {
               cities.map(({ nome }) => (
                 <MenuItem key={nome} value={nome}>{nome}</MenuItem>

@@ -2,7 +2,7 @@ import api from '../services/api';
 
 export default class UserController {
   static getAll() {
-    return api.get('/users')
+    return api.get('/users/list')
       .then(response => {
         return response.data;
       }).catch(e => {
@@ -19,8 +19,8 @@ export default class UserController {
       });
   }
 
-  static getUser(token) {
-    return api.get('/users', token)
+  static getUser() {
+    return api.get('/users')
       .then(response => {
         return response.data;
       }).catch(e => {

@@ -104,7 +104,10 @@ export default function Filters({ onChange }) {
             </Grid>
 
             <Grid item xs={12}>
-              <Address onChange={ newAddress => setAddress(newAddress) }/>
+              <Address 
+                required={false}
+                onChange={ newAddress => setAddress(newAddress) }
+              />
             </Grid>
 
             <Grid item xs={12}>

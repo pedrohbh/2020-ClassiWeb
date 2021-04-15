@@ -26,7 +26,6 @@ export default function Categories({ onChange, required = true, preSelected = ''
           label="Categoria"
           labelId="category"
           value={selectedCategory}
-          // defaultValue={preSelected}
           onChange={handleSelectCategory}
       >
         {

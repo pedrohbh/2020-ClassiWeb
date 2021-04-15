@@ -70,18 +70,18 @@ export default function Panel() {
         onChange={handleChangeTab}
         centered
       >
-        <Tab label="Meus anúncios" />
-        <Tab label="Minhas compras" />
-        <Tab label="Lista de Desejos" />
         <Tab label="Meu perfil" />
+        <Tab label="Meus anúncios" />
+        <Tab label="Lista de Desejos" />
+        <Tab label="Minhas compras" />
       </MyTabs >
 
       <TabPanel value={value} index={0}>
-        <MyAds/>
+        <MyProfile/>
       </TabPanel>
 
       <TabPanel value={value} index={1}>
-        <MyShopping/>
+        <MyAds/>
       </TabPanel>
 
       <TabPanel value={value} index={2}>
@@ -89,7 +89,7 @@ export default function Panel() {
       </TabPanel>
 
       <TabPanel value={value} index={3}>
-        <MyProfile/>
+        <MyShopping/>
       </TabPanel>
     </div>
   );
