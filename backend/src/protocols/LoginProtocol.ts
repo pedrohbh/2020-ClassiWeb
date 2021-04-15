@@ -39,14 +39,18 @@ export class LoginLocalProtocol implements OnVerify {
       return false; // OR throw new NotAuthorized("Wrong credentials")
     }
 
+    return LoginLocalProtocol.Login(request, result.id, result instanceof Admin);
+  }
+
+  static Login(request: Req, user: User | Admin, isAdmin: boolean) {
     let token;
-    request.login(result, (error) => {
+    request.login(user, (error) => {
       if (error) return;
 
       token = jwt.sign(
         {
-          id: result.id,
-          role: result instanceof Admin ? UserTypes.ADMIN : UserTypes.NORMAL,
+          id: user.id,
+          role: isAdmin ? UserTypes.ADMIN : UserTypes.NORMAL,
         },
         JWT_SUPER_SECRET,
         { expiresIn: '1d' },
