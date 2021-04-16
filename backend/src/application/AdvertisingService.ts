@@ -109,7 +109,7 @@ export class AdvertisingService {
 
     const testText = (text: string) => regex.test(removeAccents(text));
 
-    const ads = adsDB
+    const ads = await Promise.all( adsDB
       .filter((ad) => testText(ad.title) || testText(ad.description))
       .filter((ad) => {
         if (!filter.address) return true;
@@ -120,9 +120,9 @@ export class AdvertisingService {
 
         return ad.address.state === filter.address.state;
       })
-      .map((ad) => this.GetAdvertisingDTO(ad));
+      .map((ad) => this.GetAdvertisingDTO(ad)));
 
-    return [ads, total];
+    return [ads, ads.length];
   }
 
   async CreateAd(ad: Partial<Advertising>) {
@@ -134,6 +134,7 @@ export class AdvertisingService {
 
     const newAd = await this.dao.Create({
       ...ad,
+      description: ad.description || '',
       quantity: +(ad.quantity ?? 1),
       category,
       address,
@@ -141,7 +142,7 @@ export class AdvertisingService {
       price: +(ad.price ?? 0),
     });
 
-    return this.GetAdvertisingDTO(newAd);
+    return this.GetAdById(newAd.id);
   }
 
   async GetAdById(adId: string) {

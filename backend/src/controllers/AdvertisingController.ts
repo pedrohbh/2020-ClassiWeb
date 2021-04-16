@@ -1,8 +1,9 @@
 import {
   BodyParams, Controller, Delete, Get, HeaderParams, Inject, PathParams, Post, Put, Response,
 } from '@tsed/common';
-import { NotFound } from '@tsed/exceptions';
+import { BadRequest, NotFound } from '@tsed/exceptions';
 import { Authorize } from '@tsed/passport';
+import { number } from '@tsed/schema';
 import { EntityNotFoundError } from 'typeorm';
 
 import { AdFilter, AdvertisingService } from '../application/AdvertisingService';
@@ -31,11 +32,11 @@ export class AdvertisingController {
       const ad = await this.adService.GetAdById(id);
       
       if (!auth) {
-        return { ...ad, is_onwer: false };
+        return { ...ad, is_owner: false };
       }
 
       const userId = JwtProtocol.getUserIdFromToken(auth);
-      return { ...ad, is_onwer: ad.owner.id === userId };
+      return { ...ad, is_owner: ad.owner.id === userId };
     } catch (error) {
       if (error instanceof EntityNotFoundError) throw new NotFound('Anúncio não encontrado');
     }
@@ -55,11 +56,11 @@ export class AdvertisingController {
   Post(@HeaderParams('auth') auth: string, @BodyParams() ad: Partial<Advertising>) {
     if (! ad.title)         throw new BadRequest('Campo título não preenchido');
     if (! ad.price)         throw new BadRequest('Campo preço não preenchido');
-    if (! ad.quantity)      throw new BadRequest('Campo quantidade não preenchido');
-    if (! ad.product_state) throw new BadRequest('Campo estado do produto não preenchido');
-    if (! ad.state)         throw new BadRequest('Campo estado do anúncio não preenchido');
     if (! ad.category)      throw new BadRequest('Campo categoria não preenchido');
-    if (! ad.address)       throw new BadRequest('Campo eandereço não preenchido');
+    if (! ad.address)       throw new BadRequest('Campo endereço não preenchido');
+    if (! Number.isInteger(ad.quantity))      throw new BadRequest('Campo quantidade não preenchido');
+    if (! Number.isInteger(ad.product_state)) throw new BadRequest('Campo estado do produto não preenchido');
+    if (! Number.isInteger(ad.state))         throw new BadRequest('Campo estado do anúncio não preenchido');
 
     ad.ownerId = JwtProtocol.getUserIdFromToken(auth);
     return this.adService.CreateAd(ad);
