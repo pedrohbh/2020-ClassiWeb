@@ -1,4 +1,5 @@
 import { BodyParams, Controller, Delete, Get, HeaderParams, Inject, PathParams, Post, Request } from '@tsed/common';
+import { BadRequest } from '@tsed/exceptions';
 import { Authorize } from '@tsed/passport';
 
 import { AdminService } from '../application/AdminService';
@@ -31,6 +32,11 @@ export class AdminController {
 
   @Post('/')
   async Post(@Request() request: Request, @BodyParams() admin: Pick<Admin, 'name' | 'registration' | 'email' | 'password'>) {
+    if (! admin.name)         throw new BadRequest('Campo nome não preenchido');
+    if (! admin.registration) throw new BadRequest('Campo matrícula não preenchido');
+    if (! admin.email)        throw new BadRequest('Campo email não preenchido');
+    if (! admin.password)     throw new BadRequest('Campo senha não preenchido');
+    
     admin.password = Admin.GetEncryptedPassword(admin.password);
     const newAdminer = await this.adminService.CreateAdmin(admin);
 

@@ -40,7 +40,7 @@ export class AdminService {
       where: { email },
     });
 
-    return this.GetAdminDTO(admin);
+    return admin;
   }
 
   async DeleteAdmin(id: string) {

@@ -99,7 +99,7 @@ export class UserService {
       where: { email },
     });
 
-    return this.GetUserDTO(user);
+    return user;
   }
 
   async GetFromUser(userId: string, options: FindManyOptions<User>) {

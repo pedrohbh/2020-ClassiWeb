@@ -1,4 +1,6 @@
-import { BodyParams, Controller, Delete, Get, HeaderParams, Inject, PathParams, Post, Put, Request } from '@tsed/common';
+import {
+  BodyParams, Controller, Delete, Get, HeaderParams, Inject, Post, Put, Request,
+} from '@tsed/common';
 import { Authorize } from '@tsed/passport';
 
 import { UserService } from '../application/UserService';
@@ -14,14 +16,7 @@ export class UserController {
 
   @Get('/list')
   async GetAll() {
-    const allUsers = await this.userService.ListAllUsers();
-
-    return allUsers.map((user) => ({
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      address: user.address,
-    }));
+    return this.userService.ListAllUsers();
   }
 
   @Get('/')
@@ -44,7 +39,9 @@ export class UserController {
   async Put(@HeaderParams('auth') auth: string, @BodyParams() user: Partial<User>) {
     const userId = JwtProtocol.getUserIdFromToken(auth);
 
-    const { id, name, email, address } = await this.userService.UpdateUser(userId, user);
+    const {
+      id, name, email, address,
+    } = await this.userService.UpdateUser(userId, user);
 
     return {
       id,

@@ -1,5 +1,9 @@
-import { BodyParams, Controller, Delete, Get, HeaderParams, Inject, PathParams, Post, Put, Response } from '@tsed/common';
+import {
+  BodyParams, Controller, Delete, Get, HeaderParams, Inject, PathParams, Post, Put, Response,
+} from '@tsed/common';
+import { NotFound } from '@tsed/exceptions';
 import { Authorize } from '@tsed/passport';
+import { EntityNotFoundError } from 'typeorm';
 
 import { AdFilter, AdvertisingService } from '../application/AdvertisingService';
 import { Advertising } from '../domain/Advertising';
@@ -12,23 +16,51 @@ export class AdvertisingController {
   @Inject(AdvertisingService)
   private adService: AdvertisingService;
 
-  @Get('/')
+  @Get('/list')
   async GetAll(@HeaderParams('page') page: number, @HeaderParams('page-size') pageSize: number, @Response() response: Response) {
     const [ads, total] = await this.adService.ListAllAds(page ?? 1, pageSize);
-    response.setHeader('page-count', Math.ceil(total / pageSize) || 1);
+    response.setHeader('page-count', Math.ceil(+total / pageSize) || 1);
 
     return ads;
   }
 
+
   @Get('/:id')
-  Get(@PathParams('id') id: string) {
-    return this.adService.GetAdById(id);
+  async Get(@HeaderParams('auth') auth: string, @PathParams('id') id: string) {
+    try {
+      const ad = await this.adService.GetAdById(id);
+      
+      if (!auth) {
+        return { ...ad, is_onwer: false };
+      }
+
+      const userId = JwtProtocol.getUserIdFromToken(auth);
+      return { ...ad, is_onwer: ad.owner.id === userId };
+    } catch (error) {
+      if (error instanceof EntityNotFoundError) throw new NotFound('Anúncio não encontrado');
+    }
+  }
+
+  @Get('/')
+  @Roles([UserTypes.NORMAL])
+  @Authorize('jwt')
+  async GetUserAds(@HeaderParams('auth') auth: string) {
+    const userID = JwtProtocol.getUserIdFromToken(auth);
+    return await this.adService.GetAdsByUserId(userID);
   }
 
   @Post('/')
   @Roles([UserTypes.NORMAL])
   @Authorize('jwt')
   Post(@HeaderParams('auth') auth: string, @BodyParams() ad: Partial<Advertising>) {
+    if (! ad.title)         throw new BadRequest('Campo título não preenchido');
+    if (! ad.price)         throw new BadRequest('Campo preço não preenchido');
+    if (! ad.quantity)      throw new BadRequest('Campo quantidade não preenchido');
+    if (! ad.product_state) throw new BadRequest('Campo estado do produto não preenchido');
+    if (! ad.state)         throw new BadRequest('Campo estado do anúncio não preenchido');
+    if (! ad.category)      throw new BadRequest('Campo categoria não preenchido');
+    if (! ad.address)       throw new BadRequest('Campo eandereço não preenchido');
+
     ad.ownerId = JwtProtocol.getUserIdFromToken(auth);
     return this.adService.CreateAd(ad);
   }
@@ -41,7 +73,7 @@ export class AdvertisingController {
     @Response() response: Response,
   ) {
     const [ads, total] = await this.adService.ListAdsWith(filter, page ?? 1, pageSize);
-    response.setHeader('page-count', Math.ceil(total / pageSize) || 1);
+    response.setHeader('page-count', Math.ceil(+total / pageSize) || 1);
 
     return ads;
   }
