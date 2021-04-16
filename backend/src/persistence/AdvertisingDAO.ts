@@ -2,7 +2,7 @@ import { Injectable } from '@tsed/di';
 
 import { EntityRepository, FindManyOptions, Repository } from 'typeorm';
 
-import { Advertising } from '../domain/Advertising';
+import { Advertising, AdvertisingState } from '../domain/Advertising';
 import { IBaseDAO } from './BaseDAO';
 
 @EntityRepository(Advertising)
@@ -19,6 +19,7 @@ export class AdvertisingDAO implements Omit<IBaseDAO<Advertising>, 'ReadAll' | '
   ReadAll(page: number, pageSize: number) {
     return this.repository.findAndCount({
       relations: ['category', 'address', 'owner', 'images'],
+      where: { state: AdvertisingState.VISIBLE },
       take: pageSize,
       skip: (page - 1) * (pageSize ?? 0),
     });

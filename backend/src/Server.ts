@@ -1,4 +1,4 @@
-import { $log, PlatformApplication } from '@tsed/common';
+import { $log, PlatformApplication, Response } from '@tsed/common';
 import { Env } from '@tsed/core';
 import { Configuration, Inject } from '@tsed/di';
 import { BadRequest } from '@tsed/exceptions';
@@ -10,10 +10,13 @@ import compress from 'compression';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import methodOverride from 'method-override';
+import multer from 'multer';
+import path from 'path';
 
 import '@tsed/ajv';
 import '@tsed/swagger';
 import '@tsed/typeorm';
+
 import typeormConfig from '../ormconfig.json';
 
 import { IndexController } from './controllers/pages/IndexController';
@@ -68,6 +71,12 @@ if (isProduction) {
         cb(new BadRequest('Formato de arquivo inválido'));
       }
     },
+    storage: multer.diskStorage({
+      destination: `${rootDir}/../uploads`,
+      filename: (req, file, cb) => {
+        cb(null, file.originalname);
+      },
+    }),
   },
   swagger: [
     {
@@ -85,6 +94,13 @@ if (isProduction) {
   },
   typeorm: [typeormConfig as any],
   exclude: ['**/*.spec.ts'],
+  statics: {
+    '/rest': [
+      {
+        root: `${rootDir}/../uploads`,
+      },
+    ],
+  },
 })
 export class Server {
   @Inject()
@@ -105,5 +121,11 @@ export class Server {
           extended: true,
         }),
       );
+  }
+
+  $afterRoutesInit() {
+    this.app.get('/rest/images/:id', (req: Request, res: Response) => {
+      res.sendFile(path.join(__dirname, '../uploads/ClassiWeb.png'));
+    });
   }
 }

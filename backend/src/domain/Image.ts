@@ -1,6 +1,8 @@
 import { Required } from '@tsed/schema';
 
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column, Entity, ManyToOne, PrimaryGeneratedColumn,
+} from 'typeorm';
 
 import { Advertising } from './Advertising';
 
@@ -9,9 +11,9 @@ export class Image {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'blob' })
+  @Column()
   @Required()
-  blob: Blob;
+  base64: string;
 
   @ManyToOne(() => Advertising, (ad) => ad.images)
   ad: Advertising;

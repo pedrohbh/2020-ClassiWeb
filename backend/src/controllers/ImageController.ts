@@ -10,8 +10,11 @@ import {
   PathParams,
   PlatformMulterFile,
   Post,
+  Response,
 } from '@tsed/common';
 import { Authorize } from '@tsed/passport';
+
+import path from 'path';
 
 import { ImageService } from '../application/ImageService';
 import { UserTypes } from '../domain/User';
@@ -27,18 +30,28 @@ export class ImageController {
     return this.imageService.ListImages();
   }
 
-  @Get('/:id')
-  @Roles([UserTypes.NORMAL])
-  @Authorize('jwt')
-  Get(@HeaderParams('auth') auth: string, @PathParams('id') id: string) {
-    return this.imageService.GetImageById(id);
-  }
+  // @Get('/:id')
+  // @Roles([UserTypes.NORMAL])
+  // @Authorize('jwt')
+  // Get(
+  // @HeaderParams('auth') auth: string,
+  // @PathParams('id') id: string,
+  // ) {
+  // return this.imageService.GetImageById(id);
+  // }
 
   @Post('/:adId')
   @Roles([UserTypes.NORMAL])
   @Authorize('jwt')
-  Post(@HeaderParams('auth') auth: string, @PathParams('adId') adId: string, @MultipartFile('image') image: PlatformMulterFile) {
-    return this.imageService.SaveImage(image, adId);
+  async Post(
+    @HeaderParams('auth') auth: string,
+    @PathParams('adId') adId: string,
+    @MultipartFile('image') image: PlatformMulterFile,
+  ) {
+    return this.imageService.SaveImage(
+      image.buffer.toString('base64'),
+      adId,
+    );
   }
 
   @Delete('/:id')
