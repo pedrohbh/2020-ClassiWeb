@@ -134,6 +134,7 @@ export class AdvertisingService {
 
     const newAd = await this.dao.Create({
       ...ad,
+      description: ad.description || '',
       quantity: +(ad.quantity ?? 1),
       category,
       address,
@@ -141,7 +142,7 @@ export class AdvertisingService {
       price: +(ad.price ?? 0),
     });
 
-    return this.GetAdvertisingDTO(newAd);
+    return this.GetAdById(newAd.id);
   }
 
   async GetAdById(adId: string) {
