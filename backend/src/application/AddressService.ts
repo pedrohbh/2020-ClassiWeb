@@ -1,7 +1,7 @@
 import { Inject, Service } from '@tsed/di';
 
-import { Address } from '../../domain/Address';
-import { AddressDAO } from '../../persistence/AddressDAO';
+import { Address } from '../domain/Address';
+import { AddressDAO } from '../persistence/AddressDAO';
 
 @Service()
 export class AddressService {

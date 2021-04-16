@@ -1,6 +1,7 @@
-import { $log, PlatformApplication, Req } from '@tsed/common';
+import { $log, PlatformApplication } from '@tsed/common';
 import { Env } from '@tsed/core';
 import { Configuration, Inject } from '@tsed/di';
+import { BadRequest } from '@tsed/exceptions';
 
 import '@tsed/passport';
 import '@tsed/platform-express'; // /!\ keep this import
@@ -16,7 +17,6 @@ import '@tsed/typeorm';
 import typeormConfig from '../ormconfig.json';
 
 import { IndexController } from './controllers/pages/IndexController';
-import { BadRequest } from '@tsed/exceptions';
 
 export const rootDir = __dirname;
 export const isProduction = process.env.NODE_ENV === Env.PROD;
@@ -48,7 +48,7 @@ if (isProduction) {
     disableRoutesSummary: isProduction,
   },
   mount: {
-    '/rest': [`${rootDir}/controllers/**/*.ts`],
+    '/api': [`${rootDir}/controllers/**/*.ts`],
     '/': [IndexController],
   },
   componentsScan: [

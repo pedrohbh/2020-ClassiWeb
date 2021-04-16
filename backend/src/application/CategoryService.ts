@@ -1,7 +1,7 @@
 import { Inject, Service } from '@tsed/di';
 
-import { Category } from '../../domain/Category';
-import { CategoryDAO } from '../../persistence/CategoryDAO';
+import { Category } from '../domain/Category';
+import { CategoryDAO } from '../persistence/CategoryDAO';
 
 @Service()
 export class CategoryService {
@@ -16,7 +16,7 @@ export class CategoryService {
     return this.dao.ReadAll();
   }
 
-  async Delete(name: string): Promise<void> {
+  async DeleteCategory(name: string): Promise<void> {
     await this.dao.Delete(name);
   }
 }

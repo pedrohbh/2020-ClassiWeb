@@ -1,9 +1,7 @@
-import {
-  BodyParams, Controller, Delete, Get, HeaderParams, Inject, PathParams, Post, Put, Request,
-} from '@tsed/common';
+import { BodyParams, Controller, Delete, Get, HeaderParams, Inject, PathParams, Post, Put, Request } from '@tsed/common';
 import { Authorize } from '@tsed/passport';
 
-import { UserService } from '../application/classes/UserService';
+import { UserService } from '../application/UserService';
 import { User, UserTypes } from '../domain/User';
 import { Roles } from '../middlewares/Roles';
 import { JwtProtocol } from '../protocols/JwtProtocol';
@@ -35,10 +33,7 @@ export class UserController {
   }
 
   @Post('/')
-  async Post(
-    @Request() request: Request,
-    @BodyParams() user: Pick<User, 'name' | 'cpf' | 'email' | 'password' | 'address'>,
-  ) {
+  async Post(@Request() request: Request, @BodyParams() user: Pick<User, 'name' | 'cpf' | 'email' | 'password' | 'address'>) {
     const newUser = await this.userService.CreateUser(user);
     return LoginLocalProtocol.Login(request, newUser, false);
   }
@@ -46,15 +41,10 @@ export class UserController {
   @Put('/')
   @Roles([UserTypes.NORMAL])
   @Authorize('jwt')
-  async Put(
-    @HeaderParams('auth') auth: string,
-    @BodyParams() user: Partial<User>,
-  ) {
+  async Put(@HeaderParams('auth') auth: string, @BodyParams() user: Partial<User>) {
     const userId = JwtProtocol.getUserIdFromToken(auth);
 
-    const {
-      id, name, email, address,
-    } = await this.userService.UpdateUser(userId, user);
+    const { id, name, email, address } = await this.userService.UpdateUser(userId, user);
 
     return {
       id,

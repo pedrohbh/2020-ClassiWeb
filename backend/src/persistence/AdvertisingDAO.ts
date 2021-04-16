@@ -3,12 +3,13 @@ import { Injectable } from '@tsed/di';
 import { EntityRepository, FindManyOptions, Repository } from 'typeorm';
 
 import { Advertising } from '../domain/Advertising';
+import { IBaseDAO } from './BaseDAO';
 
 @EntityRepository(Advertising)
 class AdvertisingRepository extends Repository<Advertising> {}
 
 @Injectable()
-export class AdvertisingDAO {
+export class AdvertisingDAO implements Omit<IBaseDAO<Advertising>, 'ReadAll' | 'ReadWith'> {
   constructor(private readonly repository: AdvertisingRepository) {}
 
   Create(ad: Partial<Advertising>) {
@@ -37,11 +38,11 @@ export class AdvertisingDAO {
     });
   }
 
-  Update(id: string, ad: Partial<Advertising>) {
-    return this.repository.update(id, ad);
+  async Update(id: string, ad: Partial<Advertising>) {
+    await this.repository.update(id, ad);
   }
 
-  Delete(id: string) {
-    return this.repository.delete(id);
+  async Delete(id: string) {
+    await this.repository.delete(id);
   }
 }

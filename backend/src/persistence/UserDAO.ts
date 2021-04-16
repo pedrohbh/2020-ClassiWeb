@@ -3,12 +3,13 @@ import { Injectable } from '@tsed/di';
 import { EntityRepository, FindManyOptions, Repository } from 'typeorm';
 
 import { User } from '../domain/User';
+import { IBaseDAO } from './BaseDAO';
 
 @EntityRepository(User)
 class UserRepository extends Repository<User> {}
 
 @Injectable()
-export class UserDAO {
+export class UserDAO implements IBaseDAO<User> {
   constructor(private readonly repository: UserRepository) {}
 
   Create(user: Partial<User>) {
@@ -31,10 +32,9 @@ export class UserDAO {
 
   async Update(id: string, user: Partial<User>) {
     await this.repository.update(id, user);
-    return this.Read(id);
   }
 
   async Delete(id: string) {
-    this.repository.delete(id);
+    await this.repository.delete(id);
   }
 }

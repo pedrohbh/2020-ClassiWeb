@@ -4,8 +4,8 @@ import { OnVerify, Protocol } from '@tsed/passport';
 import jwt from 'jsonwebtoken';
 import { IStrategyOptions, Strategy } from 'passport-local';
 
-import { AdminService } from '../application/classes/AdminService';
-import { UserService } from '../application/classes/UserService';
+import { AdminService } from '../application/AdminService';
+import { UserService } from '../application/UserService';
 import { Admin } from '../domain/Admin';
 import { User, UserTypes } from '../domain/User';
 import { JWT_SUPER_SECRET } from './JwtProtocol';
@@ -31,9 +31,7 @@ export class LoginLocalProtocol implements OnVerify {
   private readonly adminService: AdminService;
 
   async $onVerify(@Req() request: Req, @BodyParams() credentials: Credentials) {
-    const result = (
-      await this.TryToLoginUser(credentials) || await this.TryToLoginAdmin(credentials)
-    ) as User | Admin | false;
+    const result = ((await this.TryToLoginUser(credentials)) || (await this.TryToLoginAdmin(credentials))) as User | Admin | false;
 
     if (!result) {
       return false; // OR throw new NotAuthorized("Wrong credentials")

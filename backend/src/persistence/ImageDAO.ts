@@ -3,12 +3,13 @@ import { Injectable } from '@tsed/di';
 import { DeepPartial, EntityRepository, Repository } from 'typeorm';
 
 import { Image } from '../domain/Image';
+import { IBaseDAO } from './BaseDAO';
 
 @EntityRepository(Image)
 class ImageRepository extends Repository<Image> {}
 
 @Injectable()
-export class ImageDAO {
+export class ImageDAO implements Omit<IBaseDAO<Image>, 'ReadWith' | 'Update'> {
   constructor(private readonly repository: ImageRepository) {}
 
   Create(image: DeepPartial<Image>) {
@@ -23,7 +24,7 @@ export class ImageDAO {
     return this.repository.findOneOrFail(id);
   }
 
-  Delete(id: string) {
-    return this.repository.delete(id);
+  async Delete(id: string) {
+    await this.repository.delete(id);
   }
 }

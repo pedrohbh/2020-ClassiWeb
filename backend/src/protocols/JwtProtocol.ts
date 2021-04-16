@@ -4,7 +4,7 @@ import { Arg, OnVerify, Protocol } from '@tsed/passport';
 import jwt from 'jsonwebtoken';
 import { ExtractJwt, Strategy, StrategyOptions } from 'passport-jwt';
 
-import { UserService } from '../application/classes/UserService';
+import { UserService } from '../application/UserService';
 
 export const JWT_SUPER_SECRET = 'super_secret_jwt_key_generator';
 

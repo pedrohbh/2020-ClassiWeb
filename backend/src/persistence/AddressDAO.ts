@@ -3,12 +3,13 @@ import { Injectable } from '@tsed/di';
 import { EntityRepository, FindManyOptions, Repository } from 'typeorm';
 
 import { Address } from '../domain/Address';
+import { IBaseDAO } from './BaseDAO';
 
 @EntityRepository(Address)
 class AddressRepository extends Repository<Address> {}
 
 @Injectable()
-export class AddressDAO {
+export class AddressDAO implements Omit<IBaseDAO<Address>, 'Update'> {
   constructor(private readonly repository: AddressRepository) {}
 
   Create(address: Partial<Address>) {
@@ -28,7 +29,6 @@ export class AddressDAO {
   }
 
   async Delete(id: string) {
-    const deleteResults = await this.repository.delete(id);
-    return (deleteResults.affected ?? 0) > 0;
+    await this.repository.delete(id);
   }
 }
