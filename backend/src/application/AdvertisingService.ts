@@ -109,16 +109,25 @@ export class AdvertisingService {
 
     const testText = (text: string) => regex.test(removeAccents(text));
 
-    const ads = await Promise.all( adsDB
+    const ads = await Promise.all(adsDB
       .filter((ad) => testText(ad.title) || testText(ad.description))
       .filter((ad) => {
-        if (!filter.address) return true;
+        /* Se o filtro para endereço está sendo usado */
+        if (filter.address?.state) {
+          /* Se o estado do anúncio passa no filtro */
+          if (ad.address.state === filter.address.state) {
+            if (filter.address?.city) {
+              /* Verifica se a cidade passa no filtro */
+              return ad.address.city === filter.address.city;
+            }
 
-        if (filter.address?.city) {
-          return ad.address.city === filter.address.city;
+            return true; /* Passa no filtro */
+          }
+
+          return true; /* Passa no filtro */
         }
 
-        return ad.address.state === filter.address.state;
+        return true; /* Passa no filtro */
       })
       .map((ad) => this.GetAdvertisingDTO(ad)));
 
@@ -173,14 +182,14 @@ export class AdvertisingService {
   }
 
   async GetAdsByUserId(userID: string) {
-    const [{ads}] = await this.userDao.ReadWith({
+    const [{ ads }] = await this.userDao.ReadWith({
       relations: ['ads'],
-      where: {id: userID}
+      where: { id: userID },
     });
 
     console.log(ads);
 
-    return Promise.all(ads.map(ad => this.GetAdById(ad.id)));
+    return Promise.all(ads.map((ad) => this.GetAdById(ad.id)));
   }
 
   DeleteAd(id: string) {
