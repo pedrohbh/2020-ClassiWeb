@@ -14,7 +14,7 @@ export class AdvertisingController {
   @Inject(AdvertisingService)
   private adService: AdvertisingService;
 
-  @Get('/')
+  @Get('/list')
   async GetAll(@HeaderParams('page') page: number, @HeaderParams('page-size') pageSize: number, @Response() response: Response) {
     const [ads, total] = await this.adService.ListAllAds(page ?? 1, pageSize);
     response.setHeader('page-count', Math.ceil(+total / pageSize) || 1);
@@ -42,12 +42,13 @@ export class AdvertisingController {
     return { ...ad, is_onwer: ad.owner.id === userId };
   }
 
-  @Get('/user')
+  @Get('/')
   @Roles([UserTypes.NORMAL])
   @Authorize('jwt')
-  GetUserAds(@HeaderParams('auth') auth: string) {
+  async GetUserAds(@HeaderParams('auth') auth: string) {
     const userID = JwtProtocol.getUserIdFromToken(auth);
-    return this.adService.GetAdsByUserId(userID);
+    console.log(userID);
+    return await this.adService.GetAdsByUserId(userID);
   }
 
   @Post('/')

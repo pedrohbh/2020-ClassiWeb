@@ -177,7 +177,9 @@ export class AdvertisingService {
       where: {id: userID}
     });
 
-    return Promise.all(ads.map(ad => this.GetAdvertisingDTO(ad)));
+    console.log(ads);
+
+    return Promise.all(ads.map(ad => this.GetAdById(ad.id)));
   }
 
   DeleteAd(id: string) {
