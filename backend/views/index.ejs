@@ -86,10 +86,26 @@
             <img src="https://tsed.io/tsed-og.png" alt="Ts.ED">
         </div>
 
+        <p style="text-align: center;">
+          <b>Bem Vindo ao servidor do Classiweb!</b>
+        </p>
+
+        <p style="text-align: center;">
+          E-commerce utilizado em <b><%= status.n_states %> estados</b> do Brasil.
+        </p>
+
+        <p style="text-align: center;">
+          Com <b><%= status.total_users %> usuários</b> ativos.
+        </p>
+
         <ul>
             <% docs.forEach((doc) => { %>
 
-                <li><a href="<%= doc.path %>"><span>OpenSpec <%= doc.specVersion %></span></a></li>
+                <li>
+                  <a href="<%= doc.path %>">
+                    <span>Documentação da API v<%= doc.specVersion %></span>
+                  </a>
+                </li>
 
             <% }) %>
         </ul>

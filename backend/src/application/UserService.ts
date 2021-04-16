@@ -117,7 +117,7 @@ export class UserService {
   async ListAllUsers() {
     const users = await this.dao.ReadAll();
 
-    return users.map((user) => this.GetUserDTO(user));
+    return Promise.all(users.map((user) => this.GetUserDTO(user)));
   }
 
   async UpdateUser(id: string, userJson: Partial<User>) {
