@@ -5,7 +5,6 @@ import { getConnection } from 'typeorm';
 import { Advertising } from '../domain/Advertising';
 import { AdvertisingDAO } from '../persistence/AdvertisingDAO';
 import { UserDAO } from '../persistence/UserDAO';
-import { AdvertisingService } from './AdvertisingService';
 import { UserService } from './UserService';
 
 @Service()
@@ -21,16 +20,13 @@ export class WishListService {
   @Inject(AdvertisingDAO)
   private readonly adDao: AdvertisingDAO;
 
-  @Inject(AdvertisingService)
-  private readonly advertisingService: AdvertisingService;
-
   async GetList(userId: string) {
     const [user] = await this.userDao.ReadWith({
       relations: ['wishes_list'],
       where: { id: userId },
     });
 
-    return user.wishes_list.map((ad) => this.advertisingService.GetAdvertisingDTO(ad));
+    return user.wishes_list.map((ad) => ({ ...ad }));
   }
 
   async AddAdOnList(userId: string, adId: string) {
@@ -43,8 +39,6 @@ export class WishListService {
 
     user.wishes_list.push(ad);
     await this.connection.manager.save(user);
-
-    return user.wishes_list.map((_ad) => this.advertisingService.GetAdvertisingDTO(_ad));
   }
 
   async RemoveAdFromList(userId: string, adId: string) {
