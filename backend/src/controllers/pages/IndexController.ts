@@ -29,7 +29,7 @@ export class IndexController {
       })),
       status: {
         total_users: users.length,
-        n_states: new Set(users.map((user) => user.address.state)).size,
+        n_states: new Set(users.map((user) => user.address?.state)).size,
       },
     };
   }

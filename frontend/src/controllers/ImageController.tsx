@@ -9,4 +9,15 @@ export default class ImageController {
         console.error(e);
       });
   }
+
+  static teste(id) {
+    return api.get(`/images/${id}`, {
+      responseType: 'arraybuffer'
+    })
+      .then(response => {
+        return response.data;
+      }).catch(e => {
+        console.error(e);
+      });
+  }
 }

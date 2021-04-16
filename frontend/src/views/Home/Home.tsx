@@ -5,11 +5,13 @@ import Categories from './Categories';
 import Ads from '../../components/Ads';
 import { useEffect, useState } from 'react';
 import AdController from '../../controllers/AdController';
+import ImageController from '../../controllers/ImageController';
 
 export default function Home() {
   const [ads, setAds] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [imge, setImg] = useState("");
 
   useEffect(() => {
     AdController.getAll()
@@ -21,7 +23,15 @@ export default function Home() {
         } else {
           setError(true);
         }
+
+    
       });
+
+    // ImageController.teste("123")
+    //   .then(response => {
+    //     const x = 'data:image/*;base64,' + Buffer.from(response, 'binary').toString('base64');
+    //     setImg(x)
+    //   })
   }, []);
 
   return (
@@ -45,6 +55,10 @@ export default function Home() {
             </Grid>
           </Grid>
         </Grid>
+        
+        {/* <Image src={imge} alt="dorime" /> */}
     </PageBase>
   )
 }
+
+// const Image = ({src, alt}) => <img src={src} alt={alt} />
