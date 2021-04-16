@@ -16,7 +16,7 @@ export class ImageService {
   GetImageDTO(image: Image) {
     return {
       id: image.id,
-      blob: image.blob,
+      base64: image.base64,
     };
   }
 
@@ -26,9 +26,9 @@ export class ImageService {
     return images.map((image) => this.GetImageDTO(image));
   }
 
-  async SaveImage(image: PlatformMulterFile, adId: string) {
+  async SaveImage(base64: string, adId: string) {
     const ad = await this.adDao.Read(adId);
-    const { id } = await this.dao.Create({ blob: image, ad });
+    const { id } = await this.dao.Create({ base64, ad });
 
     return id;
   }
