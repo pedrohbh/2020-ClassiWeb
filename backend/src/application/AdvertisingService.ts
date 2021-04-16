@@ -5,7 +5,7 @@ import {
 } from 'typeorm';
 
 import { Address } from '../domain/Address';
-import { Advertising, ProductState } from '../domain/Advertising';
+import { Advertising, AdvertisingState, ProductState } from '../domain/Advertising';
 import { AdvertisingDAO } from '../persistence/AdvertisingDAO';
 import { CategoryDAO } from '../persistence/CategoryDAO';
 import { UserDAO } from '../persistence/UserDAO';
@@ -74,7 +74,9 @@ export class AdvertisingService {
   }
 
   async ListAdsWith(filter: Partial<AdFilter>, page: number, pageSize: number) {
-    const whereQuery = {} as FindConditions<Advertising>;
+    const whereQuery = {
+      state: AdvertisingState.VISIBLE,
+    } as FindConditions<Advertising>;
 
     if (Number.isInteger(filter.product_state)) {
       whereQuery.product_state = filter.product_state;
@@ -90,7 +92,7 @@ export class AdvertisingService {
       whereQuery.price = LessThanOrEqual(filter.max_price);
     }
 
-    const [adsDB, total] = await this.dao.ReadWith(
+    const [adsDB] = await this.dao.ReadWith(
       {
         relations: ['category', 'address', 'owner', 'images'],
         where:
