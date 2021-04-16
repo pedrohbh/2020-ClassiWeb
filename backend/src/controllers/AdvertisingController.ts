@@ -25,6 +25,14 @@ export class AdvertisingController {
     return this.adService.GetAdById(id);
   }
 
+  @Get('/user')
+  @Roles([UserTypes.NORMAL])
+  @Authorize('jwt')
+  GetUserAds(@HeaderParams('auth') auth: string) {
+    const userID = JwtProtocol.getUserIdFromToken(auth);
+    return this.adService.GetAdsByUserId(userID);
+  }
+
   @Post('/')
   @Roles([UserTypes.NORMAL])
   @Authorize('jwt')
