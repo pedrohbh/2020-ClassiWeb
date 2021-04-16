@@ -10,11 +10,6 @@ import { EmailService } from '../services/email/EmailService';
 import { AdvertisingService } from './AdvertisingService';
 import { UserService } from './UserService';
 
-export type FeedbackBody = {
-  userId: string;
-  feedback: Feedback;
-};
-
 @Service()
 export class PurchaseService {
   @Inject(PurchaseDAO)
@@ -72,7 +67,7 @@ export class PurchaseService {
     };
   }
 
-  async SaveFeedback(id: string, { userId, feedback }: FeedbackBody) {
+  async SaveFeedback(id: string, userId: string, feedback: Feedback) {
     const { client, ad } = await this.dao.Read(id);
     const result = await this.adDao.Read(ad.id);
 

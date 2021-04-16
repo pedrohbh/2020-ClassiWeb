@@ -1,7 +1,10 @@
-import { BodyParams, Controller, Get, HeaderParams, Inject, PathParams, Post } from '@tsed/common';
+import {
+  Controller, Get, HeaderParams, Inject, PathParams, Post,
+} from '@tsed/common';
 import { Authorize } from '@tsed/passport';
 
-import { FeedbackBody, PurchaseService } from '../application/PurchaseService';
+import { PurchaseService } from '../application/PurchaseService';
+import { Feedback } from '../domain/Purchase';
 import { UserTypes } from '../domain/User';
 import { Roles } from '../middlewares/Roles';
 import { JwtProtocol } from '../protocols/JwtProtocol';
@@ -19,11 +22,12 @@ export class PurchaseController {
     return this.purchaseService.GetUserPurchases(userId);
   }
 
-  @Post('/feedback/:id')
+  @Post('/:id/:feedback')
   @Roles([UserTypes.NORMAL])
   @Authorize('jwt')
-  PostFeedback(@HeaderParams('auth') auth: string, @PathParams('id') id: string, @BodyParams() body: FeedbackBody) {
-    return this.purchaseService.SaveFeedback(id, body);
+  PostFeedback(@HeaderParams('auth') auth: string, @PathParams('id') id: string, @PathParams('feedback') feedback: Feedback) {
+    const userId = JwtProtocol.getUserIdFromToken(auth);
+    return this.purchaseService.SaveFeedback(id, userId, feedback);
   }
 
   @Post('/:adId')
