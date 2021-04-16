@@ -28,8 +28,8 @@ export class PurchaseController {
   @Post('/:id/:feedback')
   @Roles([UserTypes.NORMAL])
   @Authorize('jwt')
-  PostFeedback(@HeaderParams('auth') auth: string, @PathParams('id') id: string, @PathParams('feedback') feedback: Feedback) {
-    if (feedback > 1 || feedback > 5) throw new NotFound('Valor de avaliação fora da escala');
+  PostFeedback(@HeaderParams('auth') auth: string, @PathParams('id') id: string, @PathParams('feedback') feedback: number) {
+    if (feedback < 1 || feedback > 5) throw new NotFound('Valor de avaliação fora da escala');
     try {
       const userId = JwtProtocol.getUserIdFromToken(auth);
       return this.purchaseService.SaveFeedback(id, userId, feedback);

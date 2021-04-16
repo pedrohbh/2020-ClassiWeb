@@ -97,9 +97,11 @@ export class PurchaseService {
       });
     }
 
-    return this.UpdatePurchase(id, {
+    const purchase = await this.UpdatePurchase(id, {
       owner_feedback: feedback,
     });
+
+    return this.GetPurchaseDTO(purchase);
   }
 
   async UpdatePurchase(id: string, json: Partial<Purchase>) {
