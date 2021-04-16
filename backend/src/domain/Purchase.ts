@@ -19,7 +19,7 @@ export enum Feedback {
 export class Purchase {
   @PrimaryGeneratedColumn('uuid')
   @Property()
-  id: number;
+  id: string;
 
   @CreateDateColumn()
   date: Date;

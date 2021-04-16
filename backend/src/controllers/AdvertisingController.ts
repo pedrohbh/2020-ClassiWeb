@@ -83,13 +83,21 @@ export class AdvertisingController {
   @Roles([UserTypes.NORMAL])
   @Authorize('jwt')
   Put(@HeaderParams('auth') auth: string, @PathParams('id') id: string, @BodyParams() ad: Partial<Advertising>) {
-    return this.adService.UpdateAd(id, ad);
+    try {
+      return this.adService.UpdateAd(id, ad);
+    } catch (error) {
+      if (error instanceof EntityNotFoundError) throw new NotFound('Anúncio não encontrado');
+    }
   }
 
   @Delete('/:id')
   @Roles([UserTypes.NORMAL])
   @Authorize('jwt')
   async Delete(@HeaderParams('auth') auth: string, @PathParams('id') id: string) {
-    await this.adService.DeleteAd(id);
+    try {
+      await this.adService.DeleteAd(id);
+    } catch (error) {
+      if (error instanceof EntityNotFoundError) throw new NotFound('Anúncio não encontrado');
+    }
   }
 }

@@ -1,7 +1,10 @@
 import {
   Controller, Get, HeaderParams, Inject, PathParams, Post,
 } from '@tsed/common';
+import { NotFound } from '@tsed/exceptions';
 import { Authorize } from '@tsed/passport';
+
+import { EntityNotFoundError } from 'typeorm';
 
 import { PurchaseService } from '../application/PurchaseService';
 import { Feedback } from '../domain/Purchase';
@@ -26,15 +29,24 @@ export class PurchaseController {
   @Roles([UserTypes.NORMAL])
   @Authorize('jwt')
   PostFeedback(@HeaderParams('auth') auth: string, @PathParams('id') id: string, @PathParams('feedback') feedback: Feedback) {
-    const userId = JwtProtocol.getUserIdFromToken(auth);
-    return this.purchaseService.SaveFeedback(id, userId, feedback);
+    if (feedback > 1 || feedback > 5) throw new NotFound('Valor de avaliação fora da escala');
+    try {
+      const userId = JwtProtocol.getUserIdFromToken(auth);
+      return this.purchaseService.SaveFeedback(id, userId, feedback);
+    } catch (error) {
+      if (error instanceof EntityNotFoundError) throw new NotFound('Compra não encontrada');
+    }
   }
 
   @Post('/:adId')
   @Roles([UserTypes.NORMAL])
   @Authorize('jwt')
   PostPurchase(@HeaderParams('auth') auth: string, @PathParams('adId') adId: string) {
-    const userId = JwtProtocol.getUserIdFromToken(auth);
-    return this.purchaseService.DoPurchase(adId, userId);
+    try {
+      const userId = JwtProtocol.getUserIdFromToken(auth);
+      return this.purchaseService.DoPurchase(adId, userId);
+    } catch (error) {
+      if (error instanceof EntityNotFoundError) throw new NotFound('Anúncio não encontrado');
+    }
   }
 }

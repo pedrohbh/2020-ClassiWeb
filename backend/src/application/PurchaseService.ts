@@ -30,13 +30,29 @@ export class PurchaseService {
   @Inject(EmailService)
   private readonly emailService: EmailService;
 
+  async GetPurchaseDTO(purchase: Purchase) {
+    return {
+      id: purchase.id,
+      date: purchase.date,
+      owner_feedback: purchase.owner_feedback,
+      client_feedback: purchase.client_feedback,
+      ad: await this.adService.GetAdvertisingDTO(purchase.ad),
+    };
+  }
+
   async GetUserPurchases(userId: string) {
     const [user] = await this.userDao.ReadWith({
       relations: ['purchases'],
       where: { id: userId },
     });
 
-    return user.purchases.map((purchase) => ({ ...purchase }));
+    return Promise.all(user.purchases.map(({ id }) => this.GetPurchaseBtId(id)));
+  }
+
+  async GetPurchaseBtId(id: string) {
+    const purchase = await this.dao.Read(id);
+
+    return this.GetPurchaseDTO(purchase);
   }
 
   async DoPurchase(adId: string, userId: string) {
