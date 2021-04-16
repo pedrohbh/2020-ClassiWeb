@@ -1,7 +1,8 @@
 import { PlatformMulterFile } from '@tsed/common';
 import { Inject, Service } from '@tsed/di';
-import { AdvertisingDAO } from '../../persistence/AdvertisingDAO';
-import { ImageDAO } from '../../persistence/ImageDAO';
+
+import { AdvertisingDAO } from '../persistence/AdvertisingDAO';
+import { ImageDAO } from '../persistence/ImageDAO';
 
 @Service()
 export class ImageService {

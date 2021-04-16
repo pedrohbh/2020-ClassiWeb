@@ -1,7 +1,7 @@
 import { Inject, Service } from '@tsed/di';
 
-import { Admin } from '../../domain/Admin';
-import { AdminDAO } from '../../persistence/AdminDAO';
+import { Admin } from '../domain/Admin';
+import { AdminDAO } from '../persistence/AdminDAO';
 
 @Service()
 export class AdminService {

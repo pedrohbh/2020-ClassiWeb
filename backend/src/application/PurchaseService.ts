@@ -3,19 +3,19 @@ import { Unauthorized } from '@tsed/exceptions';
 
 import { getConnection } from 'typeorm';
 
-import { AdvertisingState } from '../../domain/Advertising';
-import { Feedback, Purchase } from '../../domain/Purchase';
-import { AdvertisingDAO } from '../../persistence/AdvertisingDAO';
-import { PurchaseDAO } from '../../persistence/PurchaseDAO';
-import { UserDAO } from '../../persistence/UserDAO';
-import { EmailService } from '../../services/email/EmailService';
+import { AdvertisingState } from '../domain/Advertising';
+import { Feedback, Purchase } from '../domain/Purchase';
+import { AdvertisingDAO } from '../persistence/AdvertisingDAO';
+import { PurchaseDAO } from '../persistence/PurchaseDAO';
+import { UserDAO } from '../persistence/UserDAO';
+import { EmailService } from '../services/email/EmailService';
 import { AdvertisingService } from './AdvertisingService';
 import { UserService } from './UserService';
 
 export type FeedbackBody = {
   userId: string;
   feedback: Feedback;
-}
+};
 
 @Service()
 export class PurchaseService {
@@ -62,13 +62,11 @@ export class PurchaseService {
     const purchase = await this.dao.Create({ client, ad });
     await this.adService.UpdateAd(purchase.ad.id, {
       quantity: purchase.ad.quantity - 1,
-      state: purchase.ad.quantity === 1
-        ? AdvertisingState.HIDDEN
-        : AdvertisingState.VISIBLE,
+      state: purchase.ad.quantity === 1 ? AdvertisingState.HIDDEN : AdvertisingState.VISIBLE,
     });
 
     //Envia e-mail
-    this.emailService.send(ad.owner.email, "Compraram seu produto", `Realizaram a compra do seu produto ${ad.title}`);
+    this.emailService.send(ad.owner.email, 'Compraram seu produto', `Realizaram a compra do seu produto ${ad.title}`);
 
     return {
       ...purchase,

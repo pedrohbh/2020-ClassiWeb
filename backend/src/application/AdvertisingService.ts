@@ -1,16 +1,14 @@
 import { Inject, Service } from '@tsed/di';
 
-import {
-  Between, FindConditions, LessThanOrEqual, MoreThanOrEqual,
-} from 'typeorm';
+import { Between, FindConditions, LessThanOrEqual, MoreThanOrEqual } from 'typeorm';
 
-import { Address } from '../../domain/Address';
-import { Advertising, ProductState } from '../../domain/Advertising';
-import { User } from '../../domain/User';
-import { AdvertisingDAO } from '../../persistence/AdvertisingDAO';
-import { CategoryDAO } from '../../persistence/CategoryDAO';
-import { UserDAO } from '../../persistence/UserDAO';
-import { EmailService } from '../../services/email/EmailService';
+import { Address } from '../domain/Address';
+import { Advertising, ProductState } from '../domain/Advertising';
+import { User } from '../domain/User';
+import { AdvertisingDAO } from '../persistence/AdvertisingDAO';
+import { CategoryDAO } from '../persistence/CategoryDAO';
+import { UserDAO } from '../persistence/UserDAO';
+import { EmailService } from '../services/email/EmailService';
 import { AddressService } from './AddressService';
 import { UserService } from './UserService';
 import { WishListService } from './WishListService';
@@ -64,11 +62,7 @@ export class AdvertisingService {
     ];
   }
 
-  async ListAdsWith(
-    filter: Partial<AdFilter>,
-    page: number,
-    pageSize: number,
-  ): Promise<[any[], number]> {
+  async ListAdsWith(filter: Partial<AdFilter>, page: number, pageSize: number): Promise<[any[], number]> {
     const whereQuery = {} as FindConditions<Advertising>;
 
     if (Number.isInteger(filter.product_state)) {
@@ -109,19 +103,14 @@ export class AdvertisingService {
       }))
       .filter((ad) => {
         const regex = new RegExp(this.removeAccents(filter.text) || '', 'i');
-        return regex.test(
-          this.removeAccents(ad.title),
-        )
-          || regex.test(this.removeAccents(ad.description));
+        return regex.test(this.removeAccents(ad.title)) || regex.test(this.removeAccents(ad.description));
       })
       .filter((ad) => {
         if (!filter.address?.state) {
           return true;
         }
 
-        return ad.address.state === filter.address.state && (filter.address.city
-          ? ad.address.city === filter.address.city
-          : true);
+        return ad.address.state === filter.address.state && (filter.address.city ? ad.address.city === filter.address.city : true);
       });
 
     return [ads, total];

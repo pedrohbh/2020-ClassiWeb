@@ -3,10 +3,10 @@ import { BadRequest } from '@tsed/exceptions';
 
 import { FindManyOptions } from 'typeorm';
 
-import { User } from '../../domain/User';
-import { PurchaseDAO } from '../../persistence/PurchaseDAO';
-import { UserDAO } from '../../persistence/UserDAO';
-import { EmailService } from '../../services/email/EmailService';
+import { User } from '../domain/User';
+import { PurchaseDAO } from '../persistence/PurchaseDAO';
+import { UserDAO } from '../persistence/UserDAO';
+import { EmailService } from '../services/email/EmailService';
 import { AddressService } from './AddressService';
 
 @Service()
@@ -23,7 +23,7 @@ export class UserService {
   @Inject(EmailService)
   private readonly emailService: EmailService;
 
-  async CreateUser(user: Pick<User, 'name' |'cpf' | 'email' | 'password' | 'address'>) {
+  async CreateUser(user: Pick<User, 'name' | 'cpf' | 'email' | 'password' | 'address'>) {
     const cpf = user.cpf.replace(/\D/g, '');
 
     if (cpf.length !== 11) {
@@ -33,9 +33,7 @@ export class UserService {
     const newUser = await this.dao.Create({
       ...user,
       password: User.GetEncryptedPassword(user.password),
-      address: user.address.id
-        ? user.address
-        : await this.addressService.CreateAddress(user.address),
+      address: user.address.id ? user.address : await this.addressService.CreateAddress(user.address),
       cpf,
     });
 
@@ -45,9 +43,7 @@ export class UserService {
   }
 
   async GetUserById(userId: string) {
-    const {
-      id, name, email, address, cpf,
-    } = await this.dao.Read(userId);
+    const { id, name, email, address, cpf } = await this.dao.Read(userId);
 
     return {
       id,
@@ -78,21 +74,24 @@ export class UserService {
       ],
     });
 
-    const feedback = purchases.reduce(({ ranking, votes }, purchase) => {
-      if (userId === purchase.client.id) {
+    const feedback = purchases.reduce(
+      ({ ranking, votes }, purchase) => {
+        if (userId === purchase.client.id) {
+          return {
+            ranking: ranking + purchase.owner_feedback || 0,
+            votes: votes + +!!purchase.owner_feedback,
+          };
+        }
+
         return {
-          ranking: ranking + purchase.owner_feedback || 0,
-          votes: votes + +!!purchase.owner_feedback,
+          ranking: ranking + purchase.client_feedback || 0,
+          votes: votes + +!!purchase.client_feedback,
         };
-      }
+      },
+      { ranking: 0, votes: 0 },
+    );
 
-      return {
-        ranking: ranking + purchase.client_feedback || 0,
-        votes: votes + +!!purchase.client_feedback,
-      };
-    }, { ranking: 0, votes: 0 });
-
-    return (feedback.ranking / feedback.votes) || 0;
+    return feedback.ranking / feedback.votes || 0;
   }
 
   async GetUserByEmail(email: string) {
@@ -103,7 +102,7 @@ export class UserService {
   async GetFromUser(userId: string, options: FindManyOptions<User>) {
     const [user] = await this.dao.ReadWith({
       ...options,
-      where: { id: userId, ...(options.where as any || {}) },
+      where: { id: userId, ...((options.where as any) || {}) },
     });
 
     return { ...user };

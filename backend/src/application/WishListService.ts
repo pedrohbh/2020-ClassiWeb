@@ -2,10 +2,10 @@ import { Inject, Service } from '@tsed/di';
 
 import { getConnection } from 'typeorm';
 
-import { Advertising } from '../../domain/Advertising';
-import { User } from '../../domain/User';
-import { AdvertisingDAO } from '../../persistence/AdvertisingDAO';
-import { UserDAO } from '../../persistence/UserDAO';
+import { Advertising } from '../domain/Advertising';
+import { User } from '../domain/User';
+import { AdvertisingDAO } from '../persistence/AdvertisingDAO';
+import { UserDAO } from '../persistence/UserDAO';
 import { UserService } from './UserService';
 
 @Service()
