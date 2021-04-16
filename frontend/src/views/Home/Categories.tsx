@@ -50,7 +50,7 @@ export default function Categories() {
             :
             categories.map(({ name }) => (
               <Grid item xs={12} key={name}>
-                <Button key={name} onClick={handleClick}>
+                <Button key={name} onClick={handleClick} style={{ textAlign: 'left' }}>
                   {/* <NavigateNextRoundedIcon/> */}
                   {name}
                 </Button>

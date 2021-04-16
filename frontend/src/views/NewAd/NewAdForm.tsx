@@ -11,6 +11,7 @@ import getFormData from '../../utils/getFormData';
 import ProductState from '../../components/ProductState';
 import { AdvertisingState } from '../../controllers/AdController';
 import { useHistory } from 'react-router';
+import Swal from 'sweetalert2';
 
 const StyledButton = withStyles({
   root: {
@@ -120,9 +121,27 @@ export default function NewAdForm() {
 
     // console.log(JSON.stringify(newAd));
 
-    const res = await AdController.postAd(newAd);
-    console.log(res);
-    history.push('userpanel');
+    await AdController.postAd(newAd)
+      .then(response => {
+        response ?
+          Swal.fire({
+            text: "Anúncio publicado!",
+            icon: "success",
+            confirmButtonColor: "#a6dc86",
+            confirmButtonText: "Ir para página principal",
+            allowOutsideClick: false
+          })
+            .then(() => {
+              history.push('/');
+            })
+          :
+          Swal.fire({
+            title: "Algum erro aconteceu...",
+            text: "Tente novamente mais tarde",
+            icon: "warning",
+            confirmButtonColor: "#ed4a4a"
+          })
+      });
   }
 
   return (

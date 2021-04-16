@@ -25,6 +25,7 @@ export default class PurchaseController {
         return response.data;
       }).catch(e => {
         console.error(e);
+        return undefined;
       });
   }
 }

@@ -2,7 +2,7 @@ import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 import { useEffect, useState } from 'react';
 import CategoryController from '../controllers/CategoryController';
 
-export default function Categories({ onChange, required = true, preSelected = '' }) {
+export default function Categories({ onChange, required = true, preSelected = '', editAd=false }) {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(preSelected);
 
@@ -32,7 +32,7 @@ export default function Categories({ onChange, required = true, preSelected = ''
           required &&
           <MenuItem key={''} value={''} disabled style={{ display: 'none' }}></MenuItem>
         }
-        { !required && 
+        { !required && !editAd && 
           <MenuItem key={'Todas'} value={JSON.stringify(categories.map(({ name }) => name )) }>{'Todas'}</MenuItem> 
         }
         {

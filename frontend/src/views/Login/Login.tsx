@@ -15,6 +15,7 @@ import PageBase from '../../components/PageBase';
 import AuthController from '../../controllers/AuthController';
 import getFormData from '../../utils/getFormData';
 import { useHistory } from 'react-router';
+import Swal from 'sweetalert2';
 
 function Copyright() {
   return (
@@ -61,8 +62,19 @@ export default function Login() {
 
     const { email, password } = getFormData(event);
     
-    AuthController.login(email, password);
-    history.push("/");
+    AuthController.login(email, password)
+      .then(response => {
+        if (response) {
+          history.push("/");
+        } else {
+          Swal.fire({
+            title: "Acesso negado",
+            text: "E-mail ou senha incorretos",
+            icon: 'warning',
+            confirmButtonColor: '#ed4a4a'
+          })
+        }
+      })
   }
 
   return (

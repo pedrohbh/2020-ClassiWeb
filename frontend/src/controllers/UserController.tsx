@@ -16,6 +16,7 @@ export default class UserController {
         return response.data;
       }).catch(e => {
         console.error(e);
+        return undefined;
       });
   }
 

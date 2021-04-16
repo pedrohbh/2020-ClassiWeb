@@ -10,40 +10,11 @@ const useStyles = makeStyles(() =>
       minWidth: 60,
     },
   }
-  ));
+));
 
 export default function Address({ onChange, required=true, preSelectedState = '', preSelectedCity = '' }) {
-  const [UFs, setUFs] = useState([]);
-  const [cities, setCities] = useState([]);
   const [selectedUF, setSelectedUF] = useState(preSelectedState);
   const [selectedCity, setSelectedCity] = useState(preSelectedCity);
-
-  const apiURL_UFs = `https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome`;
-  const apiURL_Cities = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUF}/municipios`;
-
-  const classes = useStyles();
-
-  useEffect(() => {
-    async function loadCitiesSelectedUF() {
-      await axios.get(apiURL_Cities)
-        .then(response => {
-          setCities(response.data);
-        })
-    };
-
-    loadCitiesSelectedUF()
-  }, [selectedUF, apiURL_Cities])
-
-  useEffect(() => {
-    async function loadUFs() {
-      await axios.get(apiURL_UFs)
-        .then(response => {
-          setUFs(response.data);
-        })
-    };
-
-    loadUFs()
-  }, [apiURL_UFs])
 
   const handleSelectUF = ({ target }) => {
     setSelectedUF(target.value);
@@ -56,53 +27,119 @@ export default function Address({ onChange, required=true, preSelectedState = ''
     onChange({ state: selectedUF, city: target.value });
   };
 
+  useEffect(() => {
+    setSelectedUF(preSelectedState);
+  }, [preSelectedState]);
+
+  useEffect(() => {
+    setSelectedCity(preSelectedCity);
+  }, [preSelectedCity]);
+
   return (
     <Grid container spacing={1}>
       <Grid item xs={4}>
-        <FormControl className={classes.formControl} variant="outlined" fullWidth>
-          <InputLabel required={required} id="uf">UF</InputLabel>
-          <Select
-            labelId="uf"            
-            value={ preSelectedState ? preSelectedState : selectedUF }
-            onChange={handleSelectUF}
-            label="UF"            
-          >
-            {
-              required &&
-              <MenuItem key={''} value={''} disabled style={{ display: 'none' }}></MenuItem>
-            }
-            {
-              UFs.map(({ sigla }, preSelectedState) => {                
-                //console.log(sigla === preSelectedState) SEMPRE DÁ FALSE (?????)
-                return (<MenuItem key={sigla} value={sigla} selected={sigla === preSelectedState} >{sigla}</MenuItem>);
-              })
-            }
-          </Select>
-        </FormControl>
+        <SelectUF 
+          uf={selectedUF} 
+          required={required} 
+          onChange={handleSelectUF}
+        />
       </Grid>
       <Grid item xs={8}>
-        <FormControl className={classes.formControl} variant="outlined" fullWidth>
-          <InputLabel required={required} id="city">Cidade</InputLabel>
-          <Select
-            labelId="city"
-            id="city"
-            value={preSelectedCity ? preSelectedCity : selectedCity}
-            label="Cidade"
-            disabled={!selectedUF}
-            onChange={handleSelectCity}
-          >
-            {
-              required &&
-              <MenuItem key={''} value={''} disabled style={{ display: 'none' }}></MenuItem>
-            }
-            {
-              cities.map(({ nome }, preSelectedCity) => (
-                <MenuItem key={nome} value={nome} selected={nome === preSelectedCity}>{nome}</MenuItem>
-              ))
-            }
-          </Select>
-        </FormControl>
+        <SelectCity 
+          uf={selectedUF} 
+          city={selectedCity} 
+          required={required} 
+          disabled={!selectedUF} 
+          onChange={handleSelectCity}
+        />
       </Grid>
     </Grid>
   )
+}
+
+const SelectUF = ({
+  uf, required = false, disabled = false, onChange
+}) => {
+  const apiURL_States = `https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome`;
+
+  return (
+    <SelectAsync 
+      label="UF" 
+      value={uf}
+      fieldName="state"
+      url={apiURL_States}
+      getData={({sigla}) => sigla} 
+      required={required} 
+      disabled={disabled} 
+      onChange={onChange}
+    />
+  );
+}
+
+const SelectCity = ({
+  uf, city,  required = false,  disabled = false, onChange
+}) => {
+  const [url, setUrl] = useState(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`);
+  
+  useEffect(() => {
+    setUrl(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`);
+  }, [uf]);
+
+  return (
+    <SelectAsync 
+      label="Cidade" 
+      value={city}
+      fieldName="city"
+      url={url}
+      getData={({nome}) => nome}
+      required={required} 
+      disabled={disabled} 
+      onChange={onChange}
+    />
+  );
+}
+
+const SelectAsync = ({
+  value, label = '', fieldName, url, required = false, disabled = false, onChange, getData
+}) => {
+  const classes = useStyles();
+  const [items, setItems] = useState([]);
+  const labelId = `label-${label}-${`${Math.random()}`.replace('0.', '')}`;
+  
+  useEffect(() => {
+    async function getItems() {
+      await axios.get(url)
+        .then(response => {
+          setItems(response.data.map(getData));
+        })
+      }
+      
+      if (!disabled) {
+        getItems();
+      }
+  }, [disabled, url, getData]);
+
+  return (
+    <FormControl className={classes.formControl} variant="outlined" fullWidth>
+      <InputLabel required={required} id={labelId}>{label}</InputLabel>
+      <Select
+        labelId={labelId}
+        label={label}
+        id={fieldName}
+        value={value}
+        disabled={disabled}
+        onChange={onChange}
+      >
+        {
+          required &&
+          <MenuItem key={''} value={''} disabled style={{ display: 'none' }}></MenuItem>
+        }
+        {
+          items.map((item) => (
+            <MenuItem key={item} value={item}>{item}</MenuItem>
+          ))
+        }
+      </Select>
+    </FormControl>
+  );
 }

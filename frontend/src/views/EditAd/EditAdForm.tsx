@@ -12,6 +12,7 @@ import ProductState from '../../components/ProductState';
 import { AdvertisingState } from '../../controllers/AdController';
 import { useHistory } from 'react-router';
 import Swal from 'sweetalert2';
+import Visibility from './Visibility';
 
 const StyledButton = withStyles({
   root: {
@@ -82,13 +83,13 @@ export default function EditAdForm() {
   const [price, setPrice] = useState();
   const [quantity, setQuantity] = useState(0);
   const [state, setState] = useState();
-
+  
   const id = localStorage.getItem('adId');
 
   useEffect(() => {
     AdController.get(id)
       .then(data => {
-        console.log(data);
+        // console.log(data);
         setTitle(data.title);
         setOwner(data.owner);
         setPrice(data.price);
@@ -97,8 +98,8 @@ export default function EditAdForm() {
         setQuantity(data.quantity);
         setDescription(data.description);
         setProductState(data.product_state);
+        setState(data.state);
         // setImages();
-        // setState();
       })
   }, []);
 
@@ -131,8 +132,7 @@ export default function EditAdForm() {
       address, 
       category, 
       product_state: productState,
-      state: AdvertisingState.VISIBLE,
-      token: localStorage.getItem('token')
+      state
     };
 
     const price = newAd.price
@@ -145,7 +145,7 @@ export default function EditAdForm() {
 
     delete newAd.images; // Remover esta linha após estar configurado o recebimento de imagens no backend
 
-    console.log(JSON.stringify(newAd));
+    console.log(newAd);
     
     Swal.fire({
       text: "Confirma a alteração das informações?",
@@ -158,19 +158,25 @@ export default function EditAdForm() {
     })
     .then(async (result) => {
       if (result.isConfirmed) {
-        await AdController.update(newAd)
+        await AdController.update(id, newAd)
           .then(response => {
             console.log(response);
-            Swal.fire({
-              text: "Anúncio atualizado!",
-              icon: "success",
-              confirmButtonColor: "#a6dc86"
-            });
+            response ?
+              Swal.fire({
+                text: "Anúncio atualizado!",
+                icon: "success",
+                confirmButtonColor: "#a6dc86"
+              })
+              :
+              Swal.fire({
+                title: "Algum erro aconteceu...",
+                text: "Tente novamente mais tarde",
+                icon: "warning",
+                confirmButtonColor: "#ed4a4a"
+              });
           });
       }
     });
-
-    // history.push('userpanel');
   }
 
   return (
@@ -182,7 +188,7 @@ export default function EditAdForm() {
 
             <Grid item xs={12}>
               <StyledTextField 
-                required id="title" 
+                id="title" 
                 label="Nome"
                 value={title}
                 onChange={ event => setTitle(event.target.value) }
@@ -191,7 +197,6 @@ export default function EditAdForm() {
 
             <Grid item xs={12}>
               <CurrencyTextField 
-                required 
                 fullWidth 
                 id="price" 
                 label="Preço"
@@ -206,7 +211,6 @@ export default function EditAdForm() {
             
             <Grid item xs={12}>
               <StyledTextField 
-                required 
                 id="quantity" 
                 type="number" 
                 label="Quantidade Disponível" 
@@ -217,12 +221,15 @@ export default function EditAdForm() {
             </Grid>
 
             <Grid item xs={12}>
-              <Categories onChange={ selectedCategory => setCategory(selectedCategory) }/>
+              <Categories 
+                editAd={true} 
+                required={false} 
+                onChange={ selectedCategory => setCategory(selectedCategory) }
+              />
             </Grid>
 
             <Grid item xs={12}>
               <StyledTextField 
-                required 
                 multiline 
                 id="description" 
                 label="Descrição" 
@@ -234,6 +241,8 @@ export default function EditAdForm() {
             <Grid item xs={12}>
               <ProductState 
                 // value={productState}
+                preSelectedState={productState}
+                required={false}
                 onChange={ selectedProductState => setProductState(selectedProductState) }
               />
             </Grid>
@@ -248,7 +257,13 @@ export default function EditAdForm() {
             </Grid> 
 
             <Grid item xs={12}>
-              {/* https://codesandbox.io/s/vj1q68zm25 */}
+              <Visibility 
+                preSelectedVisibility={state}
+                onChange={ selectedState => setState(selectedState) }
+              />
+            </Grid>
+
+            {/* <Grid item xs={12}>
               <input
                 multiple
                 type="file"
@@ -262,7 +277,7 @@ export default function EditAdForm() {
                   <StyledAddPhotoAlternateIcon  />
                 </StyledFab>
               </label>
-            </Grid>
+            </Grid> */}
 
           </Grid>
           <StyledButton type="submit" variant="contained">

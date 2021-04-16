@@ -15,6 +15,7 @@ import Address from "../../components/Address";
 
 import UserController from "../../controllers/UserController";
 import getFormData from "../../utils/getFormData";
+import Swal from 'sweetalert2';
 
 const StyledButton = withStyles({
   root: {
@@ -108,10 +109,24 @@ export default function RegisterForm() {
       validator.isEmail(newUser.email) &&
       newUser.password === newUser.passwordConfirm
     ) {
-      const response = await UserController.postUser(newUser);
-      // console.log(response)
-      localStorage.setItem('token', response.token);
-      history.push('/');
+      // const response = await UserController.postUser(newUser);
+      // // console.log(response)
+
+      await UserController.postUser(newUser)
+        .then(response => {
+          console.log(response);
+          if (response) {
+            localStorage.setItem('token', response.token)
+            history.push('/')
+          } else {
+            Swal.fire({
+              title: "Algum erro aconteceu...",
+              text: "Tente novamente mais tarde",
+              icon: "warning",
+              confirmButtonColor: "#ed4a4a"
+            })
+          }
+        });
     }
   };
 

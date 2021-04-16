@@ -111,28 +111,37 @@ export default function Ad({ match }) {
       .then((result) => {
         if (result.isConfirmed) {
           PurchaseController.postPurchase(id) //TO DO buy controller; verificar se um anuncio pertence ao usuário; inativar anuncio ao concluir
-            .then((result) => {
-              Swal.fire({
-                text: "Compra efetuada com sucesso!",
-                icon: "success",
-                confirmButtonText: "Avaliar compra",
-                confirmButtonColor: "#80cc54",
-                showCancelButton: true,
-                cancelButtonText: "Ir para página inicial",
-                allowOutsideClick: false
-              }).then((result) => {
-                if (result.isConfirmed) {
-                  MySwal.fire({
+            .then((response) => {
+              if (response) {
+                Swal.fire({
+                  text: "Compra efetuada com sucesso!",
+                  icon: "success",
+                  confirmButtonText: "Avaliar compra",
+                  confirmButtonColor: "#80cc54",
+                  showCancelButton: true,
+                  cancelButtonText: "Ir para página inicial",
+                  allowOutsideClick: false
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    MySwal.fire({
 
-                    title: "Avalie a compra!",
-                    html:
-                      <Feedback onChange={handleRating} />,
-                    showConfirmButton: false,
-                  });
-                } else if (result.isDenied) {
-                  history.push('/');
-                }
-              });
+                      title: "Avalie a compra!",
+                      html:
+                        <Feedback onChange={handleRating} />,
+                      showConfirmButton: false,
+                    });
+                  } else if (result.isDenied) {
+                    history.push('/');
+                  }
+                });
+              } else {
+                Swal.fire({
+                  title: "Algum erro aconteceu...",
+                  text: "Tente novamente mais tarde",
+                  icon: "warning",
+                  confirmButtonColor: "#ed4a4a"
+                })
+              }
             });
         }
       });
@@ -291,7 +300,7 @@ export default function Ad({ match }) {
                 <Grid item style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
                   <Rating name="avaliation" value={owner.feedback} precision={0.1} readOnly />
                   <p style={{ textAlign: 'center', fontSize: 15, marginTop: '7%' }}>
-                    { !owner.feedback ?
+                    {!owner.feedback ?
                       'Usuário sem avaliação: Vendas insuficientes'
                       :
                       owner.feedback

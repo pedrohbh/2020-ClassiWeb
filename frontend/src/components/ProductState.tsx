@@ -1,15 +1,21 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ProductState as State } from '../controllers/AdController';
 
-export default function ProductState({ required = true, onChange }) {
-  const [selectedState, setSelectedState] = useState();
+export default function ProductState({ required = true, onChange, preSelectedState='' }) {
+  const [selectedState, setSelectedState] = useState('');
 
   const handleSelectState = ({ target }) => {
     setSelectedState(target.value);
     onChange(target.value);
   }
   
+  useEffect(() => {
+    if(!required){
+      setSelectedState(preSelectedState);
+    }
+  }, [preSelectedState]);
+
   return (
     <FormControl variant="outlined" fullWidth>
       <InputLabel required={required} id="product_state">Estado</InputLabel>

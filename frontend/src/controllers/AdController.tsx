@@ -37,15 +37,17 @@ export default class AdController {
         return response.data;
       }).catch(e => {
         console.error(e);
+        return undefined;
       });
   }
 
-  static update(editAd) {
-    return api.put('/ads', editAd)
+  static update(id, editAd) {
+    return api.put(`/ads/${id}`, editAd)
       .then(response => {
         return response.data;
       }).catch(e => {
         console.error(e);
+        return undefined;
       });
   }
 

@@ -21,7 +21,12 @@ export default function MyAds() {
   }, []);
 
   return (
-    <>oi</>
+    // <>
+    //   { ads.length > 0 ? ads.map(ad => (ad)) : 'oi'}
+    // </>
+    <>
+      Minhas Compras
+    </>
     // <Ads
     //   ads={ads}
     //   isLoading={isLoading}

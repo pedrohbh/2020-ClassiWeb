@@ -7,7 +7,7 @@ import Box from '@material-ui/core/Box';
 import { Grid } from '@material-ui/core';
 import MyAds from './MyAds';
 import MyProfile from './MyProfile';
-import MyShopping from './MyShopping';
+import Purchase from './Purchase';
 import WishesList from './WishesList';
 
 interface TabPanelProps {
@@ -89,7 +89,7 @@ export default function Panel() {
       </TabPanel>
 
       <TabPanel value={value} index={3}>
-        <MyShopping/>
+        <Purchase/>
       </TabPanel>
     </div>
   );
