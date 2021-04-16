@@ -1,4 +1,4 @@
-import { Button, Grid, Paper, withStyles } from '@material-ui/core';
+import { Box, Button, Grid, Paper, withStyles } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { FaHandshake } from 'react-icons/fa';
 import PageBase from '../../components/PageBase';
@@ -11,18 +11,24 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import Swal from 'sweetalert2';
 import WishListController from '../../controllers/WishListController';
 import PurchaseController from '../../controllers/PurchaseController';
+import withReactContent from 'sweetalert2-react-content';
+import { useHistory } from 'react-router';
+import ImageController from '../../controllers/ImageController';
+import Feedback from './Feedback';
+
+const MySwal = withReactContent(Swal);
 
 const StyledButton = withStyles({
   root: {
     width: '100%',
     maxWidth: '70%',
     background: '#72d678',
-    '&:hover':{
-        background: '#66ba6b',
+    '&:hover': {
+      background: '#66ba6b',
     },
     color: 'white',
   },
-})((props: any) => <Button size="large" {...props}/>);
+})((props: any) => <Button size="large" {...props} />);
 
 export default function Ad({ match }) {
   const id = match.params.id;
@@ -31,15 +37,39 @@ export default function Ad({ match }) {
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
   const [productState, setProductState] = useState('');
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState([] as any[]);
   const [owner, setOwner] = useState({ name: '' });
   const [price, setPrice] = useState();
   const [quantity, setQuantity] = useState();
   const [state, setState] = useState();
+  const history = useHistory();
+
+  const handleRating = (rate) => {
+    PurchaseController.postFeedback(id, rate);
+    setTimeout(() => {
+      MySwal.close();
+      history.push('/');
+    }, 500);
+  }
+
+  function handleImage(blob) {
+    var myblob = new Blob([blob], { type: 'image/jpg' });
+    // console.log(myblob)
+    //   var reader = new FileReader();
+    //   reader.addEventListener("loadend", function() {
+    //     // reader.result contém o conteúdo do blob como uma array tipada
+    //     console.log(reader.result)
+    //  });
+    //   console.log(reader.readAsDataURL(blob));
+    var urlCreator = window.URL || window.webkitURL;
+    var imageUrl = urlCreator.createObjectURL(myblob);
+    // console.log(imageUrl);
+    return imageUrl;
+  }
 
   useEffect(() => {
     AdController.get(id)
-      .then(data => {
+      .then(async data => {
         // console.log(data);
         setTitle(data.title);
         setOwner(data.owner);
@@ -49,7 +79,14 @@ export default function Ad({ match }) {
         setQuantity(data.quantity);
         setDescription(data.description);
         setProductState(data.product_state);
-        // setImages();
+        console.log(data.owner)
+        Promise.all(data.images.map(id => ImageController.get(id)))
+          .then((imgs: any[]) => {
+            console.log(imgs);
+            const blobs = imgs.map(({ blob }) => handleImage(blob))
+            setImages(blobs);
+            // console.log(blobs)
+          })
         // setState();
       })
   }, []);
@@ -69,17 +106,34 @@ export default function Ad({ match }) {
       cancelButtonColor: '#ed4a4a',
       reverseButtons: true
     })
-    .then((result) => {
-      //TO DO buy controller; verificar se um anuncio pertence ao usuário; inativar anuncio ao concluir
-      PurchaseController.postPurchase(id)
-        .then(response => {
-          Swal.fire({
-            text: "Compra efetuada com sucesso!",
-            icon: "success",
-            confirmButtonColor: "#80cc54"
-          });
-        });
-    });
+      .then((result) => {
+        if (result.isConfirmed) {
+          PurchaseController.postPurchase(id) //TO DO buy controller; verificar se um anuncio pertence ao usuário; inativar anuncio ao concluir
+            .then((result) => {
+              Swal.fire({
+                text: "Compra efetuada com sucesso!",
+                icon: "success",
+                confirmButtonText: "Avaliar compra",
+                confirmButtonColor: "#80cc54",
+                showCancelButton: true,
+                cancelButtonText: "Ir para página inicial",
+                allowOutsideClick: false
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  MySwal.fire({
+
+                    title: "Avalie a compra!",
+                    html:
+                      <Feedback onChange={handleRating}/>,
+                    showConfirmButton: false,
+                  });
+                } else if (result.isDenied) {
+                  history.push('/');
+                }
+              });
+            });
+        }
+      });
   }
 
   return (
@@ -87,7 +141,7 @@ export default function Ad({ match }) {
       <Grid container justify='center' style={{ height: '100%' }}>
 
         <Grid item xs={10}>
-          
+
           <Grid container style={{ height: '100%', backgroundColor: '#f7f7f7' }}>
 
             {/* Lado esquerdo */}
@@ -100,15 +154,16 @@ export default function Ad({ match }) {
                 </Grid>
 
                 <Grid item style={{ width: '100%' }}>
-                  <div style={{ height: '300px', backgroundColor: '#b7b7b7' }}></div>
+                  {/* <div style={{ height: '300px', backgroundColor: '#b7b7b7' }}></div> */}
+                  <img src={images[0]} style={{ height: '300px' }} alt="img" />
                 </Grid>
-                
+
                 <Grid item style={{ width: '100%' }}>
 
                   <Grid container spacing={2}>
 
                     <Grid item style={{ display: 'flex' }}>
-                      <RoomIcon/>
+                      <RoomIcon />
                       &nbsp;
                       <h3>Localização</h3>
                     </Grid>
@@ -116,9 +171,9 @@ export default function Ad({ match }) {
                     <Grid item xs={12}>
                       <p>{address.city}, {address.state}</p>
                     </Grid>
-                    
+
                   </Grid>
-                  
+
                 </Grid>
 
                 <Grid item style={{ width: '100%' }}>
@@ -126,19 +181,19 @@ export default function Ad({ match }) {
                   <Grid container spacing={2}>
 
                     <Grid item style={{ display: 'flex' }}>
-                      <DescriptionIcon/>
+                      <DescriptionIcon />
                       &nbsp;
                       <h3>Descrição</h3>
                     </Grid>
 
                     <Grid item xs={12}>
-                      <p style={{ textAlign:'justify' }}>
+                      <p style={{ textAlign: 'justify' }}>
                         {description}
                       </p>
                     </Grid>
-                    
+
                   </Grid>
-                  
+
                 </Grid>
 
               </Grid>
@@ -146,8 +201,8 @@ export default function Ad({ match }) {
             </Grid>
 
             {/* Lado direito */}
-            <Grid item xs={4} style={{ borderLeft:'1px solid #d7d7d7' }}>
-              
+            <Grid item xs={4} style={{ borderLeft: '1px solid #d7d7d7' }}>
+
               <Grid container direction='column' alignItems='center' spacing={3} style={{ padding: '2vw' }}>
 
                 <Grid item style={{ width: '100%', textAlign: 'center' }}>
@@ -155,12 +210,12 @@ export default function Ad({ match }) {
                 </Grid>
 
                 <Grid item style={{ width: '100%', textAlign: 'center', paddingTop: 0 }}>
-                  <Paper 
-                    elevation={2} 
-                    style={{ 
-                      height: '80px', 
-                      display: 'flex', 
-                      alignItems: 'center', 
+                  <Paper
+                    elevation={2}
+                    style={{
+                      height: '80px',
+                      display: 'flex',
+                      alignItems: 'center',
                       justifyContent: 'center'
                     }}
                   >
@@ -179,17 +234,17 @@ export default function Ad({ match }) {
                 </Grid>
 
                 <Grid item style={{ width: '100%', textAlign: 'center', margin: '10% auto' }}>
-                  <StyledButton 
+                  <StyledButton
                     onClick={handleAddToWishList}
-                    style={{  marginBottom: '2%', background: '#fa6161' }}
+                    style={{ marginBottom: '2%', background: '#fa6161' }}
                   >
-                    <FavoriteIcon style={{ fontSize: '20px', marginRight: '4.5px' }}/>
+                    <FavoriteIcon style={{ fontSize: '20px' }} />
                     &nbsp;Adicionar a lista de desejos
                   </StyledButton>
                   <StyledButton
                     onClick={handleBuy}
                   >
-                    <FaHandshake style={{ fontSize: '20px', marginRight: '4.5px' }}/>
+                    <FaHandshake style={{ fontSize: '20px', marginRight: '4.5px' }} />
                     &nbsp;Comprar
                   </StyledButton>
                 </Grid>
@@ -207,11 +262,11 @@ export default function Ad({ match }) {
                     </Grid>
 
                   </Grid>
-                  
+
                 </Grid>
 
                 <Grid item style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
-                  <Rating name="avaliation" value={3.4} precision={0.1} readOnly />
+                  <Rating name="avaliation" value={3.4} precision={1} readOnly />
                   <h3>3.4</h3>
                 </Grid>
 
@@ -222,7 +277,6 @@ export default function Ad({ match }) {
           </Grid>
 
         </Grid>
-
       </Grid>
     </PageBase>
   );

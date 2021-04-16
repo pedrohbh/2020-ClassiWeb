@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: 'http://localhost:8083/rest'
+  baseURL: 'http://localhost:8083/api'
 });
 
 function getToken() {
