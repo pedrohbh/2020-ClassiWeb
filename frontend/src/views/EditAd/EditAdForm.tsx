@@ -11,6 +11,7 @@ import getFormData from '../../utils/getFormData';
 import ProductState from '../../components/ProductState';
 import { AdvertisingState } from '../../controllers/AdController';
 import { useHistory } from 'react-router';
+import Swal from 'sweetalert2';
 
 const StyledButton = withStyles({
   root: {
@@ -145,10 +146,30 @@ export default function EditAdForm() {
     delete newAd.images; // Remover esta linha após estar configurado o recebimento de imagens no backend
 
     console.log(JSON.stringify(newAd));
+    
+    Swal.fire({
+      text: "Confirma a alteração das informações?",
+      showCancelButton: true,
+      cancelButtonText: "Cancelar",
+      icon: 'warning',
+      cancelButtonColor: '#ed4a4a',
+      confirmButtonColor: '#80cc54',
+      reverseButtons: true
+    })
+    .then(async (result) => {
+      if (result.isConfirmed) {
+        await AdController.update(newAd)
+          .then(response => {
+            console.log(response);
+            Swal.fire({
+              text: "Anúncio atualizado!",
+              icon: "success",
+              confirmButtonColor: "#a6dc86"
+            });
+          });
+      }
+    });
 
-    const res = await AdController.update(newAd);
-    console.log(res);
-    alert('Informações do anúncio atualizadas!');
     // history.push('userpanel');
   }
 

@@ -66,12 +66,12 @@ export default function MyAds() {
     console.log(newUserData)
     if (validator.isEmail(email)) {
       Swal.fire({
-        text: "Deseja atualizar seus dados?",
+        text: "Confirma a alteração dos dados?",
         showCancelButton: true,
         cancelButtonText: "Cancelar",
         icon: 'warning',
-        cancelButtonColor: 'red',
-        confirmButtonColor: 'green',
+        cancelButtonColor: '#ed4a4a',
+        confirmButtonColor: '#80cc54',
         reverseButtons: true
       })
       .then(async (result) => {
@@ -82,7 +82,7 @@ export default function MyAds() {
               Swal.fire({
                 text: "Informações atualizadas!",
                 icon: "success",
-                confirmButtonColor: "#8CD4F5"
+                confirmButtonColor: "#a6dc86"
               });
             });
         }
