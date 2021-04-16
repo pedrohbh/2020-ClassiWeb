@@ -12,7 +12,7 @@ export enum AdvertisingState {
 
 export default class AdController {
   static getAll() {
-    return api.get('/ads')
+    return api.get('/ads/list')
       .then(response => {
         return response.data;
       }).catch(e => {

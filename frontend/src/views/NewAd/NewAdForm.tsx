@@ -118,11 +118,11 @@ export default function NewAdForm() {
 
     delete newAd.images; // Remover esta linha após estar configurado o recebimento de imagens no backend
 
-    console.log(JSON.stringify(newAd));
+    // console.log(JSON.stringify(newAd));
 
     const res = await AdController.postAd(newAd);
     console.log(res);
-    // history.push('userpanel');
+    history.push('userpanel');
   }
 
   return (

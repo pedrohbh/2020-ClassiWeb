@@ -15,6 +15,7 @@ import withReactContent from 'sweetalert2-react-content';
 import { useHistory } from 'react-router';
 import ImageController from '../../controllers/ImageController';
 import Feedback from './Feedback';
+import EditIcon from '@material-ui/icons/Edit';
 
 const MySwal = withReactContent(Swal);
 
@@ -38,11 +39,12 @@ export default function Ad({ match }) {
   const [description, setDescription] = useState('');
   const [productState, setProductState] = useState('');
   const [images, setImages] = useState([] as any[]);
-  const [owner, setOwner] = useState({ name: '' });
+  const [owner, setOwner] = useState({ name: '', feedback: 0 });
   const [price, setPrice] = useState();
   const [quantity, setQuantity] = useState();
   const [state, setState] = useState();
   const history = useHistory();
+  const [isOwner, setIsOwner] = useState(false);
 
   const handleRating = (rate) => {
     PurchaseController.postFeedback(id, rate);
@@ -70,16 +72,16 @@ export default function Ad({ match }) {
   useEffect(() => {
     AdController.get(id)
       .then(async data => {
-        // console.log(data);
+        console.log(data);
         setTitle(data.title);
         setOwner(data.owner);
+        setIsOwner(data.is_onwer); // TODO trocar para is_owner
         setPrice(data.price);
         setCategory(data.category.name);
         setAddress(data.address);
         setQuantity(data.quantity);
         setDescription(data.description);
         setProductState(data.product_state);
-        console.log(data.owner)
         Promise.all(data.images.map(id => ImageController.get(id)))
           .then((imgs: any[]) => {
             console.log(imgs);
@@ -124,7 +126,7 @@ export default function Ad({ match }) {
 
                     title: "Avalie a compra!",
                     html:
-                      <Feedback onChange={handleRating}/>,
+                      <Feedback onChange={handleRating} />,
                     showConfirmButton: false,
                   });
                 } else if (result.isDenied) {
@@ -134,6 +136,12 @@ export default function Ad({ match }) {
             });
         }
       });
+  }
+
+  const handleEditAd = () => {
+    localStorage.setItem('adId', id);
+    history.push(`/editad`);
+    // history.push(`/ad/edit/${id}`);
   }
 
   return (
@@ -234,19 +242,32 @@ export default function Ad({ match }) {
                 </Grid>
 
                 <Grid item style={{ width: '100%', textAlign: 'center', margin: '10% auto' }}>
-                  <StyledButton
-                    onClick={handleAddToWishList}
-                    style={{ marginBottom: '2%', background: '#fa6161' }}
-                  >
-                    <FavoriteIcon style={{ fontSize: '20px' }} />
-                    &nbsp;Adicionar a lista de desejos
+                  {isOwner ?
+                    <StyledButton
+                      onClick={handleEditAd}
+                      style={{ marginBottom: '2%', background: '#86c7f0' }}
+                    >
+                      <EditIcon style={{ fontSize: 20 }} />
+                      &nbsp;Editar anúncio
                   </StyledButton>
-                  <StyledButton
-                    onClick={handleBuy}
-                  >
-                    <FaHandshake style={{ fontSize: '20px', marginRight: '4.5px' }} />
-                    &nbsp;Comprar
-                  </StyledButton>
+                    :
+                    <>
+                      <StyledButton
+                        onClick={handleAddToWishList}
+                        style={{ marginBottom: '2%', background: '#fa6161' }}
+                      >
+                        <FavoriteIcon style={{ fontSize: '20px' }} />
+                        &nbsp;Adicionar a lista de desejos
+                      </StyledButton>
+
+                      <StyledButton
+                        onClick={handleBuy}
+                      >
+                        <FaHandshake style={{ fontSize: '20px', marginRight: '4.5px' }} />
+                        &nbsp;Comprar
+                      </StyledButton>
+                    </>
+                  }
                 </Grid>
 
                 <Grid item style={{ width: '100%', textAlign: 'center' }}>
@@ -258,7 +279,9 @@ export default function Ad({ match }) {
                     </Grid> */}
 
                     <Grid item style={{ textAlign: 'center' }}>
-                      <p>{owner.name}</p>
+                      <strong style={{ fontSize: 20 }}>
+                        {owner.name}
+                      </strong>
                     </Grid>
 
                   </Grid>
@@ -266,8 +289,14 @@ export default function Ad({ match }) {
                 </Grid>
 
                 <Grid item style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
-                  <Rating name="avaliation" value={3.4} precision={1} readOnly />
-                  <h3>3.4</h3>
+                  <Rating name="avaliation" value={owner.feedback} precision={0.1} readOnly />
+                  <p style={{ textAlign: 'center', fontSize: 15, marginTop: '7%' }}>
+                    { !owner.feedback ?
+                      'Usuário sem avaliação: Vendas insuficientes'
+                      :
+                      owner.feedback
+                    }
+                  </p>
                 </Grid>
 
               </Grid>
