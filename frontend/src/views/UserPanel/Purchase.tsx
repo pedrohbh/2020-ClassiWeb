@@ -12,7 +12,7 @@ export default function MyAds() {
       .then(adsList => {
         setIsLoading(false);
         if (adsList) {
-          setAds(adsList);
+          setAds(adsList.map(({ ad }) => ad));
           setError(false);
         } else {
           setError(true);
@@ -21,17 +21,11 @@ export default function MyAds() {
   }, []);
 
   return (
-    // <>
-    //   { ads.length > 0 ? ads.map(ad => (ad)) : 'oi'}
-    // </>
-    <>
-      Minhas Compras
-    </>
-    // <Ads
-    //   ads={ads}
-    //   isLoading={isLoading}
-    //   error={error}
-    //   myShopping={true}
-    // />
+    <Ads
+      ads={ads}
+      isLoading={isLoading}
+      error={error}
+      myShopping={true}
+    />
   )
 }

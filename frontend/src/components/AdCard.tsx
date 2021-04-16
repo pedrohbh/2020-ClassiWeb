@@ -132,9 +132,11 @@ export default function AdCard({ id='', title, price, imgRef, city, UF, myAds=fa
             style={{ fontSize: 18 }}
           />
 
-          <Typography gutterBottom component="h5" style={{ display: 'flex', alignItems: 'center', marginLeft: -3, marginTop: 10 }}>
-            <RoomIcon style={{ fontSize: 20 }} /> {city}, {UF}
-          </Typography>
+          { !myShopping && !wishList &&
+            <Typography gutterBottom component="h5" style={{ display: 'flex', alignItems: 'center', marginLeft: -3, marginTop: 10 }}>
+              <RoomIcon style={{ fontSize: 20 }} /> {city}, {UF}
+            </Typography>
+          }
 
         </CardContent>
       </CardActionArea>

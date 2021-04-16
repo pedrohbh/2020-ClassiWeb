@@ -10,8 +10,8 @@ export default class PurchaseController {
       });
   }
 
-  static postFeedback(purchaseId, value) {
-    return api.post(`/purchases/feedback/${purchaseId}`)
+  static postFeedback(adId, value) {
+    return api.post(`/purchases/${adId}/${value}`)
       .then(response => {
         return response.data;
       }).catch(e => {

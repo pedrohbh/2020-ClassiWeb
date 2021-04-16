@@ -130,7 +130,7 @@ export default function Ad({ match }) {
                         <Feedback onChange={handleRating} />,
                       showConfirmButton: false,
                     });
-                  } else if (result.isDenied) {
+                  } else {
                     history.push('/');
                   }
                 });
