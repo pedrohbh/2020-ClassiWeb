@@ -59,6 +59,8 @@ export class WishListService {
       where: { id },
     });
 
-    return (ad.wishes_list || []).map((user) => this.userService.GetUserDTO(user));
+    return Promise.all(
+      (ad.wishes_list || []).map((user) => this.userService.GetUserDTO(user)),
+    );
   }
 }

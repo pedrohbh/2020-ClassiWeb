@@ -1,10 +1,11 @@
 import { Inject, Service } from '@tsed/di';
 
-import { Between, FindConditions, LessThanOrEqual, MoreThanOrEqual } from 'typeorm';
+import {
+  Between, FindConditions, LessThanOrEqual, MoreThanOrEqual,
+} from 'typeorm';
 
 import { Address } from '../domain/Address';
 import { Advertising, ProductState } from '../domain/Advertising';
-import { User } from '../domain/User';
 import { AdvertisingDAO } from '../persistence/AdvertisingDAO';
 import { CategoryDAO } from '../persistence/CategoryDAO';
 import { UserDAO } from '../persistence/UserDAO';
@@ -46,7 +47,7 @@ export class AdvertisingService {
   @Inject(EmailService)
   private readonly emailService: EmailService;
 
-  GetAdvertisingDTO(ad: Advertising) {
+  async GetAdvertisingDTO(ad: Advertising) {
     return {
       id: ad.id,
       title: ad.title,
@@ -58,14 +59,18 @@ export class AdvertisingService {
       images: ad.images.map(({ id }) => id),
       category: ad.category,
       address: ad.address,
-      owner: this.userService.GetUserDTO(ad.owner),
+      owner: ad.owner && await this.userService.GetUserDTO(ad.owner),
     };
   }
 
   async ListAllAds(page: number, pageSize: number) {
     const [ads, total] = await this.dao.ReadAll(page, pageSize);
 
-    return [ads.map((ad) => this.GetAdvertisingDTO(ad)), total];
+    const adsDTO = await Promise.all(
+      ads.map((ad) => this.GetAdvertisingDTO(ad)),
+    );
+
+    return [adsDTO, total];
   }
 
   async ListAdsWith(filter: Partial<AdFilter>, page: number, pageSize: number) {
@@ -120,10 +125,6 @@ export class AdvertisingService {
     return [ads, total];
   }
 
-  private removeAccents(str = '') {
-    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-  }
-
   async CreateAd(ad: Partial<Advertising>) {
     const [address, owner, category] = await Promise.all([
       await this.addressService.CreateAddress(ad.address),
@@ -159,7 +160,7 @@ export class AdvertisingService {
     const ad = await this.GetAdById(id);
     const users = await this.wishListService.GetListFromAd(id);
 
-    users.forEach((user: User) => {
+    users.forEach((user) => {
       this.emailService.send(
         user.email,
         'Alteração no produto da sua lista de desejos',

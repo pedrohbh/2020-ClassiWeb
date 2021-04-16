@@ -1,4 +1,6 @@
-import { BodyParams, Controller, Delete, Get, HeaderParams, Inject, PathParams, Post, Put, Response } from '@tsed/common';
+import {
+  BodyParams, Controller, Delete, Get, HeaderParams, Inject, PathParams, Post, Put, Response,
+} from '@tsed/common';
 import { Authorize } from '@tsed/passport';
 
 import { AdFilter, AdvertisingService } from '../application/AdvertisingService';
@@ -15,14 +17,29 @@ export class AdvertisingController {
   @Get('/')
   async GetAll(@HeaderParams('page') page: number, @HeaderParams('page-size') pageSize: number, @Response() response: Response) {
     const [ads, total] = await this.adService.ListAllAds(page ?? 1, pageSize);
-    response.setHeader('page-count', Math.ceil(total / pageSize) || 1);
+    response.setHeader('page-count', Math.ceil(+total / pageSize) || 1);
 
     return ads;
   }
 
+  // @Get('/user')
+  // async GetUserAds(@HeaderParams('auth') auth: string, @HeaderParams('page') page: number, @HeaderParams('page-size') pageSize: number, @Response() response: Response) {
+  //   const [ads, total] = await this.adService.ListAllAds(page ?? 1, pageSize);
+  //   response.setHeader('page-count', Math.ceil(+total / pageSize) || 1);
+
+  //   return ads;
+  // }
+
   @Get('/:id')
-  Get(@PathParams('id') id: string) {
-    return this.adService.GetAdById(id);
+  async Get(@HeaderParams('auth') auth: string, @PathParams('id') id: string) {
+    const ad = await this.adService.GetAdById(id);
+
+    if (!auth) {
+      return { ...ad, is_onwer: false };
+    }
+
+    const userId = JwtProtocol.getUserIdFromToken(auth);
+    return { ...ad, is_onwer: ad.owner.id === userId };
   }
 
   @Post('/')
@@ -41,7 +58,7 @@ export class AdvertisingController {
     @Response() response: Response,
   ) {
     const [ads, total] = await this.adService.ListAdsWith(filter, page ?? 1, pageSize);
-    response.setHeader('page-count', Math.ceil(total / pageSize) || 1);
+    response.setHeader('page-count', Math.ceil(+total / pageSize) || 1);
 
     return ads;
   }
