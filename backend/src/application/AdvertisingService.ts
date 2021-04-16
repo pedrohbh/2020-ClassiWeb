@@ -56,7 +56,7 @@ export class AdvertisingService {
       quantity: ad.quantity,
       state: ad.state,
       product_state: ad.product_state,
-      images: ad.images.map(({ id }) => id),
+      images: ad.images?.map(({ id }) => id) || [],
       category: ad.category,
       address: ad.address,
       owner: ad.owner && await this.userService.GetUserDTO(ad.owner),

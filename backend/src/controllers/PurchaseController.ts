@@ -3,6 +3,7 @@ import {
 } from '@tsed/common';
 import { NotFound } from '@tsed/exceptions';
 import { Authorize } from '@tsed/passport';
+
 import { EntityNotFoundError } from 'typeorm';
 
 import { PurchaseService } from '../application/PurchaseService';
@@ -28,7 +29,7 @@ export class PurchaseController {
   @Roles([UserTypes.NORMAL])
   @Authorize('jwt')
   PostFeedback(@HeaderParams('auth') auth: string, @PathParams('id') id: string, @PathParams('feedback') feedback: Feedback) {
-    if (1 < feedback || feedback > 5) throw new NotFound('Valor de avaliação fora da escala');
+    if (feedback > 1 || feedback > 5) throw new NotFound('Valor de avaliação fora da escala');
     try {
       const userId = JwtProtocol.getUserIdFromToken(auth);
       return this.purchaseService.SaveFeedback(id, userId, feedback);
