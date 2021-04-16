@@ -8,6 +8,9 @@ import { Rating } from '@material-ui/lab';
 import AdController from '../../controllers/AdController';
 import NumberFormat from 'react-number-format';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import Swal from 'sweetalert2';
+import WishListController from '../../controllers/WishListController';
+import PurchaseController from '../../controllers/PurchaseController';
 
 const StyledButton = withStyles({
   root: {
@@ -50,6 +53,34 @@ export default function Ad({ match }) {
         // setState();
       })
   }, []);
+
+  const handleAddToWishList = () => {
+    //TO DO verificar se já foi adicionado
+    WishListController.post(id);
+  }
+
+  const handleBuy = () => {
+    Swal.fire({
+      text: "Confirmar compra?",
+      showCancelButton: true,
+      cancelButtonText: "Cancelar",
+      icon: 'info',
+      confirmButtonColor: '#80cc54',
+      cancelButtonColor: '#ed4a4a',
+      reverseButtons: true
+    })
+    .then((result) => {
+      //TO DO buy controller; verificar se um anuncio pertence ao usuário; inativar anuncio ao concluir
+      PurchaseController.postPurchase(id)
+        .then(response => {
+          Swal.fire({
+            text: "Compra efetuada com sucesso!",
+            icon: "success",
+            confirmButtonColor: "#80cc54"
+          });
+        });
+    });
+  }
 
   return (
     <PageBase footer={false}>
@@ -148,11 +179,16 @@ export default function Ad({ match }) {
                 </Grid>
 
                 <Grid item style={{ width: '100%', textAlign: 'center', margin: '10% auto' }}>
-                  <StyledButton style={{  marginBottom: '2%', background: '#fa6161' }}>
+                  <StyledButton 
+                    onClick={handleAddToWishList}
+                    style={{  marginBottom: '2%', background: '#fa6161' }}
+                  >
                     <FavoriteIcon style={{ fontSize: '20px', marginRight: '4.5px' }}/>
                     &nbsp;Adicionar a lista de desejos
                   </StyledButton>
-                  <StyledButton>
+                  <StyledButton
+                    onClick={handleBuy}
+                  >
                     <FaHandshake style={{ fontSize: '20px', marginRight: '4.5px' }}/>
                     &nbsp;Comprar
                   </StyledButton>

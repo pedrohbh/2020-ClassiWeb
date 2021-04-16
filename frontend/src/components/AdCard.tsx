@@ -50,7 +50,7 @@ export default function AdCard({ id='', title, price, imgRef, city, UF, myAds=fa
       showCancelButton: true,
       cancelButtonText: "Cancelar",
       icon: 'warning',
-      confirmButtonColor: 'red',
+      confirmButtonColor: '#ed4a4a',
       reverseButtons: true,
       focusCancel: true
     })
@@ -62,7 +62,7 @@ export default function AdCard({ id='', title, price, imgRef, city, UF, myAds=fa
             Swal.fire({
               text: "Removido com sucesso!",
               icon: "success",
-              confirmButtonColor: "#8CD4F5"
+              confirmButtonColor: "#80cc54"
             });
             document.getElementById(id)?.remove();
           });
@@ -81,7 +81,7 @@ export default function AdCard({ id='', title, price, imgRef, city, UF, myAds=fa
       showCancelButton: true,
       cancelButtonText: "Cancelar",
       icon: 'warning',
-      confirmButtonColor: 'red',
+      confirmButtonColor: '#ed4a4a',
       focusCancel: true,
       reverseButtons: true
     })
@@ -93,7 +93,7 @@ export default function AdCard({ id='', title, price, imgRef, city, UF, myAds=fa
             Swal.fire({
               text: "Excluído com sucesso!",
               icon: "success",
-              confirmButtonColor: "#8CD4F5"
+              confirmButtonColor: "#80cc54"
             });
           });
       }
@@ -101,19 +101,7 @@ export default function AdCard({ id='', title, price, imgRef, city, UF, myAds=fa
   }
 
   const handleBuy = () => {
-    Swal.fire({
-      text: "Confirmar compra?",
-      showCancelButton: true,
-      cancelButtonText: "Cancelar",
-      icon: 'info',
-      confirmButtonColor: 'green',
-      cancelButtonColor: 'red',
-      reverseButtons: true
-    })
-    .then((result) => {
-      //TO DO buy controller; verificar se um anuncio pertence ao usuário; inativar anuncio ao concluir
-    });
-    
+    history.push(`/ad/${id}`);
   }
 
   return (

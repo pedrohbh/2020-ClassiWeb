@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Ads from "../../components/Ads";
-import AdController from '../../controllers/AdController';
+import PurchaseController from "../../controllers/PurchaseController";
 
 export default function MyAds() {
   const [ads, setAds] = useState([]);
@@ -8,7 +8,7 @@ export default function MyAds() {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    AdController.getAll() // TODO trocar o get
+    PurchaseController.get()
       .then(adsList => {
         setIsLoading(false);
         if (adsList) {
@@ -21,11 +21,12 @@ export default function MyAds() {
   }, []);
 
   return (
-    <Ads
-      ads={ads}
-      isLoading={isLoading}
-      error={error}
-      myShopping={true}
-    />
+    <>oi</>
+    // <Ads
+    //   ads={ads}
+    //   isLoading={isLoading}
+    //   error={error}
+    //   myShopping={true}
+    // />
   )
 }
