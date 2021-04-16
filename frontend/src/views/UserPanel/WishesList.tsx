@@ -23,7 +23,7 @@ export default function WishesList() {
   return (
     ads.length === 0 ?
       <p style={{ textAlign: 'center' }}>
-        Você ainda não adicionou anúncios a sua lista de desejos.
+        Você ainda não adicionou anúncios à sua lista de desejos.
       </p>
       :
       <Ads

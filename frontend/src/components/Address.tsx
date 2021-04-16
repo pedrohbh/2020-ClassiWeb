@@ -62,9 +62,8 @@ export default function Address({ onChange, required=true, preSelectedState = ''
         <FormControl className={classes.formControl} variant="outlined" fullWidth>
           <InputLabel required={required} id="uf">UF</InputLabel>
           <Select
-            labelId="uf"
-            id="uf"
-            value={selectedUF}
+            labelId="uf"            
+            value={ preSelectedState ? preSelectedState : selectedUF }
             onChange={handleSelectUF}
             label="UF"            
           >
@@ -73,9 +72,10 @@ export default function Address({ onChange, required=true, preSelectedState = ''
               <MenuItem key={''} value={''} disabled style={{ display: 'none' }}></MenuItem>
             }
             {
-              UFs.map(({ sigla }) => (                
-                <MenuItem key={sigla} value={sigla} selected={sigla === preSelectedState} >{sigla}</MenuItem>
-              ))
+              UFs.map(({ sigla }, preSelectedState) => {                
+                //console.log(sigla === preSelectedState) SEMPRE DÁ FALSE (?????)
+                return (<MenuItem key={sigla} value={sigla} selected={sigla === preSelectedState} >{sigla}</MenuItem>);
+              })
             }
           </Select>
         </FormControl>
@@ -86,7 +86,7 @@ export default function Address({ onChange, required=true, preSelectedState = ''
           <Select
             labelId="city"
             id="city"
-            value={selectedCity}
+            value={preSelectedCity ? preSelectedCity : selectedCity}
             label="Cidade"
             disabled={!selectedUF}
             onChange={handleSelectCity}
@@ -96,8 +96,8 @@ export default function Address({ onChange, required=true, preSelectedState = ''
               <MenuItem key={''} value={''} disabled style={{ display: 'none' }}></MenuItem>
             }
             {
-              cities.map(({ nome }) => (
-                <MenuItem key={nome} value={nome}>{nome}</MenuItem>
+              cities.map(({ nome }, preSelectedCity) => (
+                <MenuItem key={nome} value={nome} selected={nome === preSelectedCity}>{nome}</MenuItem>
               ))
             }
           </Select>

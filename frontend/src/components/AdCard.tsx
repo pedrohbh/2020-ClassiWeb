@@ -16,7 +16,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import { useHistory } from 'react-router';
 import AdController from '../controllers/AdController';
 import WishListController from '../controllers/WishListController';
-import swal from 'sweetalert';
+import Swal from 'sweetalert2';
 
 const useStyles = makeStyles({
   root: {
@@ -45,43 +45,79 @@ export default function AdCard({ id='', title, price, imgRef, city, UF, myAds=fa
   }
 
   const handleRemoveFromWishList = () => {
-    swal({
+    Swal.fire({
       text: "Deseja remover da Lista de Desejos?",
-      icon: "warning",
-      buttons: ['Cancelar', 'Remover'],
-      dangerMode: true,
+      showCancelButton: true,
+      cancelButtonText: "Cancelar",
+      icon: 'warning',
+      confirmButtonColor: 'red',
+      reverseButtons: true,
+      focusCancel: true
     })
-    .then((willDelete) => {
-      if (willDelete) {
-        WishListController.delete(id);
+    .then(async (result) => {
+      if (result.isConfirmed) {
+        await WishListController.delete(id)
+          .then(response => {
+            console.log(response);
+            Swal.fire({
+              text: "Removido com sucesso!",
+              icon: "success",
+              confirmButtonColor: "#8CD4F5"
+            });
+            document.getElementById(id)?.remove();
+          });
       }
     });
   }
 
   const handleAddToWishList = () => {
+    //TO DO verificar se já foi adicionado
     WishListController.post(id);
   }
 
   const handleDeleteAd = () => {
-    swal({
+    Swal.fire({
       text: "Deseja excluir permanentemente o anúncio?",
-      icon: "warning",
-      buttons: ['Cancelar', 'Excluir'],
-      dangerMode: true,
+      showCancelButton: true,
+      cancelButtonText: "Cancelar",
+      icon: 'warning',
+      confirmButtonColor: 'red',
+      focusCancel: true,
+      reverseButtons: true
     })
-    .then((willDelete) => {
-      if (willDelete) {
-        AdController.delete(id);
+    .then(async (result) => {
+      if (result.isConfirmed) {
+        await AdController.delete(id)
+          .then(response => {
+            console.log(response);
+            Swal.fire({
+              text: "Excluído com sucesso!",
+              icon: "success",
+              confirmButtonColor: "#8CD4F5"
+            });
+          });
       }
     });
   }
 
   const handleBuy = () => {
-
+    Swal.fire({
+      text: "Confirmar compra?",
+      showCancelButton: true,
+      cancelButtonText: "Cancelar",
+      icon: 'info',
+      confirmButtonColor: 'green',
+      cancelButtonColor: 'red',
+      reverseButtons: true
+    })
+    .then((result) => {
+      //TO DO buy controller; verificar se um anuncio pertence ao usuário; inativar anuncio ao concluir
+    });
+    
   }
 
   return (
-    <Card className={classes.root}>
+    <Card id={id} className={classes.root}>
       <CardActionArea onClick={handleClickAd}>
         <CardMedia
           component="img"
