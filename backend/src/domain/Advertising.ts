@@ -1,7 +1,6 @@
 import { Minimum, Required } from '@tsed/schema';
 
 import {
-  AfterUpdate,
   Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -67,11 +66,6 @@ export class Advertising {
   @OneToMany(() => Purchase, (purchase) => purchase.ad)
   purchases: Purchase[];
 
-  @ManyToMany(() => User, user => user.wishes_list)
-  wishes_list: User[]
-
-  @AfterUpdate()
-  updateAd() {
-    // Anúncio foi atualizado
-  }
+  @ManyToMany(() => User, (user) => user.wishes_list)
+  wishes_list: User[];
 }
