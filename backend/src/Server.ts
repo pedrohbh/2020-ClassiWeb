@@ -48,7 +48,7 @@ if (isProduction) {
     disableRoutesSummary: isProduction,
   },
   mount: {
-    '/api': [`${rootDir}/controllers/**/*.ts`],
+    '/rest': [`${rootDir}/controllers/**/*.ts`],
     '/': [IndexController],
   },
   componentsScan: [
