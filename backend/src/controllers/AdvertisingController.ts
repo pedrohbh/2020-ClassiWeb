@@ -25,11 +25,6 @@ export class AdvertisingController {
     return this.adService.GetAdById(id);
   }
 
-  //@Get('/myads')
-  //Get(@PathParams('userID') userID: string) {
-  //  return this.adService.GetAdsByUser(userID);
-  //}
-
   @Post('/')
   @Roles([UserTypes.NORMAL])
   @Authorize('jwt')

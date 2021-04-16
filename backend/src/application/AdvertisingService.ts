@@ -149,12 +149,6 @@ export class AdvertisingService {
     return this.GetAdvertisingDTO(ad);
   }
 
-  //async GetAdsByUser(userID: string) {
-  //  const ad = await this.dao.Read(userID);
-
-  //  return this.GetAdvertisingDTO(ad);
-  //}
-
   async UpdateAd(id: string, adJson: Partial<Advertising>) {
     if (adJson.address) {
       adJson.address = await this.addressService.CreateAddress(adJson.address);
