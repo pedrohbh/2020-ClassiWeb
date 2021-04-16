@@ -23,6 +23,17 @@ export class UserService {
   @Inject(EmailService)
   private readonly emailService: EmailService;
 
+  async GetUserDTO(user: User) {
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      address: user.address,
+      cpf: User.GetFormmatedCpf(user.cpf),
+      feedback: await this.GetUserFeedback(user.id),
+    };
+  }
+
   async CreateUser(user: Pick<User, 'name' | 'cpf' | 'email' | 'password' | 'address'>) {
     const cpf = user.cpf.replace(/\D/g, '');
 
@@ -33,26 +44,19 @@ export class UserService {
     const newUser = await this.dao.Create({
       ...user,
       password: User.GetEncryptedPassword(user.password),
-      address: user.address.id ? user.address : await this.addressService.CreateAddress(user.address),
+      address: await this.addressService.CreateAddress(user.address),
       cpf,
     });
 
     this.emailService.send(newUser.email, 'Bem vindo ao ClassiWeb', `Parabéns ${newUser.name} você acabou de criar sua conta!`);
 
-    return newUser;
+    return this.GetUserDTO(newUser);
   }
 
   async GetUserById(userId: string) {
-    const { id, name, email, address, cpf } = await this.dao.Read(userId);
+    const user = await this.dao.Read(userId);
 
-    return {
-      id,
-      name,
-      email,
-      address,
-      cpf: User.GetFormmatedCpf(cpf),
-      feedback: await this.GetUserFeedback(userId),
-    };
+    return this.GetUserDTO(user);
   }
 
   async GetUserFeedback(userId: string) {
@@ -60,15 +64,11 @@ export class UserService {
       relations: ['client', 'ad'],
       where: [
         {
-          client: {
-            id: userId,
-          },
+          client: { id: userId },
         },
         {
           ad: {
-            owner: {
-              id: userId,
-            },
+            owner: { id: userId },
           },
         },
       ],
@@ -95,21 +95,29 @@ export class UserService {
   }
 
   async GetUserByEmail(email: string) {
-    const [user] = await this.dao.ReadWith({ where: { email } });
-    return user;
+    const [user] = await this.dao.ReadWith({
+      where: { email },
+    });
+
+    return this.GetUserDTO(user);
   }
 
   async GetFromUser(userId: string, options: FindManyOptions<User>) {
     const [user] = await this.dao.ReadWith({
       ...options,
-      where: { id: userId, ...((options.where as any) || {}) },
+      where: {
+        id: userId,
+        ...((options.where as any) || {}),
+      },
     });
 
-    return { ...user };
+    return this.GetUserDTO(user);
   }
 
-  ListAllUsers() {
-    return this.dao.ReadAll();
+  async ListAllUsers() {
+    const users = await this.dao.ReadAll();
+
+    return users.map((user) => this.GetUserDTO(user));
   }
 
   async UpdateUser(id: string, userJson: Partial<User>) {
@@ -118,12 +126,8 @@ export class UserService {
     }
 
     await this.dao.Update(id, userJson);
-    const user = await this.GetUserById(id);
 
-    return {
-      ...user,
-      cpf: User.GetFormmatedCpf(user.cpf),
-    };
+    return this.GetUserById(id);
   }
 
   async DeleteUser(id: string) {

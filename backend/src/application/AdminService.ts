@@ -8,23 +8,39 @@ export class AdminService {
   @Inject(AdminDAO)
   private readonly dao: AdminDAO;
 
-  CreateAdmin(admin: Partial<Admin>) {
-    return this.dao.Create(admin);
+  GetAdminDTO(admin: Admin) {
+    return {
+      id: admin.id,
+      name: admin.name,
+      email: admin.email,
+      registration: admin.registration,
+    };
   }
 
-  ListAllAdmins() {
-    return this.dao.ReadAll();
+  async CreateAdmin(admin: Partial<Admin>) {
+    const newAdmin = await this.dao.Create(admin);
+
+    return this.GetAdminDTO(newAdmin);
+  }
+
+  async ListAllAdmins() {
+    const admins = await this.dao.ReadAll();
+
+    return admins.map((admin) => this.GetAdminDTO(admin));
   }
 
   async GetAdminById(adminId: string) {
-    const { id, name, email } = await this.dao.Read(adminId);
+    const admin = await this.dao.Read(adminId);
 
-    return { id, name, email };
+    return this.GetAdminDTO(admin);
   }
 
   async GetAdminByEmail(email: string) {
-    const [admin] = await this.dao.ReadAll({ where: { email } });
-    return admin;
+    const [admin] = await this.dao.ReadWith({
+      where: { email },
+    });
+
+    return this.GetAdminDTO(admin);
   }
 
   async DeleteAdmin(id: string) {

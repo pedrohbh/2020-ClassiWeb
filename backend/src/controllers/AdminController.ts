@@ -17,11 +17,7 @@ export class AdminController {
   async GetAll() {
     const allAdmins = await this.adminService.ListAllAdmins();
 
-    return allAdmins.map((admin) => ({
-      id: admin.id,
-      name: admin.name,
-      email: admin.email,
-    }));
+    return allAdmins;
   }
 
   @Get('/')

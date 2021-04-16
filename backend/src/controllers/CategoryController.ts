@@ -27,6 +27,6 @@ export class CategoryController {
   @Roles([UserTypes.ADMIN])
   @Authorize('jwt')
   async Delete(@HeaderParams('auth') auth: string, @PathParams('name') name: string): Promise<void> {
-    await this.categoryService.Delete(name);
+    await this.categoryService.DeleteCategory(name);
   }
 }

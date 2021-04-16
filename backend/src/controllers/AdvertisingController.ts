@@ -57,6 +57,6 @@ export class AdvertisingController {
   @Roles([UserTypes.NORMAL])
   @Authorize('jwt')
   async Delete(@HeaderParams('auth') auth: string, @PathParams('id') id: string) {
-    await this.adService.RemoveAd(id);
+    await this.adService.DeleteAd(id);
   }
 }

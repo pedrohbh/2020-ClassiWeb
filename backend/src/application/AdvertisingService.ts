@@ -28,41 +28,47 @@ export class AdvertisingService {
   @Inject(AdvertisingDAO)
   private readonly dao: AdvertisingDAO;
 
-  @Inject(AddressService)
-  private readonly addressService: AddressService;
-
   @Inject(UserDAO)
   private readonly userDao: UserDAO;
 
   @Inject(CategoryDAO)
   private readonly categoryDAO: CategoryDAO;
 
+  @Inject(AddressService)
+  private readonly addressService: AddressService;
+
   @Inject(UserService)
   private readonly userService: UserService;
-
-  @Inject(EmailService)
-  private readonly emailService: EmailService;
 
   @Inject(WishListService)
   private readonly wishListService: WishListService;
 
-  async ListAllAds(page: number, pageSize: number): Promise<[any[], number]> {
-    const [ads, total] = await this.dao.ReadAll(page, pageSize);
+  @Inject(EmailService)
+  private readonly emailService: EmailService;
 
-    return [
-      ads.map((ad) => ({
-        ...ad,
-        owner: ad.owner && {
-          id: ad.owner.id,
-          name: ad.owner.name,
-          email: ad.owner.email,
-        },
-      })),
-      total,
-    ];
+  GetAdvertisingDTO(ad: Advertising) {
+    return {
+      id: ad.id,
+      title: ad.title,
+      description: ad.description,
+      price: ad.price,
+      quantity: ad.quantity,
+      state: ad.state,
+      product_state: ad.product_state,
+      images: ad.images.map(({ id }) => id),
+      category: ad.category,
+      address: ad.address,
+      owner: this.userService.GetUserDTO(ad.owner),
+    };
   }
 
-  async ListAdsWith(filter: Partial<AdFilter>, page: number, pageSize: number): Promise<[any[], number]> {
+  async ListAllAds(page: number, pageSize: number) {
+    const [ads, total] = await this.dao.ReadAll(page, pageSize);
+
+    return [ads.map((ad) => this.GetAdvertisingDTO(ad)), total];
+  }
+
+  async ListAdsWith(filter: Partial<AdFilter>, page: number, pageSize: number) {
     const whereQuery = {} as FindConditions<Advertising>;
 
     if (Number.isInteger(filter.product_state)) {
@@ -81,7 +87,7 @@ export class AdvertisingService {
 
     const [adsDB, total] = await this.dao.ReadWith(
       {
-        relations: ['category', 'address', 'owner'],
+        relations: ['category', 'address', 'owner', 'images'],
         where:
           filter.categories?.map((category) => ({
             ...whereQuery,
@@ -92,26 +98,24 @@ export class AdvertisingService {
       pageSize,
     );
 
+    const removeAccents = (str = '') => str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+    const regex = new RegExp(removeAccents(filter.text) || '', 'i');
+
+    const testText = (text: string) => regex.test(removeAccents(text));
+
     const ads = adsDB
-      .map(({ owner, ...ad }) => ({
-        ...ad,
-        owner: owner && {
-          id: owner.id,
-          name: owner.name,
-          email: owner.email,
-        },
-      }))
+      .filter((ad) => testText(ad.title) || testText(ad.description))
       .filter((ad) => {
-        const regex = new RegExp(this.removeAccents(filter.text) || '', 'i');
-        return regex.test(this.removeAccents(ad.title)) || regex.test(this.removeAccents(ad.description));
-      })
-      .filter((ad) => {
-        if (!filter.address?.state) {
-          return true;
+        if (!filter.address) return true;
+
+        if (filter.address?.city) {
+          return ad.address.city === filter.address.city;
         }
 
-        return ad.address.state === filter.address.state && (filter.address.city ? ad.address.city === filter.address.city : true);
-      });
+        return ad.address.state === filter.address.state;
+      })
+      .map((ad) => this.GetAdvertisingDTO(ad));
 
     return [ads, total];
   }
@@ -120,38 +124,29 @@ export class AdvertisingService {
     return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   }
 
-  async CreateAd(adJson: any): Promise<any> {
+  async CreateAd(ad: Partial<Advertising>) {
     const [address, owner, category] = await Promise.all([
-      await this.addressService.CreateAddress(adJson.address),
-      await this.userDao.Read(adJson.ownerId),
-      await this.categoryDAO.Read(adJson.category),
+      await this.addressService.CreateAddress(ad.address),
+      await this.userDao.Read(ad.ownerId),
+      await this.categoryDAO.Read(ad.category),
     ]);
 
-    const { id } = await this.dao.Create({
-      ...adJson,
-      quantity: +(adJson.quantity ?? 1),
+    const newAd = await this.dao.Create({
+      ...ad,
+      quantity: +(ad.quantity ?? 1),
       category,
       address,
       owner,
-      price: +(adJson.price ?? 0),
+      price: +(ad.price ?? 0),
     });
 
-    return this.GetAdById(id);
+    return this.GetAdvertisingDTO(newAd);
   }
 
   async GetAdById(adId: string) {
-    const { images, owner, ...rest } = await this.dao.Read(adId);
+    const ad = await this.dao.Read(adId);
 
-    return {
-      ...rest,
-      images: images.map(({ id }) => ({ id })),
-      owner: owner && {
-        id: owner.id,
-        name: owner.name,
-        email: owner.email,
-        feedback: await this.userService.GetUserFeedback(owner.id),
-      },
-    };
+    return this.GetAdvertisingDTO(ad);
   }
 
   async UpdateAd(id: string, adJson: Partial<Advertising>) {
@@ -175,7 +170,7 @@ export class AdvertisingService {
     return ad;
   }
 
-  RemoveAd(id: string) {
+  DeleteAd(id: string) {
     return this.dao.Delete(id);
   }
 }

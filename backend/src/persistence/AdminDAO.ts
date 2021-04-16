@@ -9,14 +9,18 @@ import { IBaseDAO } from './BaseDAO';
 class AdminRepository extends Repository<Admin> {}
 
 @Injectable()
-export class AdminDAO implements Omit<IBaseDAO<Admin>, 'ReadWith' | 'Update'> {
+export class AdminDAO implements Omit<IBaseDAO<Admin>, 'Update'> {
   constructor(private readonly repository: AdminRepository) {}
 
   Create(user: Partial<Admin>) {
     return this.repository.save(user);
   }
 
-  ReadAll(options?: FindManyOptions<Admin>) {
+  ReadAll() {
+    return this.repository.find();
+  }
+
+  ReadWith(options?: FindManyOptions<Admin>) {
     return this.repository.find(options);
   }
 

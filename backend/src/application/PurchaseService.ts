@@ -1,8 +1,6 @@
 import { Inject, Service } from '@tsed/di';
 import { Unauthorized } from '@tsed/exceptions';
 
-import { getConnection } from 'typeorm';
-
 import { AdvertisingState } from '../domain/Advertising';
 import { Feedback, Purchase } from '../domain/Purchase';
 import { AdvertisingDAO } from '../persistence/AdvertisingDAO';
@@ -19,14 +17,6 @@ export type FeedbackBody = {
 
 @Service()
 export class PurchaseService {
-  private readonly connection = getConnection();
-
-  @Inject(UserService)
-  private readonly userService: UserService;
-
-  @Inject(AdvertisingService)
-  private readonly adService: AdvertisingService;
-
   @Inject(PurchaseDAO)
   private readonly dao: PurchaseDAO;
 
@@ -36,12 +26,19 @@ export class PurchaseService {
   @Inject(AdvertisingDAO)
   private readonly adDao: AdvertisingDAO;
 
+  @Inject(UserService)
+  private readonly userService: UserService;
+
+  @Inject(AdvertisingService)
+  private readonly adService: AdvertisingService;
+
   @Inject(EmailService)
   private readonly emailService: EmailService;
 
   async GetUserPurchases(userId: string) {
-    const user = await this.userService.GetFromUser(userId, {
+    const [user] = await this.userDao.ReadWith({
       relations: ['purchases'],
+      where: { id: userId },
     });
 
     return user.purchases.map((purchase) => ({ ...purchase }));
@@ -70,8 +67,8 @@ export class PurchaseService {
 
     return {
       ...purchase,
-      client: await this.userService.GetUserById(purchase.client.id),
-      ad: await this.adService.GetAdById(purchase.ad.id),
+      client: this.userService.GetUserDTO(purchase.client),
+      ad: this.adService.GetAdvertisingDTO(purchase.ad),
     };
   }
 
