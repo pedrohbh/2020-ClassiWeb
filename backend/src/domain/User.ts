@@ -4,7 +4,7 @@ import {
 
 import bcrypt from 'bcrypt';
 import {
-  Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, Unique,
+  Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn,
 } from 'typeorm';
 
 import { Address } from './Address';
@@ -17,7 +17,6 @@ export enum UserTypes {
 }
 
 @Entity()
-@Unique(['cpf', 'email'])
 export class User {
   @PrimaryGeneratedColumn('uuid')
   @Property()
@@ -28,7 +27,7 @@ export class User {
   @Required()
   name: string;
 
-  @Column({ length: 11 })
+  @Column({ unique: true, length: 11 })
   @MaxLength(11)
   @MinLength(11)
   @Required()
@@ -38,7 +37,7 @@ export class User {
   @ManyToOne(() => Address, (address) => address.users)
   address: Address;
 
-  @Column()
+  @Column({ unique: true })
   @Email()
   @Required()
   email: string;
