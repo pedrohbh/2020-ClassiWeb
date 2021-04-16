@@ -171,6 +171,15 @@ export class AdvertisingService {
     return ad;
   }
 
+  async GetAdsByUserId(userID: string) {
+    const [{ads}] = await this.userDao.ReadWith({
+      relations: ['ads'],
+      where: {id: userID}
+    });
+
+    return Promise.all(ads.map(ad => this.GetAdvertisingDTO(ad)));
+  }
+
   DeleteAd(id: string) {
     return this.dao.Delete(id);
   }

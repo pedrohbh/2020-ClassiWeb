@@ -42,6 +42,14 @@ export class AdvertisingController {
     return { ...ad, is_onwer: ad.owner.id === userId };
   }
 
+  @Get('/user')
+  @Roles([UserTypes.NORMAL])
+  @Authorize('jwt')
+  GetUserAds(@HeaderParams('auth') auth: string) {
+    const userID = JwtProtocol.getUserIdFromToken(auth);
+    return this.adService.GetAdsByUserId(userID);
+  }
+
   @Post('/')
   @Roles([UserTypes.NORMAL])
   @Authorize('jwt')
