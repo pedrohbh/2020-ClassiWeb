@@ -1,5 +1,7 @@
 import { BodyParams, Controller, Delete, Get, HeaderParams, Inject, PathParams, Post } from '@tsed/common';
+import { BadRequest, NotFound } from '@tsed/exceptions';
 import { Authorize } from '@tsed/passport';
+import { EntityNotFoundError } from 'typeorm';
 
 import { CategoryService } from '../application/CategoryService';
 import { Category } from '../domain/Category';
@@ -20,6 +22,7 @@ export class CategoryController {
   @Roles([UserTypes.ADMIN])
   @Authorize('jwt')
   Post(@HeaderParams('auth') auth: string, @BodyParams(Category) category: Category): Promise<Category> {
+    if (! category.name) throw new BadRequest('Campo nome não preenchido');
     return this.categoryService.CreateCategory(category);
   }
 
@@ -27,6 +30,10 @@ export class CategoryController {
   @Roles([UserTypes.ADMIN])
   @Authorize('jwt')
   async Delete(@HeaderParams('auth') auth: string, @PathParams('name') name: string): Promise<void> {
-    await this.categoryService.DeleteCategory(name);
+    try {
+      await this.categoryService.DeleteCategory(name);
+    } catch (error) {
+      if (error instanceof EntityNotFoundError) throw new NotFound('Categoria não encontrada');
+    }
   }
 }
