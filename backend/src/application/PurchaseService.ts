@@ -65,7 +65,7 @@ export class PurchaseService {
       state: purchase.ad.quantity === 1 ? AdvertisingState.HIDDEN : AdvertisingState.VISIBLE,
     });
 
-    //Envia e-mail
+    // Envia e-mail
     this.emailService.send(ad.owner.email, 'Compraram seu produto', `Realizaram a compra do seu produto ${ad.title}`);
 
     return {
@@ -95,7 +95,7 @@ export class PurchaseService {
   }
 
   async UpdatePurchase(id: string, json: Partial<Purchase>) {
-    await this.dao.Upadate(id, json);
+    await this.dao.Update(id, json);
     const purchase = await this.dao.Read(id);
 
     return { ...purchase };

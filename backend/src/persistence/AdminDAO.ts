@@ -3,12 +3,13 @@ import { Injectable } from '@tsed/di';
 import { EntityRepository, FindManyOptions, Repository } from 'typeorm';
 
 import { Admin } from '../domain/Admin';
+import { IBaseDAO } from './BaseDAO';
 
 @EntityRepository(Admin)
 class AdminRepository extends Repository<Admin> {}
 
 @Injectable()
-export class AdminDAO {
+export class AdminDAO implements Omit<IBaseDAO<Admin>, 'ReadWith' | 'Update'> {
   constructor(private readonly repository: AdminRepository) {}
 
   Create(user: Partial<Admin>) {
@@ -24,6 +25,6 @@ export class AdminDAO {
   }
 
   async Delete(id: string) {
-    this.repository.delete(id);
+    await this.repository.delete(id);
   }
 }

@@ -3,12 +3,13 @@ import { Injectable } from '@tsed/di';
 import { EntityRepository, FindManyOptions, Repository } from 'typeorm';
 
 import { Purchase } from '../domain/Purchase';
+import { IBaseDAO } from './BaseDAO';
 
 @EntityRepository(Purchase)
 class PurchaseRepository extends Repository<Purchase> {}
 
 @Injectable()
-export class PurchaseDAO {
+export class PurchaseDAO implements Omit<IBaseDAO<Purchase>, 'ReadAll' | 'Delete'> {
   constructor(private readonly repository: PurchaseRepository) {}
 
   Create(purchase: Partial<Purchase>) {
@@ -25,7 +26,7 @@ export class PurchaseDAO {
     return this.repository.find(options);
   }
 
-  Upadate(id: string, purchase: Partial<Purchase>) {
-    return this.repository.update(id, purchase);
+  async Update(id: string, purchase: Partial<Purchase>) {
+    await this.repository.update(id, purchase);
   }
 }
