@@ -11,6 +11,9 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import ForumIcon from '@material-ui/icons/Forum';
 import { useHistory } from 'react-router';
+import React from 'react';
+import { Menu, MenuItem } from '@material-ui/core';
+import AuthController from '../controllers/AuthController';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -94,8 +97,45 @@ const StyledButtonGroup = withStyles({
 export default function MyAppBar({ showCreateNewAccount = true, showLogin = true, newAd=false }) {
   const history = useHistory();
   const classes = useStyles();
-
   const isLogged = !!localStorage.getItem('token');
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const isMenuOpen = Boolean(anchorEl);
+
+  const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleUserPanel = () => {
+    history.push('/userpanel');
+    handleMenuClose();
+  }
+
+  const handleLogout = () => {
+    AuthController.logout();
+    history.push('/');
+    handleMenuClose();
+  }
+
+  const menuId = 'userMenu';
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleUserPanel}>Painel do Usuário</MenuItem>
+      <MenuItem onClick={handleLogout}>Sair</MenuItem>
+    </Menu>
+  );  
 
   const handleKey = (event) => {
     if(event.key === 'Enter'){
@@ -154,10 +194,10 @@ export default function MyAppBar({ showCreateNewAccount = true, showLogin = true
               <IconButton
                 edge="end"
                 aria-label="account of current user"
-                aria-controls='menuId'
+                aria-controls={menuId}
                 aria-haspopup="true"
-                onClick={() => history.push('/userpanel') }
                 color="inherit"
+                onClick={handleProfileMenuOpen}
               >
                 <AccountCircle />
               </IconButton>
@@ -184,6 +224,7 @@ export default function MyAppBar({ showCreateNewAccount = true, showLogin = true
           }
         </Toolbar>
       </AppBar>
+      {renderMenu}
     </>
   );
 }
