@@ -4,11 +4,10 @@ import {
 
 import bcrypt from 'bcrypt';
 import {
-  Column, Entity, PrimaryGeneratedColumn, Unique,
+  Column, Entity, PrimaryGeneratedColumn,
 } from 'typeorm';
 
 @Entity()
-@Unique(['registration', 'email'])
 export class Admin {
   @PrimaryGeneratedColumn('uuid')
   @Property()
@@ -19,11 +18,11 @@ export class Admin {
   @Required()
   name: string;
 
-  @Column()
+  @Column({ unique: true })
   @Required()
   registration: string;
 
-  @Column()
+  @Column({ unique: true })
   @Email()
   @Required()
   email: string;

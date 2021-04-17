@@ -13,11 +13,8 @@ export class ImageService {
   @Inject(AdvertisingDAO)
   private readonly adDao: AdvertisingDAO;
 
-  GetImageDTO(image: Image) {
-    return {
-      id: image.id,
-      base64: image.base64,
-    };
+  GetImageDTO({ id, filename }: Image) {
+    return { id, filename };
   }
 
   async ListImages() {
@@ -26,11 +23,11 @@ export class ImageService {
     return images.map((image) => this.GetImageDTO(image));
   }
 
-  async SaveImage(base64: string, adId: string) {
+  async SaveImage(image: Partial<Image>, adId: string) {
     const ad = await this.adDao.Read(adId);
-    const { id } = await this.dao.Create({ base64, ad });
+    const newImage = await this.dao.Create({ ...image, ad });
 
-    return id;
+    return this.GetImageDTO(newImage);
   }
 
   async GetImageById(id: string) {
@@ -40,6 +37,9 @@ export class ImageService {
   }
 
   async DeleteImage(id: string) {
+    const { filename } = await this.dao.Read(id);
     await this.dao.Delete(id);
+
+    return filename;
   }
 }

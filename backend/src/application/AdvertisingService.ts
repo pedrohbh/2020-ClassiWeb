@@ -1,8 +1,6 @@
 import { Inject, Service } from '@tsed/di';
 
-import {
-  Between, FindConditions, LessThanOrEqual, MoreThanOrEqual,
-} from 'typeorm';
+import { Between, FindConditions, LessThanOrEqual, MoreThanOrEqual } from 'typeorm';
 
 import { Address } from '../domain/Address';
 import { Advertising, AdvertisingState, ProductState } from '../domain/Advertising';
@@ -56,19 +54,17 @@ export class AdvertisingService {
       quantity: ad.quantity,
       state: ad.state,
       product_state: ad.product_state,
-      images: ad.images?.map(({ id }) => id) || [],
+      images: ad.images?.map(({ filename }) => filename) || [],
       category: ad.category,
       address: ad.address,
-      owner: ad.owner && await this.userService.GetUserDTO(ad.owner),
+      owner: ad.owner && (await this.userService.GetUserDTO(ad.owner)),
     };
   }
 
   async ListAllAds(page: number, pageSize: number) {
     const [ads, total] = await this.dao.ReadAll(page, pageSize);
 
-    const adsDTO = await Promise.all(
-      ads.map((ad) => this.GetAdvertisingDTO(ad)),
-    );
+    const adsDTO = await Promise.all(ads.map((ad) => this.GetAdvertisingDTO(ad)));
 
     return [adsDTO, total];
   }
@@ -111,27 +107,29 @@ export class AdvertisingService {
 
     const testText = (text: string) => regex.test(removeAccents(text));
 
-    const ads = await Promise.all(adsDB
-      .filter((ad) => testText(ad.title) || testText(ad.description))
-      .filter((ad) => {
-        /* Se o filtro para endereço está sendo usado */
-        if (filter.address?.state) {
-          /* Se o estado do anúncio passa no filtro */
-          if (ad.address.state === filter.address.state) {
-            if (filter.address?.city) {
-              /* Verifica se a cidade passa no filtro */
-              return ad.address.city === filter.address.city;
+    const ads = await Promise.all(
+      adsDB
+        .filter((ad) => testText(ad.title) || testText(ad.description))
+        .filter((ad) => {
+          /* Se o filtro para endereço está sendo usado */
+          if (filter.address?.state) {
+            /* Se o estado do anúncio passa no filtro */
+            if (ad.address.state === filter.address.state) {
+              if (filter.address?.city) {
+                /* Verifica se a cidade passa no filtro */
+                return ad.address.city === filter.address.city;
+              }
+
+              return true; /* Passa no filtro */
             }
 
             return true; /* Passa no filtro */
           }
 
           return true; /* Passa no filtro */
-        }
-
-        return true; /* Passa no filtro */
-      })
-      .map((ad) => this.GetAdvertisingDTO(ad)));
+        })
+        .map((ad) => this.GetAdvertisingDTO(ad)),
+    );
 
     return [ads, ads.length];
   }
@@ -143,7 +141,7 @@ export class AdvertisingService {
       await this.categoryDAO.Read(ad.category),
     ]);
 
-    const newAd = await this.dao.Create({
+    const { id } = await this.dao.Create({
       ...ad,
       description: ad.description || '',
       quantity: +(ad.quantity ?? 1),
@@ -153,7 +151,7 @@ export class AdvertisingService {
       price: +(ad.price ?? 0),
     });
 
-    return this.GetAdById(newAd.id);
+    return this.GetAdById(id);
   }
 
   async GetAdById(adId: string) {
