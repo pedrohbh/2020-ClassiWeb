@@ -2,6 +2,7 @@ import { Box, Button, Grid, Paper, withStyles } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { FaHandshake } from 'react-icons/fa';
 import PageBase from '../../components/PageBase';
+import Carousel from '../../components/Carousel';
 import RoomIcon from '@material-ui/icons/Room';
 import DescriptionIcon from '@material-ui/icons/Description';
 import { Rating } from '@material-ui/lab';
@@ -16,6 +17,7 @@ import { useHistory } from 'react-router';
 import ImageController from '../../controllers/ImageController';
 import Feedback from './Feedback';
 import EditIcon from '@material-ui/icons/Edit';
+import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 
 const MySwal = withReactContent(Swal);
 
@@ -31,6 +33,8 @@ const StyledButton = withStyles({
   },
 })((props: any) => <Button size="large" {...props} />);
 
+const Image = ({ src, alt }) => <img src={src} alt={alt} style={{ maxHeight: '50vh', maxWidth: '100%' }} />;
+
 export default function Ad({ match }) {
   const id = match.params.id;
   const [title, setTitle] = useState('');
@@ -39,6 +43,7 @@ export default function Ad({ match }) {
   const [description, setDescription] = useState('');
   const [productState, setProductState] = useState('');
   const [images, setImages] = useState([] as any[]);
+  // const [img, setImg] = useState('');
   const [owner, setOwner] = useState({ name: '', feedback: 0, email: '' });
   const [price, setPrice] = useState();
   const [quantity, setQuantity] = useState();
@@ -75,26 +80,27 @@ export default function Ad({ match }) {
         console.log(data);
         setTitle(data.title);
         setOwner(data.owner);
-        setIsOwner(data.is_owner); // TODO trocar para is_owner
+        setIsOwner(data.is_owner);
         setPrice(data.price);
         setCategory(data.category.name);
         setAddress(data.address);
         setQuantity(data.quantity);
         setDescription(data.description);
         setProductState(data.product_state);
-        // Promise.all(data.images.map(id => ImageController.get(id)))
-        //   .then((imgs: any[]) => {
-            // console.log(imgs);
-            // const blobs = imgs.map(({ blob }) => handleImage(blob))
-            // setImages(blobs);
-            // console.log(blobs)
-          // })
-        // setState();
+
+        const tmpImgs = await Promise.allSettled(
+          data.images.map((filename) => {
+            return ImageController.get(filename)
+              .then(response => {
+                return 'data:image/*;base64,' + Buffer.from(response, 'binary').toString('base64')
+              })
+          })) as unknown as any[];
+          
+        setImages(tmpImgs.filter((img) => img.value).map((img) => img.value));
       })
   }, []);
 
   const handleAddToWishList = () => {
-    //TO DO verificar se já foi adicionado
     WishListController.post(id);
   }
 
@@ -168,9 +174,8 @@ export default function Ad({ match }) {
                   <h1>{title}</h1>
                 </Grid>
 
-                <Grid item style={{ width: '100%' }}>
-                  {/* <div style={{ height: '300px', backgroundColor: '#b7b7b7' }}></div> */}
-                  <img src={images[0]} style={{ height: '300px' }} alt="img" />
+                <Grid item style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                  <Carousel images={images} />
                 </Grid>
 
                 <Grid item style={{ width: '100%' }}>
@@ -185,6 +190,26 @@ export default function Ad({ match }) {
 
                     <Grid item xs={12}>
                       <p>{address.city}, {address.state}</p>
+                    </Grid>
+
+                  </Grid>
+
+                </Grid>
+
+                <Grid item style={{ width: '100%' }}>
+
+                  <Grid container spacing={2}>
+
+                    <Grid item style={{ display: 'flex' }}>
+                      <LocalOfferIcon />
+                      &nbsp;
+                      <h3>Estado</h3>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <p style={{ textAlign: 'justify' }}>
+                        {productState ? 'Usado' : 'Novo'}
+                      </p>
                     </Grid>
 
                   </Grid>

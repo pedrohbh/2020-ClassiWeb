@@ -18,6 +18,8 @@ import { useHistory } from 'react-router';
 import AdController from '../controllers/AdController';
 import WishListController from '../controllers/WishListController';
 import Swal from 'sweetalert2';
+var path = require('path');
+// import teste from '/7170301893829487-bolafinal.jpg';
 
 const useStyles = makeStyles({
   root: {
@@ -33,7 +35,7 @@ const StyledButton = withStyles({
   },
 })((props: any) => <Button size="large" {...props} />);
 
-export default function AdCard({ id='', title, price, imgRef, city, UF, myAds=false, wishList=false, myShopping=false, mySales=false}) {
+export default function AdCard({ id='', title, price, images, city, UF, myAds=false, wishList=false, myShopping=false, mySales=false}) {
   const classes = useStyles();
   const history = useHistory();
 
@@ -114,7 +116,7 @@ export default function AdCard({ id='', title, price, imgRef, city, UF, myAds=fa
           component="img"
           alt="Imagem do anúncio"
           height="100%"
-          image={imgRef}
+          image={'../../backend/uploads/7170301893829487-bolafinal.jpg'}
           style={{ height: 200 }}
           title="Imagem do anúncio"
         />

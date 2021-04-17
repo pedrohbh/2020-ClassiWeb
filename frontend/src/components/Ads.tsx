@@ -52,13 +52,13 @@ export default function Ads({ ads, isLoading, error, header="", myAds=false, wis
                 </Grid>
 
                 {
-                  ads.map(({ id, title, price, imgRef, address={ state: '', city: '' } }) => (
+                  ads.map(({ id, title, price, images, address={ state: '', city: '' } }) => (
                     <Grid item key={id}>
                       <AdCard
                         id={id}
                         title={title}
                         price={price}
-                        imgRef={imgRef}
+                        images={images}
                         city={address.city}
                         UF={address.state}
                         myAds={myAds}

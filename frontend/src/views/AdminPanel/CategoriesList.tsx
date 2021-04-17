@@ -31,14 +31,15 @@ export default function CategoriesList() {
   useEffect(() => {
     CategoryController.getAll()
         .then(CategoriesList => {
-            setCategories(CategoriesList);
+          setCategories(CategoriesList.sort((a, b) => a.name.localeCompare(b.name)));
+          setCategories(CategoriesList);
 
-            const r = [] as  any;
-            CategoriesList.map(({ name }, index) => {
-              r.push({ id: index, category: name})
-            });
-            
-            setRows(r);
+          const r = [] as  any;
+          CategoriesList.map(({ name }, index) => {
+            r.push({ id: index, category: name})
+          });
+          
+          setRows(r);
         });
   }, []);
 

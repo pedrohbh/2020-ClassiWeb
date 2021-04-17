@@ -21,11 +21,20 @@ export default function MySales() {
   }, []);
 
   return (
-    <Ads
-      ads={ads}
-      isLoading={isLoading}
-      error={error}
-      mySales={true}
-    />
+    <>
+    {
+      ads.length === 0 ?
+      <p style={{ textAlign: 'center' }}>
+        Você ainda não realizou vendas.
+      </p>
+      :
+      <Ads
+        ads={ads}
+        isLoading={isLoading}
+        error={error}
+        mySales={true}
+      />
+    }
+    </>
   )
 }

@@ -70,9 +70,10 @@ export default class AdController {
       })
   }
 
-  static images(data) {
-    console.log(data);
-    return api.post('/images', data)
+  static images(adId, file) {
+    const data = new FormData();
+    data.append('image', file);
+    return api.post(`/images/${adId}`, data)
       .then(response => {
         console.log(response.data);
         return response.data;

@@ -103,7 +103,7 @@ export default function EditAdForm() {
       })
   }, []);
 
-  async function handleUploadClick(){
+  async function handleUploadClick(adId){
     const input : any = document.querySelector('#images');
 
     function getBase64(file) {
@@ -118,7 +118,7 @@ export default function EditAdForm() {
       return getBase64(element);
     }));
 
-    const ret = await AdController.images({files});
+    const ret = await AdController.images(adId, { files });
     console.log(ret);
   }
 
