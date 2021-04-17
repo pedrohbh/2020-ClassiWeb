@@ -1,9 +1,7 @@
-import {
-  BodyParams, Controller, Delete, Get, HeaderParams, Inject, PathParams, Post, Put, Response,
-} from '@tsed/common';
+import { BodyParams, Controller, Delete, Get, HeaderParams, Inject, PathParams, Post, Put, Response } from '@tsed/common';
 import { BadRequest, NotFound } from '@tsed/exceptions';
 import { Authorize } from '@tsed/passport';
-import { number } from '@tsed/schema';
+
 import { EntityNotFoundError } from 'typeorm';
 
 import { AdFilter, AdvertisingService } from '../application/AdvertisingService';
@@ -25,12 +23,11 @@ export class AdvertisingController {
     return ads;
   }
 
-
   @Get('/:id')
   async Get(@HeaderParams('auth') auth: string, @PathParams('id') id: string) {
     try {
       const ad = await this.adService.GetAdById(id);
-      
+
       if (!auth) {
         return { ...ad, is_owner: false };
       }
@@ -45,22 +42,22 @@ export class AdvertisingController {
   @Get('/')
   @Roles([UserTypes.NORMAL])
   @Authorize('jwt')
-  async GetUserAds(@HeaderParams('auth') auth: string) {
+  GetUserAds(@HeaderParams('auth') auth: string) {
     const userID = JwtProtocol.getUserIdFromToken(auth);
-    return await this.adService.GetAdsByUserId(userID);
+    return this.adService.GetAdsByUserId(userID);
   }
 
   @Post('/')
   @Roles([UserTypes.NORMAL])
   @Authorize('jwt')
   Post(@HeaderParams('auth') auth: string, @BodyParams() ad: Partial<Advertising>) {
-    if (! ad.title)         throw new BadRequest('Campo título não preenchido');
-    if (! ad.price)         throw new BadRequest('Campo preço não preenchido');
-    if (! ad.category)      throw new BadRequest('Campo categoria não preenchido');
-    if (! ad.address)       throw new BadRequest('Campo endereço não preenchido');
-    if (! Number.isInteger(ad.quantity))      throw new BadRequest('Campo quantidade não preenchido');
-    if (! Number.isInteger(ad.product_state)) throw new BadRequest('Campo estado do produto não preenchido');
-    if (! Number.isInteger(ad.state))         throw new BadRequest('Campo estado do anúncio não preenchido');
+    if (!ad.title) throw new BadRequest('Campo título não preenchido');
+    if (!ad.price) throw new BadRequest('Campo preço não preenchido');
+    if (!ad.category) throw new BadRequest('Campo categoria não preenchido');
+    if (!ad.address) throw new BadRequest('Campo endereço não preenchido');
+    if (!Number.isInteger(ad.quantity)) throw new BadRequest('Campo quantidade não preenchido');
+    if (!Number.isInteger(ad.product_state)) throw new BadRequest('Campo estado do produto não preenchido');
+    if (!Number.isInteger(ad.state)) throw new BadRequest('Campo estado do anúncio não preenchido');
 
     ad.ownerId = JwtProtocol.getUserIdFromToken(auth);
     return this.adService.CreateAd(ad);
