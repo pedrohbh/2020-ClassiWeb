@@ -9,7 +9,19 @@ import ReactCarousel from 'react-material-ui-carousel'
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     carousel: {
-      height: '100%'
+      height: '100%',
+      width: '100%',
+      paddingBottom: 40,
+
+      '& div.CarouselItem': {
+        height: '100%',
+      },
+
+      '& div.CarouselItem > div': {
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+      },
     },
 
     carouselWrapper: {
@@ -47,7 +59,7 @@ export default function Carousel({ images }) {
             key={i}
             src={image}
             onClick={() => setOpenModal(true)}
-            style={{ maxWidth: '100%', maxHeight: '100%', cursor: 'pointer' }}
+            style={{ maxWidth: '100%', maxHeight: '50vh', cursor: 'pointer', borderRadius: 10 }}
           />
         ))}
       </ReactCarousel>
