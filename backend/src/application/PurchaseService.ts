@@ -49,6 +49,19 @@ export class PurchaseService {
     return Promise.all(user.purchases.map(({ id }) => this.GetPurchaseBtId(id)));
   }
 
+  async GetUserSales(userId: string) {
+    const purchases = await this.dao.ReadWith({
+      relations: ['ad', 'ad.owner'],
+      where: (qb: any) => {
+        qb.where('Purchase__ad.owner.id = :id', {
+          id: userId,
+        });
+      },
+    });
+
+    return Promise.all(purchases.map((purchase) => this.GetPurchaseDTO(purchase)));
+  }
+
   async GetPurchaseBtId(id: string) {
     const purchase = await this.dao.Read(id);
 
@@ -65,6 +78,10 @@ export class PurchaseService {
 
     if (ad.quantity === 0) {
       throw new Unauthorized(`Anúncio "${ad.title}" não possui itens disponíveis para venda`);
+    }
+
+    if (ad.owner.id === userId) {
+      throw new Unauthorized('Um anúncio não pode ser comprado por seu dono');
     }
 
     const purchase = await this.dao.Create({ client, ad });

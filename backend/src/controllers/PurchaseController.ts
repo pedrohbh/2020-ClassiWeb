@@ -1,13 +1,10 @@
-import {
-  Controller, Get, HeaderParams, Inject, PathParams, Post,
-} from '@tsed/common';
+import { Controller, Get, HeaderParams, Inject, PathParams, Post } from '@tsed/common';
 import { NotFound } from '@tsed/exceptions';
 import { Authorize } from '@tsed/passport';
 
 import { EntityNotFoundError } from 'typeorm';
 
 import { PurchaseService } from '../application/PurchaseService';
-import { Feedback } from '../domain/Purchase';
 import { UserTypes } from '../domain/User';
 import { Roles } from '../middlewares/Roles';
 import { JwtProtocol } from '../protocols/JwtProtocol';
@@ -20,9 +17,17 @@ export class PurchaseController {
   @Get('/')
   @Roles([UserTypes.NORMAL])
   @Authorize('jwt')
-  GetAll(@HeaderParams('auth') auth: string) {
+  Get(@HeaderParams('auth') auth: string) {
     const userId = JwtProtocol.getUserIdFromToken(auth);
     return this.purchaseService.GetUserPurchases(userId);
+  }
+
+  @Get('/sales')
+  @Roles([UserTypes.NORMAL])
+  @Authorize('jwt')
+  GetSales(@HeaderParams('auth') auth: string) {
+    const userId = JwtProtocol.getUserIdFromToken(auth);
+    return this.purchaseService.GetUserSales(userId);
   }
 
   @Post('/:id/:feedback')
