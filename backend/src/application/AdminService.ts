@@ -18,7 +18,10 @@ export class AdminService {
   }
 
   async CreateAdmin(admin: Partial<Admin>) {
-    const newAdmin = await this.dao.Create(admin);
+    const newAdmin = await this.dao.Create({
+      ...admin,
+      password: Admin.GetEncryptedPassword(admin.password || ''),
+    });
 
     return this.GetAdminDTO(newAdmin);
   }

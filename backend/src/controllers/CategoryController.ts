@@ -22,7 +22,7 @@ export class CategoryController {
   @Roles([UserTypes.ADMIN])
   @Authorize('jwt')
   Post(@HeaderParams('auth') auth: string, @BodyParams(Category) category: Category): Promise<Category> {
-    if (! category.name) throw new BadRequest('Campo nome não preenchido');
+    if (!category.name) throw new BadRequest('Campo nome não preenchido');
     return this.categoryService.CreateCategory(category);
   }
 
