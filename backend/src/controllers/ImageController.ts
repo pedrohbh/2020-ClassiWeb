@@ -14,6 +14,8 @@ import {
 } from '@tsed/common';
 import { Authorize } from '@tsed/passport';
 
+import fs from 'fs';
+import multer from 'multer';
 import path from 'path';
 
 import { ImageService } from '../application/ImageService';
@@ -43,21 +45,33 @@ export class ImageController {
   @Post('/:adId')
   @Roles([UserTypes.NORMAL])
   @Authorize('jwt')
-  async Post(
-    @HeaderParams('auth') auth: string,
-    @PathParams('adId') adId: string,
-    @MultipartFile('image') image: PlatformMulterFile,
-  ) {
-    return this.imageService.SaveImage(
-      image.buffer.toString('base64'),
-      adId,
-    );
+  @MulterOptions({
+    storage: multer.diskStorage({
+      destination: path.join(__dirname, '../../uploads'),
+      filename: (request, file, cb) => {
+        const hash = `${Math.random()}`.replace('0.', '');
+
+        cb(null, `${hash}-${file.originalname}`);
+      },
+    }),
+  })
+  async Post(@HeaderParams('auth') auth: string, @PathParams('adId') adId: string, @MultipartFile('image') image: PlatformMulterFile) {
+    return this.imageService.SaveImage({ filename: image.filename }, adId);
   }
 
   @Delete('/:id')
   @Roles([UserTypes.NORMAL])
   @Authorize('jwt')
   async Delete(@HeaderParams('auth') auth: string, @PathParams('id') id: string) {
-    await this.imageService.DeleteImage(id);
+    const filename = await this.imageService.DeleteImage(id);
+
+    /* Exclui o arquivo local */
+    fs.unlink(path.join(__dirname, `../../uploads/${filename}`), (error) => {
+      if (error) {
+        throw error;
+      }
+    });
+
+    return { message: 'Arquivo excluido com sucesso' };
   }
 }
