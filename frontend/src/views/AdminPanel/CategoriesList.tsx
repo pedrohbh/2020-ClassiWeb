@@ -4,6 +4,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { makeStyles } from '@material-ui/core';
 import { useEffect, useState } from 'react';
 import CategoryController from '../../controllers/CategoryController';
+import Swal from 'sweetalert2';
 
 const useStyles = makeStyles({
   root: {
@@ -11,9 +12,18 @@ const useStyles = makeStyles({
       fontWeight: 'bold',
     },
   },
+  new: {
+    background: '#E65252',
+    '&:hover':{
+        background: '#fc7474',
+    },
+    marginTop: '2%',
+    color: 'white',
+    float: 'right'
+  }
 });
 
-export default function RenderCellGrid() {
+export default function CategoriesList() {
   const classes = useStyles();
   const [categories, setCategories] = useState([]);
   const [rows, setRows] = useState([]);
@@ -58,6 +68,33 @@ export default function RenderCellGrid() {
     //   });
   }
 
+  const handleCreateCategory = async () => {
+    const resp = await Swal.fire({
+      title: "Qual o nome da nova categoria?",
+      input: 'text',
+      showCancelButton: true,
+      confirmButtonColor: '#80cc54', 
+      cancelButtonText: 'Cancelar'
+    });
+
+    if (resp.isConfirmed){
+      if (resp.value){
+        await CategoryController.postCategory({ name: resp.value })
+        .then((response) => {
+          console.log(response);
+          Swal.fire({
+            title: `A categoria ${resp.value} foi cadastrada com sucesso!`,
+            confirmButtonColor: '#80cc54'
+          });
+        });
+      }  
+      else Swal.fire({
+        title: 'Digite um nome válido!',
+        confirmButtonColor: '#80cc54'
+      });
+    }  
+  }
+
   const columns: GridColDef[] = [
     {
       field: 'category',
@@ -67,9 +104,9 @@ export default function RenderCellGrid() {
       renderCell: (params: GridCellParams) => (
         <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
           {params.value}
-          <Button onClick={handleDeleteCategory}>
+          {/* <Button onClick={handleDeleteCategory}>
             <DeleteIcon style={{ fontSize: 20 }}/>
-          </Button>
+          </Button> */}
         </div>
       ),
     },
@@ -85,6 +122,13 @@ export default function RenderCellGrid() {
         disableColumnMenu
         disableSelectionOnClick
       />
+      <Button        
+        variant="contained"
+        className={classes.new}
+        onClick={handleCreateCategory}
+      >
+        Nova categoria
+      </Button>
     </div>
   );
 }

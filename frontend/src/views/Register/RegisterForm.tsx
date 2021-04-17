@@ -145,7 +145,12 @@ export default function RegisterForm() {
       >
         <Grid container alignItems="center" justify="space-around" spacing={1}>
           <Grid item xs={12}>
-            <StyledTextField required id="name" label="Nome" />
+            <StyledTextField 
+              required 
+              id="name" 
+              label="Nome" 
+              inputProps={{ maxLength: 40 }}
+            />
           </Grid>
 
           <Grid item xs={12}>

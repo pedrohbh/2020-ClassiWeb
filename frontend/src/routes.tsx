@@ -23,7 +23,7 @@ export default function Routes() {
         <Route path='/ad/:id' component={Ad} />
         <Route path='/search' component={Search} />
         <Route path='/admin' component={AdminPanel} />
-        <Route path='/userpanel' component={UserPanel} />
+        <Route path='/userpanel/:tab?' component={UserPanel} />
       </Switch>
     </BrowserRouter>
   );

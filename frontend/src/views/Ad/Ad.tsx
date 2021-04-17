@@ -39,7 +39,7 @@ export default function Ad({ match }) {
   const [description, setDescription] = useState('');
   const [productState, setProductState] = useState('');
   const [images, setImages] = useState([] as any[]);
-  const [owner, setOwner] = useState({ name: '', feedback: 0 });
+  const [owner, setOwner] = useState({ name: '', feedback: 0, email: '' });
   const [price, setPrice] = useState();
   const [quantity, setQuantity] = useState();
   const [state, setState] = useState();
@@ -50,7 +50,7 @@ export default function Ad({ match }) {
     PurchaseController.postFeedback(id, rate);
     setTimeout(() => {
       MySwal.close();
-      history.push('/');
+      history.push('/userpanel/purchases');
     }, 500);
   }
 
@@ -75,20 +75,20 @@ export default function Ad({ match }) {
         console.log(data);
         setTitle(data.title);
         setOwner(data.owner);
-        setIsOwner(data.is_onwer); // TODO trocar para is_owner
+        setIsOwner(data.is_owner); // TODO trocar para is_owner
         setPrice(data.price);
         setCategory(data.category.name);
         setAddress(data.address);
         setQuantity(data.quantity);
         setDescription(data.description);
         setProductState(data.product_state);
-        Promise.all(data.images.map(id => ImageController.get(id)))
-          .then((imgs: any[]) => {
-            console.log(imgs);
-            const blobs = imgs.map(({ blob }) => handleImage(blob))
-            setImages(blobs);
+        // Promise.all(data.images.map(id => ImageController.get(id)))
+        //   .then((imgs: any[]) => {
+            // console.log(imgs);
+            // const blobs = imgs.map(({ blob }) => handleImage(blob))
+            // setImages(blobs);
             // console.log(blobs)
-          })
+          // })
         // setState();
       })
   }, []);
@@ -124,10 +124,8 @@ export default function Ad({ match }) {
                 }).then((result) => {
                   if (result.isConfirmed) {
                     MySwal.fire({
-
                       title: "Avalie a compra!",
-                      html:
-                        <Feedback onChange={handleRating} />,
+                      html: <Feedback onChange={handleRating} />,
                       showConfirmButton: false,
                     });
                   } else {
@@ -288,9 +286,12 @@ export default function Ad({ match }) {
                     </Grid> */}
 
                     <Grid item style={{ textAlign: 'center' }}>
-                      <strong style={{ fontSize: 20 }}>
+                      <strong style={{ fontSize: 20, textTransform: 'capitalize' }}>
                         {owner.name}
                       </strong>
+                      <p style={{ fontSize: 18 }}>
+                        {owner.email}
+                      </p>
                     </Grid>
 
                   </Grid>

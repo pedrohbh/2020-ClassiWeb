@@ -101,6 +101,7 @@ export default function MyAds() {
               defaultValue={name} 
               value={name}
               onChange={ event => setName(event.target.value) }
+              inputProps={{ maxLength: 40 }}
             />
           </Grid>
         </Grid>

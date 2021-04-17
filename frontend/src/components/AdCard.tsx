@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import NumberFormat from 'react-number-format';
 import RoomIcon from '@material-ui/icons/Room';
+import StarIcon from '@material-ui/icons/Star';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { FaHandshake } from 'react-icons/fa';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -26,11 +27,13 @@ const useStyles = makeStyles({
 
 const StyledButton = withStyles({
   root: {
-    color: '#E65252'
+    color: (props: any) => {
+      return props.$mySales ? '#edb005' : '#E65252';
+    }  
   },
 })((props: any) => <Button size="large" {...props} />);
 
-export default function AdCard({ id='', title, price, imgRef, city, UF, myAds=false, wishList=false, myShopping=false }) {
+export default function AdCard({ id='', title, price, imgRef, city, UF, myAds=false, wishList=false, myShopping=false, mySales=false}) {
   const classes = useStyles();
   const history = useHistory();
 
@@ -132,7 +135,7 @@ export default function AdCard({ id='', title, price, imgRef, city, UF, myAds=fa
             style={{ fontSize: 18 }}
           />
 
-          { !myShopping && !wishList &&
+          { !myShopping && !wishList && !mySales &&
             <Typography gutterBottom component="h5" style={{ display: 'flex', alignItems: 'center', marginLeft: -3, marginTop: 10 }}>
               <RoomIcon style={{ fontSize: 20 }} /> {city}, {UF}
             </Typography>
@@ -156,11 +159,17 @@ export default function AdCard({ id='', title, price, imgRef, city, UF, myAds=fa
               myShopping ?
                 null
                 :
-                <StyledButton size="small" color="primary" onClick={handleAddToWishList}>
-                  <FavoriteIcon style={{ fontSize: 20 }} />
-                  Adicionar à Lista de Desejos
-                </StyledButton>
-          }
+                mySales ?
+                  <StyledButton $mySales={mySales} size="small" color="primary" onClick={handleAddToWishList}>
+                    <StarIcon style={{ fontSize: 20 }} />
+                    Avaliar Comprador
+                  </StyledButton>
+                  :
+                  <StyledButton size="small" color="primary" onClick={handleAddToWishList}>
+                    <FavoriteIcon style={{ fontSize: 20 }} />
+                    Adicionar à Lista de Desejos
+                  </StyledButton>
+        }
 
         {myAds ?
             <StyledButton size="small" color="primary" onClick={handleDeleteAd}>
@@ -168,7 +177,7 @@ export default function AdCard({ id='', title, price, imgRef, city, UF, myAds=fa
               Excluir
             </StyledButton>
             :
-            myShopping ?
+            myShopping || mySales ?
               null
               :
               <StyledButton size="small" color="primary" onClick={handleBuy}>

@@ -11,9 +11,10 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import ForumIcon from '@material-ui/icons/Forum';
 import { useHistory } from 'react-router';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Menu, MenuItem } from '@material-ui/core';
 import AuthController from '../controllers/AuthController';
+import UserController from '../controllers/UserController';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -97,10 +98,24 @@ const StyledButtonGroup = withStyles({
 export default function MyAppBar({ showCreateNewAccount = true, showLogin = true, newAd=false }) {
   const history = useHistory();
   const classes = useStyles();
-  const isLogged = !!localStorage.getItem('token');
+  const token = localStorage.getItem('token');
+  const isLogged = !!token;
+
+  const [name, setName] = useState('');
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const isMenuOpen = Boolean(anchorEl);
+
+  useEffect(() => {
+    UserController.getUser()
+      .then(response => {
+        if (response) {
+          setName(response.name);
+        } else {
+          setName('');
+        }
+      })
+  }, []);
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -111,7 +126,7 @@ export default function MyAppBar({ showCreateNewAccount = true, showLogin = true
   };
 
   const handleUserPanel = () => {
-    history.push('/userpanel');
+    history.push('/userpanel/');
     handleMenuClose();
   }
 
@@ -181,16 +196,19 @@ export default function MyAppBar({ showCreateNewAccount = true, showLogin = true
 
           {isLogged ?
             <div className={classes.sectionDesktop}>
-              <IconButton aria-label="show 4 new mails" color="inherit">
+
+              {/* <IconButton aria-label="show 4 new mails" color="inherit">
                 <Badge badgeContent={6} color="secondary">
                   <ForumIcon />
                 </Badge>
-              </IconButton>
-              <IconButton aria-label="show 17 new notifications" color="inherit">
+              </IconButton> */}
+
+              {/* <IconButton aria-label="show 17 new notifications" color="inherit">
                 <Badge badgeContent={10} color="secondary">
                   <NotificationsIcon />
                 </Badge>
-              </IconButton>
+              </IconButton> */}
+
               <IconButton
                 edge="end"
                 aria-label="account of current user"
@@ -200,7 +218,11 @@ export default function MyAppBar({ showCreateNewAccount = true, showLogin = true
                 onClick={handleProfileMenuOpen}
               >
                 <AccountCircle />
+              <p style={{ fontSize: 18, textTransform: 'capitalize'}}>
+                &nbsp;{name}
+              </p>
               </IconButton>
+              
             </div>
             :
             <StyledButtonGroup variant="text">
