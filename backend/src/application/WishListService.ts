@@ -21,13 +21,18 @@ export class WishListService {
   @Inject(AdvertisingDAO)
   private readonly adDao: AdvertisingDAO;
 
-  async GetList(userId: string) {
+  async GetWishist(userId: string) {
     const [user] = await this.userDao.ReadWith({
       relations: ['wishes_list'],
       where: { id: userId },
     });
 
-    return user.wishes_list.map((ad) => ({ ...ad }));
+    return Promise.all(user.wishes_list.map((ad) => 
+      this.adDao.Read(ad.id).then(res => ({
+        ...res,
+        images: res.images.map((image) => image.filename),
+      }))
+    ));
   }
 
   async AddAdOnList(userId: string, adId: string) {
@@ -55,7 +60,7 @@ export class WishListService {
     user.wishes_list = user.wishes_list.filter((ad: Advertising) => ad.id !== adId);
     await this.connection.manager.save(user);
 
-    return this.GetList(userId);
+    return this.GetWishist(userId);
   }
 
   async GetListFromAd(id: string) {

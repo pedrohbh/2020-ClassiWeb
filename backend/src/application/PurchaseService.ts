@@ -36,13 +36,13 @@ export class PurchaseService {
       date: purchase.date,
       owner_feedback: purchase.owner_feedback,
       client_feedback: purchase.client_feedback,
-      ad: await this.adService.GetAdvertisingDTO(purchase.ad),
+      ad: await this.adService.GetAdById(purchase.ad.id),
     };
   }
 
   async GetUserPurchases(userId: string) {
     const [user] = await this.userDao.ReadWith({
-      relations: ['purchases'],
+      relations: ['purchases',],
       where: { id: userId },
     });
 

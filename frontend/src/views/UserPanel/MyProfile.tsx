@@ -34,13 +34,15 @@ export default function MyAds() {
   useEffect(() => {
     UserController.getUser()
       .then(user => {
-        setCpf(user.cpf);
-        setName(user.name);
-        setEmail(user.email);
-        setAddress({ 
-          state: user.address.state, 
-          city: user.address.city
-        });
+          if (user) {
+          setCpf(user.cpf);
+          setName(user.name);
+          setEmail(user.email);
+          setAddress({ 
+            state: user.address.state, 
+            city: user.address.city
+          });
+        }
       });
   }, []);
 

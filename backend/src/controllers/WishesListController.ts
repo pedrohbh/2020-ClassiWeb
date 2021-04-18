@@ -18,7 +18,7 @@ export class WishesListController {
   @Authorize('jwt')
   GetAll(@HeaderParams('auth') auth: string) {
     const userId = JwtProtocol.getUserIdFromToken(auth);
-    return this.wishListService.GetList(userId);
+    return this.wishListService.GetWishist(userId);
   }
 
   @Post('/:adId')
