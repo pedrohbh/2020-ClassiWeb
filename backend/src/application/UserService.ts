@@ -29,7 +29,6 @@ export class UserService {
       name: user.name,
       email: user.email,
       address: user.address,
-      cpf: User.GetFormmatedCpf(user.cpf),
       feedback: await this.GetUserFeedback(user.id),
     };
   }
@@ -56,7 +55,10 @@ export class UserService {
   async GetUserById(userId: string) {
     const user = await this.dao.Read(userId);
 
-    return this.GetUserDTO(user);
+    return {
+      ...(await this.GetUserDTO(user)),
+      cpf: User.GetFormmatedCpf(user.cpf),
+    };
   }
 
   async GetUserFeedback(userId: string) {
@@ -78,13 +80,13 @@ export class UserService {
       ({ ranking, votes }, purchase) => {
         if (userId === purchase.client.id) {
           return {
-            ranking: ranking + purchase.owner_feedback || 0,
+            ranking: ranking + (purchase.owner_feedback || 0),
             votes: votes + +!!purchase.owner_feedback,
           };
         }
 
         return {
-          ranking: ranking + purchase.client_feedback || 0,
+          ranking: ranking + (purchase.client_feedback || 0),
           votes: votes + +!!purchase.client_feedback,
         };
       },

@@ -88,6 +88,11 @@ if (isProduction) {
   typeorm: [typeormConfig as any],
   exclude: ['**/*.spec.ts'],
   statics: {
+    '/': [
+      {
+        root: `${rootDir}/../views`,
+      },
+    ],
     '/rest': [
       {
         root: `${rootDir}/../uploads`,

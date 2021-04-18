@@ -1,4 +1,5 @@
 import { Inject, Service } from '@tsed/di';
+import { Unauthorized } from '@tsed/exceptions';
 
 import { Between, FindConditions, LessThanOrEqual, MoreThanOrEqual } from 'typeorm';
 
@@ -160,16 +161,22 @@ export class AdvertisingService {
     return this.GetAdvertisingDTO(ad);
   }
 
-  async UpdateAd(id: string, adJson: Partial<Advertising>) {
+  async UpdateAd(id: string, adJson: Partial<Advertising>, userId: string) {
     if (adJson.address) {
       adJson.address = await this.addressService.CreateAddress(adJson.address);
     }
 
+    const current_ad = await this.dao.Read(id);
+
+    if (userId !== current_ad.owner.id) {
+      throw new Unauthorized('Você não pode alterar um anúncio que não é seu.');
+    }
+
+    /* Atualiza o anúncio */
     await this.dao.Update(id, adJson);
 
-    const ad = await this.GetAdById(id);
+    /* Envia a alteração para os interessados */
     const users = await this.wishListService.GetListFromAd(id);
-
     users.forEach((user) => {
       this.emailService.send(
         user.email,
@@ -178,7 +185,7 @@ export class AdvertisingService {
       );
     });
 
-    return ad;
+    return this.GetAdById(id);
   }
 
   async GetAdsByUserId(userID: string) {
@@ -187,12 +194,16 @@ export class AdvertisingService {
       where: { id: userID },
     });
 
-    console.log(ads);
-
     return Promise.all(ads.map((ad) => this.GetAdById(ad.id)));
   }
 
-  DeleteAd(id: string) {
+  async DeleteAd(id: string, userId: string) {
+    const current_ad = await this.dao.Read(id);
+
+    if (userId !== current_ad.owner.id) {
+      throw new Unauthorized('Você não pode deletar um anúncio que não é seu.');
+    }
+
     return this.dao.Delete(id);
   }
 }

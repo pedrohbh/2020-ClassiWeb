@@ -46,7 +46,7 @@ export class PurchaseService {
       where: { id: userId },
     });
 
-    return Promise.all(user.purchases.map(({ id }) => this.GetPurchaseBtId(id)));
+    return Promise.all(user.purchases.map(({ id }) => this.GetPurchaseById(id)));
   }
 
   async GetUserSales(userId: string) {
@@ -62,7 +62,7 @@ export class PurchaseService {
     return Promise.all(purchases.map((purchase) => this.GetPurchaseDTO(purchase)));
   }
 
-  async GetPurchaseBtId(id: string) {
+  async GetPurchaseById(id: string) {
     const purchase = await this.dao.Read(id);
 
     return this.GetPurchaseDTO(purchase);
@@ -81,14 +81,18 @@ export class PurchaseService {
     }
 
     if (ad.owner.id === userId) {
-      throw new Unauthorized('Um anúncio não pode ser comprado por seu dono');
+      throw new Unauthorized('Você não pode comprar seu próprio anúncio');
     }
 
     const purchase = await this.dao.Create({ client, ad });
-    await this.adService.UpdateAd(purchase.ad.id, {
-      quantity: purchase.ad.quantity - 1,
-      state: purchase.ad.quantity === 1 ? AdvertisingState.HIDDEN : AdvertisingState.VISIBLE,
-    });
+    await this.adService.UpdateAd(
+      purchase.ad.id,
+      {
+        quantity: purchase.ad.quantity - 1,
+        state: purchase.ad.quantity === 1 ? AdvertisingState.HIDDEN : AdvertisingState.VISIBLE,
+      },
+      userId,
+    );
 
     // Envia e-mail
     this.emailService.send(ad.owner.email, 'Compraram seu produto', `Realizaram a compra do seu produto ${ad.title}`);

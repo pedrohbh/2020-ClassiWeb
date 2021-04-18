@@ -18,7 +18,7 @@ export class PurchaseDAO implements Omit<IBaseDAO<Purchase>, 'ReadAll' | 'Delete
 
   Read(id: string) {
     return this.repository.findOneOrFail(id, {
-      relations: ['client', 'ad'],
+      relations: ['client', 'ad', 'ad.owner'],
     });
   }
 
