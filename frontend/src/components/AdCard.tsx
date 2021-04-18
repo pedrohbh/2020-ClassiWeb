@@ -32,12 +32,12 @@ const useStyles = makeStyles({
 const StyledButton = withStyles({
   root: {
     color: (props: any) => {
-      return props.$mySales ? '#edb005' : '#E65252';
-    }  
+      return props.$rating ? '#edb005' : '#E65252';
+    }
   },
 })((props: any) => <Button size="large" {...props} />);
 
-export default function AdCard({ id='', title, price, images, city, UF, myAds=false, wishList=false, myShopping=false, mySales=false}) {
+export default function AdCard({ id = '', title, price, images, city, UF, myAds = false, wishList = false, myShopping = false, mySales = false, ownerFeedback = null, clientFeedback = null }) {
   const [image, setImage] = useState('');
 
   const classes = useStyles();
@@ -46,11 +46,11 @@ export default function AdCard({ id='', title, price, images, city, UF, myAds=fa
   useEffect(() => {
     if (images && images[0]) {
       ImageController.get(images[0])
-      .then(response => {
-        if (response) {
-          setImage('data:image/*;base64,' + Buffer.from(response, 'binary').toString('base64'))
-        }
-      });
+        .then(response => {
+          if (response) {
+            setImage('data:image/*;base64,' + Buffer.from(response, 'binary').toString('base64'))
+          }
+        });
     } else {
       ImageController.get("default.jpg")
         .then(response => {
@@ -79,25 +79,31 @@ export default function AdCard({ id='', title, price, images, city, UF, myAds=fa
       reverseButtons: true,
       focusCancel: true
     })
-    .then(async (result) => {
-      if (result.isConfirmed) {
-        await WishListController.delete(id)
-          .then(response => {
-            console.log(response);
-            Swal.fire({
-              text: "Removido com sucesso!",
-              icon: "success",
-              confirmButtonColor: "#80cc54"
+      .then(async (result) => {
+        if (result.isConfirmed) {
+          await WishListController.delete(id)
+            .then(response => {
+              console.log(response);
+              Swal.fire({
+                text: "Removido com sucesso!",
+                icon: "success",
+                confirmButtonColor: "#80cc54"
+              });
+              document.getElementById(id)?.remove();
             });
-            document.getElementById(id)?.remove();
-          });
-      }
-    });
+        }
+      });
   }
 
   const handleAddToWishList = () => {
-    //TO DO verificar se já foi adicionado
-    WishListController.post(id);
+    WishListController.post(id)
+      .then(() => {
+        Swal.fire({
+          text: "Adicionado com sucesso!",
+          icon: "success",
+          confirmButtonColor: "#80cc54"
+        });
+      })
   }
 
   const handleDeleteAd = () => {
@@ -110,19 +116,19 @@ export default function AdCard({ id='', title, price, images, city, UF, myAds=fa
       focusCancel: true,
       reverseButtons: true
     })
-    .then(async (result) => {
-      if (result.isConfirmed) {
-        await AdController.delete(id)
-          .then(response => {
-            console.log(response);
-            Swal.fire({
-              text: "Excluído com sucesso!",
-              icon: "success",
-              confirmButtonColor: "#80cc54"
+      .then(async (result) => {
+        if (result.isConfirmed) {
+          await AdController.delete(id)
+            .then(response => {
+              console.log(response);
+              Swal.fire({
+                text: "Excluído com sucesso!",
+                icon: "success",
+                confirmButtonColor: "#80cc54"
+              });
             });
-          });
-      }
-    });
+        }
+      });
   }
 
   const handleBuy = () => {
@@ -157,7 +163,7 @@ export default function AdCard({ id='', title, price, images, city, UF, myAds=fa
             style={{ fontSize: 18 }}
           />
 
-          { !myShopping && !wishList && !mySales &&
+          {!myShopping && !wishList && !mySales &&
             <Typography gutterBottom component="h5" style={{ display: 'flex', alignItems: 'center', marginLeft: -3, marginTop: 10 }}>
               <RoomIcon style={{ fontSize: 20 }} /> {city}, {UF}
             </Typography>
@@ -167,46 +173,55 @@ export default function AdCard({ id='', title, price, images, city, UF, myAds=fa
       </CardActionArea>
       <CardActions style={{ justifyContent: 'space-between' }}>
         {myAds ?
-            <StyledButton size="small" color="primary" onClick={handleEditAd}>
-              <EditIcon style={{ fontSize: 20 }} />
+          <StyledButton size="small" color="primary" onClick={handleEditAd}>
+            <EditIcon style={{ fontSize: 20 }} />
               &nbsp;&nbsp;Editar
             </StyledButton>
-            :
-            wishList ?
-              <StyledButton size="small" color="primary" onClick={handleRemoveFromWishList}>
-                <DeleteIcon style={{ fontSize: 20 }} />
+          :
+          wishList ?
+            <StyledButton size="small" color="primary" onClick={handleRemoveFromWishList}>
+              <DeleteIcon style={{ fontSize: 20 }} />
                 &nbsp;&nbsp;Remover
               </StyledButton>
-              :
-              myShopping ?
+            :
+            myShopping ?
+              !clientFeedback ?
+                <StyledButton $rating={myShopping} size="small" color="primary" onClick={() => { }}>
+                  <StarIcon style={{ fontSize: 20 }} />
+                  Avaliar Vendedor
+                </StyledButton>
+                : 
                 null
-                :
-                mySales ?
-                  <StyledButton $mySales={mySales} size="small" color="primary" onClick={handleAddToWishList}>
+              :
+              mySales ?
+                !ownerFeedback ?
+                  <StyledButton $rating={mySales} size="small" color="primary" onClick={() => { }}>
                     <StarIcon style={{ fontSize: 20 }} />
-                    Avaliar Comprador
-                  </StyledButton>
-                  :
-                  <StyledButton size="small" color="primary" onClick={handleAddToWishList}>
-                    <FavoriteIcon style={{ fontSize: 20 }} />
+                      Avaliar Comprador
+                    </StyledButton>
+                    :
+                    null
+                :
+                <StyledButton size="small" color="primary" onClick={handleAddToWishList}>
+                  <FavoriteIcon style={{ fontSize: 20 }} />
                     Adicionar à Lista de Desejos
                   </StyledButton>
         }
 
         {myAds ?
-            <StyledButton size="small" color="primary" onClick={handleDeleteAd}>
-              <DeleteIcon style={{ fontSize: 20, marginRight: '4.5px' }} />
+          <StyledButton size="small" color="primary" onClick={handleDeleteAd}>
+            <DeleteIcon style={{ fontSize: 20, marginRight: '4.5px' }} />
               Excluir
             </StyledButton>
+          :
+          myShopping || mySales ?
+            null
             :
-            myShopping || mySales ?
-              null
-              :
-              <StyledButton size="small" color="primary" onClick={handleBuy}>
-                <FaHandshake style={{ fontSize: 20, marginRight: '4.5px' }} />
+            <StyledButton size="small" color="primary" onClick={handleBuy}>
+              <FaHandshake style={{ fontSize: 20, marginRight: '4.5px' }} />
                 Comprar
               </StyledButton>
-          }
+        }
       </CardActions>
     </Card>
   );

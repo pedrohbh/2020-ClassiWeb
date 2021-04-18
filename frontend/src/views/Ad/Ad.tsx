@@ -98,7 +98,14 @@ export default function Ad({ match }) {
   }, []);
 
   const handleAddToWishList = () => {
-    WishListController.post(id);
+    WishListController.post(id)
+      .then(() => {
+        Swal.fire({
+          text: "Adicionado com sucesso!",
+          icon: "success",
+          confirmButtonColor: "#80cc54"
+        });
+      })
   }
 
   const handleBuy = () => {

@@ -6,13 +6,17 @@ export default function MyAds() {
   const [ads, setAds] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [ownersFeedbacks, setOwnersFeedbacks] = useState([]);
+  const [clientsFeedbacks, setClientsFeedbacks] = useState([]);
 
   useEffect(() => {
     PurchaseController.get()
-      .then(adsList => {
+      .then(purchaseList => {
         setIsLoading(false);
-        if (adsList) {
-          setAds(adsList.map(({ ad }) => ad));
+        if (purchaseList) {
+          setAds(purchaseList.map(({ ad }) => ad));
+          setOwnersFeedbacks(purchaseList.map(({ owner_feedback }) => owner_feedback));
+          setClientsFeedbacks(purchaseList.map(({ client_feedback }) => client_feedback));
           setError(false);
         } else {
           setError(true);
@@ -32,7 +36,9 @@ export default function MyAds() {
         ads={ads}
         isLoading={isLoading}
         error={error}
-        mySales={true}
+        myShopping={true}
+        ownersFeedbacks={ownersFeedbacks}
+        clientsFeedbacks={clientsFeedbacks}
       />
     }
     </>

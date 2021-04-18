@@ -19,7 +19,7 @@ const StyledButton = withStyles({
   },
 })((props: any) => <Button size="large" {...props} />);
 
-export default function Ads({ ads, isLoading, error, header="", myAds=false, wishList=false, myShopping=false, mySales=false }) {
+export default function Ads({ ads, isLoading, error, header="", myAds=false, wishList=false, myShopping=false, mySales=false, ownersFeedbacks=[], clientsFeedbacks=[] }) {
   return (
     <Grid item xs={12} style={{ marginBottom: '10vh'}}>
       <Grid container spacing={3} justify="center" style={{ width: '100%', margin: 0 }}>
@@ -52,7 +52,7 @@ export default function Ads({ ads, isLoading, error, header="", myAds=false, wis
                 </Grid>
 
                 {
-                  ads.map(({ id, title, price, images, address={ state: '', city: '' } }) => (
+                  ads.map(({ id, title, price, images, address={ state: '', city: '' }}, index) => (
                     <Grid item key={id}>
                       <AdCard
                         id={id}
@@ -65,6 +65,8 @@ export default function Ads({ ads, isLoading, error, header="", myAds=false, wis
                         myShopping={myShopping}
                         wishList={wishList}
                         mySales={mySales}
+                        ownerFeedback={ownersFeedbacks[index]}
+                        clientFeedback={clientsFeedbacks[index]}
                       />
                     </Grid>
                   ))
