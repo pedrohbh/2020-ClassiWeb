@@ -91,7 +91,7 @@ export class PurchaseService {
         quantity: purchase.ad.quantity - 1,
         state: purchase.ad.quantity === 1 ? AdvertisingState.HIDDEN : AdvertisingState.VISIBLE,
       },
-      userId,
+      ad.owner.id,
     );
 
     // Envia e-mail
