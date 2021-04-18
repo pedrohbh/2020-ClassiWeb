@@ -44,7 +44,6 @@ export default function Ad({ match }) {
   const [description, setDescription] = useState('');
   const [productState, setProductState] = useState('');
   const [images, setImages] = useState([] as any[]);
-  // const [img, setImg] = useState('');
   const [owner, setOwner] = useState({ name: '', feedback: 0, email: '' });
   const [price, setPrice] = useState();
   const [quantity, setQuantity] = useState();
@@ -61,21 +60,6 @@ export default function Ad({ match }) {
       MySwal.close();
       history.push('/userpanel/purchases');
     }, 500);
-  }
-
-  function handleImage(blob) {
-    var myblob = new Blob([blob], { type: 'image/jpg' });
-    // console.log(myblob)
-    //   var reader = new FileReader();
-    //   reader.addEventListener("loadend", function() {
-    //     // reader.result contém o conteúdo do blob como uma array tipada
-    //     console.log(reader.result)
-    //  });
-    //   console.log(reader.readAsDataURL(blob));
-    var urlCreator = window.URL || window.webkitURL;
-    var imageUrl = urlCreator.createObjectURL(myblob);
-    // console.log(imageUrl);
-    return imageUrl;
   }
 
   useEffect(() => {
@@ -99,8 +83,17 @@ export default function Ad({ match }) {
                 return 'data:image/*;base64,' + Buffer.from(response, 'binary').toString('base64')
               })
           })) as unknown as any[];
-          
-        setImages(tmpImgs.filter((img) => img.value).map((img) => img.value));
+        
+        const imgsNames = tmpImgs.filter((img) => img.value).map((img) => img.value);
+        console.log(imgsNames)
+        if (imgsNames.length > 0) {
+          setImages(imgsNames);
+        } else {
+          ImageController.get("default.jpg")
+            .then(response => {
+              setImages(['data:image/*;base64,' + Buffer.from(response, 'binary').toString('base64')])
+            })
+        }
       })
   }, []);
 

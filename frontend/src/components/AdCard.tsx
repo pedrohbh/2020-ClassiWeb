@@ -51,6 +51,11 @@ export default function AdCard({ id='', title, price, images, city, UF, myAds=fa
           setImage('data:image/*;base64,' + Buffer.from(response, 'binary').toString('base64'))
         }
       });
+    } else {
+      ImageController.get("default.jpg")
+        .then(response => {
+          setImage('data:image/*;base64,' + Buffer.from(response, 'binary').toString('base64'))
+        })
     }
   }, []);
 
