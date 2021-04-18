@@ -2,9 +2,9 @@ import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 import { useEffect, useState } from 'react';
 import CategoryController from '../controllers/CategoryController';
 
-export default function Categories({ onChange, required = true, preSelected = '', editAd=false }) {
+export default function Categories({ onChange, required = true, preSelectedCategory = '', editAd=false }) {
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(preSelected);
+  const [selectedCategory, setSelectedCategory] = useState(preSelectedCategory);
 
   useEffect(() => {
     CategoryController.getAll()
@@ -17,6 +17,12 @@ export default function Categories({ onChange, required = true, preSelected = ''
     setSelectedCategory(target.value);
     onChange(target.value);
   }
+
+  useEffect(() => {
+    if(!required){
+      setSelectedCategory(preSelectedCategory);
+    }
+  }, [preSelectedCategory]);
 
   return (
     <FormControl variant="outlined" fullWidth>

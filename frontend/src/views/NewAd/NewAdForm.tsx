@@ -75,36 +75,45 @@ export default function NewAdForm() {
   const [address, setAddress] = useState({});
   const [category, setCategory] = useState('');
   const [productState, setProductState] = useState('');
+  const [numberSelectedImages, setNumberSelectedImages] = useState(0);
 
   function handleValidateImages(event) {
     const files = event.target.files;
 
     if (files.length > 5) {
       event.target.value = "";
+      setNumberSelectedImages(0);
       Swal.fire({
         icon: 'warning',
         confirmButtonColor: '#80cc54',
-        title: `Limite máximo de 5 imagens excedido`,
-        text: 'Tente novamente'
+        title: `Limite máximo de 5 imagens excedido.`,
+        text: 'Envie novamente as imagens'
       })
       return;
     }
+    console.log(files);
 
     if (files && files[0]) {
       const maxAllowedSize = 5 * 1024 * 1024;
-
+      console.log('entrei1');
+      console.log(files);
       [...files].forEach(async (f, index) => {
-        if (files[index].size > maxAllowedSize) {
-          files.splice(index, 1);
+        if (f.size > maxAllowedSize) {
+          // files.splice(index, 1);
           Swal.fire({
             icon: 'warning',
             confirmButtonColor: '#80cc54',
-            title: `Tamanho da imagem ${f.name} excedeu 5 MB.`,
-            text: 'Excluindo essa imagem...'
+            title: `Tamanho da imagem "${f.name}" excedeu 5 MB.`,
+            text: 'Envie novamente as imagens'
           })
+          event.target.value = "";
+          setNumberSelectedImages(0);
+          return;
         }
       })
     }
+
+    setNumberSelectedImages(files.length);
   }
 
   async function handleUploadImages(adId) {
@@ -113,7 +122,6 @@ export default function NewAdForm() {
     Array.from(input.files).forEach(async (f, index) => {
       await AdController.images(adId, f);
     });
-
   }
 
   const handleSubmit = async event => {
@@ -152,7 +160,7 @@ export default function NewAdForm() {
             allowOutsideClick: false
           })
             .then(() => {
-              history.push('/');
+              history.push('/userpanel/myads');
             })
         } else {
           Swal.fire({
@@ -169,7 +177,7 @@ export default function NewAdForm() {
     <Grid container direction="column" alignItems="center" style={{ height: '100%', justifyContent: 'center' }}>
       <h1 className={classes.text}>Publique agora um novo anúncio!</h1>
 
-      <form className={classes.formContainer} autoComplete="off" onSubmit={handleSubmit}>
+      <form className={classes.formContainer} autoComplete="off" onSubmit={handleSubmit} noValidate>
         <Grid container spacing={1}>
 
           <Grid item xs={12}>
@@ -222,7 +230,6 @@ export default function NewAdForm() {
           </Grid>
 
           <Grid item xs={12}>
-            {/* https://codesandbox.io/s/vj1q68zm25 */}
             <input
               required
               multiple
@@ -237,6 +244,7 @@ export default function NewAdForm() {
                 <StyledAddPhotoAlternateIcon />
               </StyledFab>
             </label>
+            &nbsp;&nbsp;{numberSelectedImages} imagens selecionadas
           </Grid>
 
         </Grid>

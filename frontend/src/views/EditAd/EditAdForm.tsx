@@ -13,14 +13,15 @@ import { AdvertisingState } from '../../controllers/AdController';
 import { useHistory } from 'react-router';
 import Swal from 'sweetalert2';
 import Visibility from './Visibility';
+import ImageController from '../../controllers/ImageController';
 
 const StyledButton = withStyles({
   root: {
     background: '#E65252',
     color: 'white',
     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-    '&:hover': { 
-      background: '#fc7474' 
+    '&:hover': {
+      background: '#fc7474'
     },
     marginTop: "2%",
   },
@@ -28,7 +29,7 @@ const StyledButton = withStyles({
   label: {
     textTransform: 'capitalize',
   },
-})((props: any) => <Button size="large" {...props}/>);
+})((props: any) => <Button size="large" {...props} />);
 
 const StyledTextField = props => <TextField fullWidth variant="outlined" {...props} />
 
@@ -52,7 +53,7 @@ const StyledAddPhotoAlternateIcon = withStyles({
   root: {
     color: '#c4c4c4'
   }
-})((props: any) => <AddPhotoAlternateIcon {...props}/>);
+})((props: any) => <AddPhotoAlternateIcon {...props} />);
 
 const StyledFab = withStyles({
   root: {
@@ -67,7 +68,7 @@ const StyledFab = withStyles({
     boxShadow: 'none',
     border: '1px solid #c4c4c4'
   }
-})((props: any) => <Fab {...props}/>);
+})((props: any) => <Fab {...props} />);
 
 export default function EditAdForm() {
   const history = useHistory();
@@ -83,13 +84,13 @@ export default function EditAdForm() {
   const [price, setPrice] = useState();
   const [quantity, setQuantity] = useState(0);
   const [state, setState] = useState();
-  
+  const [numberSelectedImages, setNumberSelectedImages] = useState(0);
+
   const id = localStorage.getItem('adId');
 
   useEffect(() => {
     AdController.get(id)
       .then(data => {
-        // console.log(data);
         setTitle(data.title);
         setOwner(data.owner);
         setPrice(data.price);
@@ -99,27 +100,60 @@ export default function EditAdForm() {
         setDescription(data.description);
         setProductState(data.product_state);
         setState(data.state);
-        // setImages();
+        setImages(data.images);
+        setNumberSelectedImages(data.images.length);
       })
   }, []);
 
-  async function handleUploadClick(adId){
-    const input : any = document.querySelector('#images');
+  function handleValidateImages(event) {
+    const files = event.target.files;
 
-    function getBase64(file) {
-      return new Promise(resolve => {
-        const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result);
-        reader.readAsDataURL(file);
-      });
+    if (files.length > 5) {
+      event.target.value = "";
+      setNumberSelectedImages(0);
+      Swal.fire({
+        icon: 'warning',
+        confirmButtonColor: '#80cc54',
+        title: `Limite máximo de 5 imagens excedido.`,
+        text: 'Envie novamente as imagens'
+      })
+      return;
     }
 
-    const files = await Promise.all([...input.files].map(element => {
-      return getBase64(element);
-    }));
+    if (files && files[0]) {
+      const maxAllowedSize = 5 * 1024 * 1024;
+      [...files].forEach(async (f, index) => {
+        if (f.size > maxAllowedSize) {
+          // files.splice(index, 1);
+          Swal.fire({
+            icon: 'warning',
+            confirmButtonColor: '#80cc54',
+            title: `Tamanho da imagem "${f.name}" excedeu 5 MB.`,
+            text: 'Envie novamente as imagens'
+          })
+          event.target.value = "";
+          setNumberSelectedImages(0);
+          return;
+        }
+      })
+    }
 
-    const ret = await AdController.images(adId, { files });
-    console.log(ret);
+    setNumberSelectedImages(files.length);
+  }
+
+  async function handleUploadImages(adId) {
+    const input: any = document.querySelector('#images');
+
+    const responses = await Promise.allSettled(
+      Array.from(input.files).map((f) => {
+        return AdController.images(adId, f);
+      }));
+
+    // if (responses.some((e) => e !== undefined)) {
+    //   images.map(i => {
+    //     ImageController.delete(i);
+    //   })
+    // }
   }
 
   const handleSubmit = async event => {
@@ -127,10 +161,10 @@ export default function EditAdForm() {
 
     const formData = getFormData(event);
 
-    const newAd = { 
-      ...formData, 
-      address, 
-      category, 
+    const newAd = {
+      ...formData,
+      address,
+      category,
       product_state: productState,
       state
     };
@@ -143,10 +177,8 @@ export default function EditAdForm() {
 
     newAd.quantity = parseInt(newAd.quantity, 10);
 
-    delete newAd.images; // Remover esta linha após estar configurado o recebimento de imagens no backend
+    delete newAd.images;
 
-    console.log(newAd);
-    
     Swal.fire({
       text: "Confirma a alteração das informações?",
       showCancelButton: true,
@@ -156,133 +188,140 @@ export default function EditAdForm() {
       confirmButtonColor: '#80cc54',
       reverseButtons: true
     })
-    .then(async (result) => {
-      if (result.isConfirmed) {
-        await AdController.update(id, newAd)
-          .then(response => {
-            console.log(response);
-            response ?
-              Swal.fire({
-                text: "Anúncio atualizado!",
-                icon: "success",
-                confirmButtonColor: "#a6dc86"
-              })
-              :
-              Swal.fire({
-                title: "Algum erro aconteceu...",
-                text: "Tente novamente mais tarde",
-                icon: "warning",
-                confirmButtonColor: "#ed4a4a"
-              });
-          });
-      }
-    });
+      .then(async (result) => {
+        if (result.isConfirmed) {
+          await AdController.update(id, newAd)
+            .then(async (response) => {
+              if (response) {
+                await handleUploadImages(id)
+                Swal.fire({
+                  text: "Anúncio atualizado!",
+                  icon: "success",
+                  confirmButtonColor: "#a6dc86"
+                })
+              } else {
+                Swal.fire({
+                  title: "Algum erro aconteceu...",
+                  text: "Tente novamente mais tarde",
+                  icon: "warning",
+                  confirmButtonColor: "#ed4a4a"
+                });
+              }
+            });
+        }
+      });
   }
 
   return (
-    <Grid container direction="column" alignItems="center" style={{height: '100%', justifyContent: 'center'}}>
+    <Grid container direction="column" alignItems="center" style={{ height: '100%', justifyContent: 'center' }}>
       <h1 className={classes.text}>Atualizar informações do anúncio</h1>
-      
+
       <form className={classes.formContainer} autoComplete="off" onSubmit={handleSubmit}>
-          <Grid container spacing={1}>
+        <Grid container spacing={1}>
 
-            <Grid item xs={12}>
-              <StyledTextField 
-                id="title" 
-                label="Nome"
-                value={title}
-                onChange={ event => setTitle(event.target.value) }
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <CurrencyTextField 
-                fullWidth 
-                id="price" 
-                label="Preço"
-                textAlign="left"
-                variant="outlined"
-                currencySymbol="R$"
-                decimalCharacter=","
-                digitGroupSeparator="."
-                value={price}
-              />
-            </Grid>
-            
-            <Grid item xs={12}>
-              <StyledTextField 
-                id="quantity" 
-                type="number" 
-                label="Quantidade Disponível" 
-                InputProps={{ inputProps: { min: 1 } }}
-                value={quantity}
-                onChange={ event => setQuantity(event.target.value) }
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <Categories 
-                editAd={true} 
-                required={false} 
-                onChange={ selectedCategory => setCategory(selectedCategory) }
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <StyledTextField 
-                multiline 
-                id="description" 
-                label="Descrição" 
-                value={description}
-                onChange={ event => setDescription(event.target.value) }
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <ProductState 
-                // value={productState}
-                preSelectedState={productState}
-                required={false}
-                onChange={ selectedProductState => setProductState(selectedProductState) }
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <Address 
-                required={false}
-                preSelectedCity={address.city}
-                preSelectedState={address.state}
-                onChange={(newAddress) => setAddress(newAddress)} 
-              />
-            </Grid> 
-
-            <Grid item xs={12}>
-              <Visibility 
-                preSelectedVisibility={state}
-                onChange={ selectedState => setState(selectedState) }
-              />
-            </Grid>
-
-            {/* <Grid item xs={12}>
-              <input
-                multiple
-                type="file"
-                id="images"
-                accept="image/*"
-                style={{ display: 'none' }}
-                onChange={handleUploadClick}
-              />
-              <label htmlFor="images">
-                <StyledFab component="span" >
-                  <StyledAddPhotoAlternateIcon  />
-                </StyledFab>
-              </label>
-            </Grid> */}
-
+          <Grid item xs={12}>
+            <StyledTextField
+              id="title"
+              label="Nome"
+              value={title}
+              onChange={event => setTitle(event.target.value)}
+            />
           </Grid>
-          <StyledButton type="submit" variant="contained">
-            Atualizar
-          </StyledButton>
+
+          <Grid item xs={12}>
+            <CurrencyTextField
+              fullWidth
+              id="price"
+              label="Preço"
+              textAlign="left"
+              variant="outlined"
+              currencySymbol="R$"
+              decimalCharacter=","
+              digitGroupSeparator="."
+              value={price}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <StyledTextField
+              id="quantity"
+              type="number"
+              label="Quantidade Disponível"
+              InputProps={{ inputProps: { min: 1 } }}
+              value={quantity}
+              onChange={event => setQuantity(event.target.value)}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <Categories
+              editAd={true}
+              required={false}
+              preSelectedCategory={category}
+              onChange={selectedCategory => setCategory(selectedCategory)}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <StyledTextField
+              multiline
+              id="description"
+              label="Descrição"
+              value={description}
+              onChange={event => setDescription(event.target.value)}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <ProductState
+              // value={productState}
+              preSelectedState={productState}
+              required={false}
+              onChange={selectedProductState => setProductState(selectedProductState)}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <Address
+              required={false}
+              preSelectedCity={address.city}
+              preSelectedState={address.state}
+              onChange={(newAddress) => setAddress(newAddress)}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <Visibility
+              preSelectedVisibility={state}
+              onChange={selectedState => setState(selectedState)}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            Substituir imagens
+          </Grid>
+
+          <Grid item xs={12}>
+            <input
+              multiple
+              type="file"
+              id="images"
+              accept="image/*"
+              style={{ display: 'none' }}
+              onChange={handleValidateImages}
+            />
+            <label htmlFor="images">
+              <StyledFab component="span" >
+                <StyledAddPhotoAlternateIcon />
+              </StyledFab>
+            </label>
+            &nbsp;&nbsp;{numberSelectedImages} imagens selecionadas
+          </Grid>
+
+        </Grid>
+        <StyledButton type="submit" variant="contained">
+          Atualizar
+        </StyledButton>
       </form>
     </Grid>
   );

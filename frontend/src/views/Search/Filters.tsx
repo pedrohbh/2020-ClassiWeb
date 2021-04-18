@@ -91,7 +91,7 @@ export default function Filters({ onChange }) {
             <Grid item xs={12}>
               <Categories 
                 required={false} 
-                preSelected={category} 
+                preSelectedCategory={category} 
                 onChange={selectedCategory => setCategory(selectedCategory)}
               />
             </Grid>

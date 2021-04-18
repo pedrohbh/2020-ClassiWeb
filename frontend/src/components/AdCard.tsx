@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useState } from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -16,6 +17,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { useHistory } from 'react-router';
 import AdController from '../controllers/AdController';
+import ImageController from '../controllers/ImageController';
 import WishListController from '../controllers/WishListController';
 import Swal from 'sweetalert2';
 var path = require('path');
@@ -36,8 +38,21 @@ const StyledButton = withStyles({
 })((props: any) => <Button size="large" {...props} />);
 
 export default function AdCard({ id='', title, price, images, city, UF, myAds=false, wishList=false, myShopping=false, mySales=false}) {
+  const [image, setImage] = useState('');
+
   const classes = useStyles();
   const history = useHistory();
+
+  useEffect(() => {
+    if (images && images[0]) {
+      ImageController.get(images[0])
+      .then(response => {
+        if (response) {
+          setImage('data:image/*;base64,' + Buffer.from(response, 'binary').toString('base64'))
+        }
+      });
+    }
+  }, []);
 
   const handleClickAd = () => {
     history.push(`/ad/${id}`);
@@ -116,7 +131,7 @@ export default function AdCard({ id='', title, price, images, city, UF, myAds=fa
           component="img"
           alt="Imagem do anúncio"
           height="100%"
-          image={'../../backend/uploads/7170301893829487-bolafinal.jpg'}
+          image={image}
           style={{ height: 200 }}
           title="Imagem do anúncio"
         />

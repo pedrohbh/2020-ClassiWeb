@@ -18,6 +18,7 @@ import ImageController from '../../controllers/ImageController';
 import Feedback from './Feedback';
 import EditIcon from '@material-ui/icons/Edit';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
+import EmailIcon from '@material-ui/icons/Email';
 
 const MySwal = withReactContent(Swal);
 
@@ -314,8 +315,8 @@ export default function Ad({ match }) {
                       <strong style={{ fontSize: 20, textTransform: 'capitalize' }}>
                         {owner.name}
                       </strong>
-                      <p style={{ fontSize: 18 }}>
-                        {owner.email}
+                      <p style={{ fontSize: 18, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <EmailIcon style={{ fontSize: '20px' }} />&nbsp;{owner.email}
                       </p>
                     </Grid>
 

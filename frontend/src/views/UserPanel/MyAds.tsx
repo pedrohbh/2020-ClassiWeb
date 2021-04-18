@@ -8,7 +8,7 @@ export default function MyAds() {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    AdController.getAll() // TODO trocar o get
+    AdController.getMyAds()
       .then(adsList => {
         setIsLoading(false);
         if (adsList) {

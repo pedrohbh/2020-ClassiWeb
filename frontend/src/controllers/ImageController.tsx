@@ -9,6 +9,17 @@ export default class ImageController {
         return response.data;
       }).catch(e => {
         console.error(e);
+        return undefined;
+      });
+  }
+
+  static delete(id) {
+    return api.delete(`/images/${id}`)
+      .then(response => {
+        return response.data
+      }).catch(e => {
+        console.error(e);
+        return undefined;
       });
   }
 }
