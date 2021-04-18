@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title>client</title>
+    <link rel="icon" href="./favicon.ico">
+    <title>ClassiWeb Server</title>
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet" />
     <style>
         body, h1 {
@@ -36,11 +36,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 60px;
         }
         .container-logo img {
-            max-width: 150px;
-            border-radius: 50%;
+            max-width: 300px;
+        }
+
+        .descrition-text {
+          margin: 30px 0;
         }
 
         ul {
@@ -83,20 +85,22 @@
 <div class="container">
     <div>
         <div class="container-logo">
-            <img src="https://tsed.io/tsed-og.png" alt="Ts.ED">
+            <img src="./Logo.png" alt="Ts.ED">
         </div>
 
-        <p style="text-align: center;">
-          <b>Bem Vindo ao servidor do Classiweb!</b>
-        </p>
+        <div class="descrition-text">
+          <p style="text-align: center;">
+            <b>Bem Vindo ao servidor do ClassiWeb!</b>
+          </p>
 
-        <p style="text-align: center;">
-          E-commerce utilizado em <b><%= status.n_states %> estados</b> do Brasil.
-        </p>
+          <p style="text-align: center;">
+            E-commerce utilizado em <b><%= status.n_states %> estados</b> do Brasil.
+          </p>
 
-        <p style="text-align: center;">
-          Com <b><%= status.total_users %> usuários</b> ativos.
-        </p>
+          <p style="text-align: center;">
+            Com <b><%= status.total_users %> usuários</b> ativos.
+          </p>
+        </div>
 
         <ul>
             <% docs.forEach((doc) => { %>
