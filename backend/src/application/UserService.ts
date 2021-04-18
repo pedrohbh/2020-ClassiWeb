@@ -29,7 +29,7 @@ export class UserService {
       name: user.name,
       email: user.email,
       address: user.address,
-      feedback: await this.GetUserFeedback(user.id),
+      feedback: +(await this.GetUserFeedback(user.id)).toPrecision(3),
     };
   }
 
@@ -63,17 +63,12 @@ export class UserService {
 
   async GetUserFeedback(userId: string) {
     const purchases = await this.purchaseDao.ReadWith({
-      relations: ['client', 'ad'],
-      where: [
-        {
-          client: { id: userId },
-        },
-        {
-          ad: {
-            owner: { id: userId },
-          },
-        },
-      ],
+      relations: ['client', 'ad', 'ad.owner'],
+      where: (qb: any) => {
+        qb.where('Purchase__ad.owner.id = :id', {
+          id: userId,
+        }).orWhere('Purchase__client.id = :id', { id: userId });
+      },
     });
 
     const feedback = purchases.reduce(
