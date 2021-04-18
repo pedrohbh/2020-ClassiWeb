@@ -20,8 +20,11 @@ import AdController from '../controllers/AdController';
 import ImageController from '../controllers/ImageController';
 import WishListController from '../controllers/WishListController';
 import Swal from 'sweetalert2';
-var path = require('path');
-// import teste from '/7170301893829487-bolafinal.jpg';
+import PurchaseController from '../controllers/PurchaseController';
+import withReactContent from 'sweetalert2-react-content';
+import Feedback from '../views/Ad/Feedback';
+
+const MySwal = withReactContent(Swal);
 
 const useStyles = makeStyles({
   root: {
@@ -37,11 +40,37 @@ const StyledButton = withStyles({
   },
 })((props: any) => <Button size="large" {...props} />);
 
-export default function AdCard({ id = '', title, price, images, city, UF, myAds = false, wishList = false, myShopping = false, mySales = false, ownerFeedback = null, clientFeedback = null }) {
+export default function AdCard({ 
+  id = '', title, price, images, city, UF, 
+  myAds = false, wishList = false, myShopping = false, mySales = false, 
+  ownerFeedback = null, clientFeedback = null, purchaseId
+}) {
   const [image, setImage] = useState('');
 
   const classes = useStyles();
   const history = useHistory();
+  
+  const [rate, setRate] = useState(
+    mySales?
+      ownerFeedback
+      :
+      myShopping?
+        clientFeedback
+        :
+        0
+  );
+
+  useEffect(() => {
+    setRate(
+      mySales?
+      ownerFeedback
+      :
+      myShopping?
+        clientFeedback
+        :
+        0
+    );
+  }, [ownerFeedback, clientFeedback]);
 
   useEffect(() => {
     if (images && images[0]) {
@@ -58,6 +87,23 @@ export default function AdCard({ id = '', title, price, images, city, UF, myAds 
         })
     }
   }, []);
+  
+  const handleFeedback = (r) => {
+    PurchaseController.postFeedback(purchaseId, r)
+      .then(() => setRate(r));
+
+    setTimeout(() => {
+      MySwal.close();
+    }, 500);
+  }
+
+  const handleRating = () => {
+    MySwal.fire({
+      title: "Avalie a compra!",
+      html: <Feedback onChange={handleFeedback} />,
+      showConfirmButton: false,
+    });
+  }
 
   const handleClickAd = () => {
     history.push(`/ad/${id}`);
@@ -185,8 +231,8 @@ export default function AdCard({ id = '', title, price, images, city, UF, myAds 
               </StyledButton>
             :
             myShopping ?
-              !clientFeedback ?
-                <StyledButton $rating={myShopping} size="small" color="primary" onClick={() => { }}>
+              !rate ?
+                <StyledButton $rating={myShopping} size="small" color="primary" onClick={handleRating}>
                   <StarIcon style={{ fontSize: 20 }} />
                   Avaliar Vendedor
                 </StyledButton>
@@ -194,8 +240,8 @@ export default function AdCard({ id = '', title, price, images, city, UF, myAds 
                 null
               :
               mySales ?
-                !ownerFeedback ?
-                  <StyledButton $rating={mySales} size="small" color="primary" onClick={() => { }}>
+                !rate ?
+                  <StyledButton $rating={mySales} size="small" color="primary" onClick={handleRating}>
                     <StarIcon style={{ fontSize: 20 }} />
                       Avaliar Comprador
                     </StyledButton>

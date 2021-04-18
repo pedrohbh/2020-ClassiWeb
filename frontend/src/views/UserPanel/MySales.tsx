@@ -6,13 +6,20 @@ export default function MySales() {
   const [ads, setAds] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [ownersFeedbacks, setOwnersFeedbacks] = useState([]);
+  const [clientsFeedbacks, setClientsFeedbacks] = useState([]);
+  const [ids, setIds] = useState([]);
 
   useEffect(() => {
     SalesController.get()
-      .then(adsList => {
+      .then(salesList => {
         setIsLoading(false);
-        if (adsList) {
-          setAds(adsList.map(({ ad }) => ad));
+        if (salesList) {
+          setAds(salesList.map(({ ad }) => ad));
+          setOwnersFeedbacks(salesList.map(({ owner_feedback }) => owner_feedback));
+          setClientsFeedbacks(salesList.map(({ client_feedback }) => client_feedback));
+          setIds(salesList.map(({ id }) => id));
+
           setError(false);
         } else {
           setError(true);
@@ -33,6 +40,9 @@ export default function MySales() {
         isLoading={isLoading}
         error={error}
         mySales={true}
+        ownersFeedbacks={ownersFeedbacks}
+        clientsFeedbacks={clientsFeedbacks}
+        purchaseIds={ids}
       />
     }
     </>

@@ -34,8 +34,6 @@ const StyledButton = withStyles({
   },
 })((props: any) => <Button size="large" {...props} />);
 
-const Image = ({ src, alt }) => <img src={src} alt={alt} style={{ maxHeight: '50vh', maxWidth: '100%' }} />;
-
 export default function Ad({ match }) {
   const id = match.params.id;
   const [title, setTitle] = useState('');
@@ -54,8 +52,8 @@ export default function Ad({ match }) {
   const token = localStorage.getItem('token');
   const isLogged = !!token;
 
-  const handleRating = (rate) => {
-    PurchaseController.postFeedback(id, rate);
+  const handleRating = (rate, purchaseId) => {
+    PurchaseController.postFeedback(purchaseId, rate);
     setTimeout(() => {
       MySwal.close();
       history.push('/userpanel/purchases');
@@ -141,7 +139,7 @@ export default function Ad({ match }) {
                   if (result.isConfirmed) {
                     MySwal.fire({
                       title: "Avalie a compra!",
-                      html: <Feedback onChange={handleRating} />,
+                      html: <Feedback onChange={(rate) => handleRating(rate, response.id)} />,
                       showConfirmButton: false,
                     });
                   } else {
@@ -164,7 +162,6 @@ export default function Ad({ match }) {
   const handleEditAd = () => {
     localStorage.setItem('adId', id);
     history.push(`/editad`);
-    // history.push(`/ad/edit/${id}`);
   }
 
   return (
