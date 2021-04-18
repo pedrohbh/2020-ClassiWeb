@@ -1,6 +1,6 @@
 import { Injectable } from '@tsed/di';
 
-import { DeepPartial, EntityRepository, Repository } from 'typeorm';
+import { DeepPartial, EntityRepository, FindManyOptions, Repository } from 'typeorm';
 
 import { Image } from '../domain/Image';
 import { IBaseDAO } from './BaseDAO';
@@ -22,6 +22,10 @@ export class ImageDAO implements Omit<IBaseDAO<Image>, 'ReadWith' | 'Update'> {
 
   Read(id: string) {
     return this.repository.findOneOrFail(id);
+  }
+
+  ReadWith(options: FindManyOptions<Image>) {
+    return this.repository.find(options);
   }
 
   async Delete(id: string) {
