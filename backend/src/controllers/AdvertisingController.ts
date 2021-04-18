@@ -81,7 +81,8 @@ export class AdvertisingController {
   @Authorize('jwt')
   Put(@HeaderParams('auth') auth: string, @PathParams('id') id: string, @BodyParams() ad: Partial<Advertising>) {
     try {
-      return this.adService.UpdateAd(id, ad);
+      const userId = JwtProtocol.getUserIdFromToken(auth);
+      return this.adService.UpdateAd(id, ad, userId);
     } catch (error) {
       if (error instanceof EntityNotFoundError) throw new NotFound('Anúncio não encontrado');
     }
@@ -92,7 +93,8 @@ export class AdvertisingController {
   @Authorize('jwt')
   async Delete(@HeaderParams('auth') auth: string, @PathParams('id') id: string) {
     try {
-      await this.adService.DeleteAd(id);
+      const userId = JwtProtocol.getUserIdFromToken(auth);
+      await this.adService.DeleteAd(id, userId);
     } catch (error) {
       if (error instanceof EntityNotFoundError) throw new NotFound('Anúncio não encontrado');
     }
