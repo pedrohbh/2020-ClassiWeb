@@ -81,7 +81,7 @@ export class PurchaseService {
     }
 
     if (ad.owner.id === userId) {
-      throw new Unauthorized('Um anúncio não pode ser comprado por seu dono');
+      throw new Unauthorized('Você não pode comprar seu próprio anúncio');
     }
 
     const purchase = await this.dao.Create({ client, ad });
