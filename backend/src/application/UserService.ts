@@ -80,13 +80,13 @@ export class UserService {
       ({ ranking, votes }, purchase) => {
         if (userId === purchase.client.id) {
           return {
-            ranking: ranking + purchase.owner_feedback || 0,
+            ranking: ranking + (purchase.owner_feedback || 0),
             votes: votes + +!!purchase.owner_feedback,
           };
         }
 
         return {
-          ranking: ranking + purchase.client_feedback || 0,
+          ranking: ranking + (purchase.client_feedback || 0),
           votes: votes + +!!purchase.client_feedback,
         };
       },
