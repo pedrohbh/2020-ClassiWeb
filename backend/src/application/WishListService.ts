@@ -1,4 +1,5 @@
 import { Inject, Service } from '@tsed/di';
+import { Unauthorized } from '@tsed/exceptions';
 
 import { getConnection } from 'typeorm';
 
@@ -32,6 +33,10 @@ export class WishListService {
   async AddAdOnList(userId: string, adId: string) {
     const ad = await this.adDao.Read(adId);
 
+    if (userId === ad.owner.id) {
+      throw new Unauthorized('Você não pode adicionar seu próprio anúncio à lista de desejos');
+    }
+
     const [user] = await this.userDao.ReadWith({
       relations: ['wishes_list'],
       where: { id: userId },
@@ -59,8 +64,6 @@ export class WishListService {
       where: { id },
     });
 
-    return Promise.all(
-      (ad.wishes_list || []).map((user) => this.userService.GetUserDTO(user)),
-    );
+    return Promise.all((ad.wishes_list || []).map((user) => this.userService.GetUserDTO(user)));
   }
 }
