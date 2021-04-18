@@ -1,4 +1,3 @@
-import { PlatformMulterFile } from '@tsed/common';
 import { Inject, Service } from '@tsed/di';
 
 import { Image } from '../domain/Image';
@@ -36,8 +35,11 @@ export class ImageService {
     return this.GetImageDTO(image);
   }
 
-  async DeleteImage(id: string) {
-    const { filename } = await this.dao.Read(id);
+  async DeleteImage(filename: string) {
+    const [{ id }] = await this.dao.ReadWith({
+      where: { filename },
+    });
+
     await this.dao.Delete(id);
 
     return filename;

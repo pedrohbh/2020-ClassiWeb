@@ -59,11 +59,11 @@ export class ImageController {
     return this.imageService.SaveImage({ filename: image.filename }, adId);
   }
 
-  @Delete('/:id')
+  @Delete('/:filename')
   @Roles([UserTypes.NORMAL])
   @Authorize('jwt')
-  async Delete(@HeaderParams('auth') auth: string, @PathParams('id') id: string) {
-    const filename = await this.imageService.DeleteImage(id);
+  async Delete(@HeaderParams('auth') auth: string, @PathParams('filename') filename: string) {
+    await this.imageService.DeleteImage(filename);
 
     /* Exclui o arquivo local */
     fs.unlink(path.join(__dirname, `../../uploads/${filename}`), (error) => {
