@@ -10,6 +10,7 @@ import MyProfile from './MyProfile';
 import Purchase from './Purchase';
 import WishesList from './WishesList';
 import MySales from './MySales';
+import { useHistory } from 'react-router';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -93,11 +94,17 @@ const tabs = [
 ];
 
 export default function Panel({ match }) {
+  const history = useHistory();
+  const token = localStorage.getItem('token');
   const [value, setValue] = useState(getTabIndex(match.params.tab, tabs));
 
   const handleChangeTab = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };
+
+  if(!token) {
+    history.push('/');
+  }
 
   return (
     <>

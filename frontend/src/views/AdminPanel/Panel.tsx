@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { Grid } from '@material-ui/core';
 import CategoriesList from './CategoriesList';
+import { useHistory } from 'react-router';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -41,8 +42,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: '100%'
   },
   tabs: {
-    borderRight: `1px solid ${theme.palette.divider}`,
-    // display: 'flex'
+    borderRight: `1px solid ${theme.palette.divider}`
   }
 }));
 
@@ -53,12 +53,18 @@ const MyTabs = withStyles((theme: Theme) => ({
 }))(Tabs);
 
 export default function Panel() {
+  const history = useHistory();
+  const token = localStorage.getItem('token');
   const classes = useStyles();
   const [value, setValue] = useState(0);
 
   const handleChangeTab = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };
+
+  if(!token) {
+    history.push('/');
+  }
 
   return (
     <div>
@@ -68,22 +74,12 @@ export default function Panel() {
         centered
       >
         <Tab label="Gerenciar categorias" />
-        {/* <Tab label="Gerenciar usuários" />
-        <Tab label="Gerenciar anúncios" /> */}
 
       </MyTabs >
 
       <TabPanel value={value} index={0}>
         <CategoriesList/>
       </TabPanel>
-
-      {/* <TabPanel value={value} index={1}>
-        Página
-      </TabPanel>
-
-      <TabPanel value={value} index={2}>
-        Página
-      </TabPanel> */}
     </div>
   );
 }
