@@ -65,7 +65,13 @@ export default function Login() {
     AuthController.login(email, password)
       .then(response => {
         if (response) {
-          history.push("/");
+          const redirect = localStorage.getItem('redirect');
+          if (redirect) {
+            localStorage.removeItem('redirect');
+            history.push(`/ad/${redirect}`);
+          } else {
+            history.push('/');
+          }
         } else {
           Swal.fire({
             title: "Acesso negado",
@@ -135,7 +141,7 @@ export default function Login() {
                 <Grid item>
                   <Link 
                     variant="body2" 
-                    style={{color:'black'}}
+                    style={{ color:'black', cursor: 'pointer' }}
                     onClick={ () => history.push('/register') }
                   >
                     Não possui uma conta? Cadastre-se!

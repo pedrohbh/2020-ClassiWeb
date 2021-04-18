@@ -174,7 +174,7 @@ export default function MyAppBar({ showCreateNewAccount = true, showLogin = true
                 Publicar Anúncio
               </Button> 
             }
-            <Button>Sobre</Button>
+            {/* <Button>Sobre</Button> */}
           </StyledButtonGroup>
 
           <div className={classes.search}>

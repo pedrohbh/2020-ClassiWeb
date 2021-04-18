@@ -149,11 +149,11 @@ export default function EditAdForm() {
         return AdController.images(adId, f);
       }));
 
-    // if (responses.some((e) => e !== undefined)) {
-    //   images.map(i => {
-    //     ImageController.delete(i);
-    //   })
-    // }
+    if (responses.some((e) => e !== undefined)) {
+      images.map(i => {
+        ImageController.delete(i);
+      })
+    }
   }
 
   const handleSubmit = async event => {
@@ -198,6 +198,8 @@ export default function EditAdForm() {
                   text: "Anúncio atualizado!",
                   icon: "success",
                   confirmButtonColor: "#a6dc86"
+                }).then(() => {
+                  history.push('/userpanel/myads');
                 })
               } else {
                 Swal.fire({

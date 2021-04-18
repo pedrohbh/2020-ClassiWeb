@@ -116,6 +116,11 @@ export default function RegisterForm() {
         .then(response => {
           console.log(response);
           if (response) {
+            const redirect = localStorage.getItem('redirect');
+            if (redirect) {
+              // history.push(`/ad/${redirect}`);
+              localStorage.removeItem('redirect');
+            }
             localStorage.setItem('token', response.token)
             history.push('/')
           } else {

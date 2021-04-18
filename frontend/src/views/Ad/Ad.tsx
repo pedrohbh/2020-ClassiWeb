@@ -52,6 +52,9 @@ export default function Ad({ match }) {
   const history = useHistory();
   const [isOwner, setIsOwner] = useState(false);
 
+  const token = localStorage.getItem('token');
+  const isLogged = !!token;
+
   const handleRating = (rate) => {
     PurchaseController.postFeedback(id, rate);
     setTimeout(() => {
@@ -106,6 +109,12 @@ export default function Ad({ match }) {
   }
 
   const handleBuy = () => {
+    if (!isLogged) {
+      localStorage.setItem('redirect', id);
+      history.push('/login');
+      return;
+    }
+
     Swal.fire({
       text: "Confirmar compra?",
       showCancelButton: true,
