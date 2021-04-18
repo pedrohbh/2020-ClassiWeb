@@ -124,7 +124,7 @@ export class AdvertisingService {
               return true; /* Passa no filtro */
             }
 
-            return true; /* Passa no filtro */
+            return false; /* Passa no filtro */
           }
 
           return true; /* Passa no filtro */
