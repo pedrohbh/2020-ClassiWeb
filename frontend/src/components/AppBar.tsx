@@ -155,7 +155,11 @@ export default function MyAppBar({ showCreateNewAccount = true, showLogin = true
   const handleKey = (event) => {
     if(event.key === 'Enter'){
       localStorage.setItem('searchText', event.target.value);
-      history.push('/search');
+      if (window.location.pathname === '/search') {
+        history.go(0);
+      } else {
+        history.push('/search');
+      }
     }
   }
 
