@@ -156,7 +156,7 @@ export default function NewAdForm() {
             text: "Anúncio publicado!",
             icon: "success",
             confirmButtonColor: "#a6dc86",
-            confirmButtonText: "Ir para página principal",
+            confirmButtonText: "Ok",
             allowOutsideClick: false
           })
             .then(() => {
