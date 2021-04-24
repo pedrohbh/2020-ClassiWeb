@@ -257,9 +257,8 @@ export default function EditAdForm() {
 
           <Grid item xs={12}>
             <Categories
-              editAd={true}
               required={false}
-              preSelectedCategory={category}
+              preSelected={category}
               onChange={selectedCategory => setCategory(selectedCategory)}
             />
           </Grid>
@@ -276,16 +275,14 @@ export default function EditAdForm() {
 
           <Grid item xs={12}>
             <ProductState
-              // value={productState}
-              preSelectedState={productState}
               required={false}
+              preSelected={productState}
               onChange={selectedProductState => setProductState(selectedProductState)}
             />
           </Grid>
 
           <Grid item xs={12}>
             <Address
-              required={false}
               preSelectedCity={address.city}
               preSelectedState={address.state}
               onChange={(newAddress) => setAddress(newAddress)}
@@ -294,7 +291,7 @@ export default function EditAdForm() {
 
           <Grid item xs={12}>
             <Visibility
-              preSelectedVisibility={state}
+              preSelected={state}
               onChange={selectedState => setState(selectedState)}
             />
           </Grid>

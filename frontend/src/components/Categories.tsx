@@ -1,52 +1,58 @@
-import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 import { useEffect, useState } from 'react';
 import CategoryController from '../controllers/CategoryController';
+import MySelect from './MySelect';
 
-export default function Categories({ onChange, required = true, preSelectedCategory = '', editAd=false }) {
+export default function Categories({ 
+  onChange, 
+  required = true, 
+  preSelected = '', 
+  filters=false 
+}) {
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(preSelectedCategory);
 
   useEffect(() => {
     CategoryController.getAll()
-        .then(CategoriesList => {
-            setCategories(CategoriesList);
-        });
+      .then(categoriesList => {
+
+        const c = categoriesList.map(({ name }) => ({
+          key: name,
+          value: name,
+          content: name
+        }))
+
+        if (required) {
+          c.unshift({
+            key: '',
+            value: '',
+            content: '',
+            style: { display: 'none' }
+          })
+        }
+
+        if (filters) {
+          c.unshift({
+            key: 'Todas',
+            value: JSON.stringify(categoriesList.map(({ name }) => name )),
+            content: 'Todas'
+          })
+        }
+
+        setCategories(c);
+      });
   }, []);
 
-  const handleSelectCategory = ({ target }) => {
-    setSelectedCategory(target.value);
-    onChange(target.value);
+  const handleSelect = (selected) => {
+    onChange(selected);
   }
 
-  useEffect(() => {
-    if(!required){
-      setSelectedCategory(preSelectedCategory);
-    }
-  }, [preSelectedCategory]);
-
   return (
-    <FormControl variant="outlined" fullWidth>
-      <InputLabel required={required} id="category">Categoria</InputLabel>
-      <Select
-          id="category"
-          label="Categoria"
-          labelId="category"
-          value={selectedCategory}
-          onChange={handleSelectCategory}
-      >
-        {
-          required &&
-          <MenuItem key={''} value={''} disabled style={{ display: 'none' }}></MenuItem>
-        }
-        { !required && !editAd && 
-          <MenuItem key={'Todas'} value={JSON.stringify(categories.map(({ name }) => name )) }>{'Todas'}</MenuItem> 
-        }
-        {
-            categories.map(({ name }) => (
-              <MenuItem key={name} value={name}>{name}</MenuItem>
-            ))
-        }
-      </Select>
-    </FormControl>
+    <MySelect
+      id="category"
+      label="Categoria"
+      required={required}
+      itemsList={categories}
+      preSelectedItem={preSelected}
+      onChange={ selected => handleSelect(selected) }
+    />
   );
 }

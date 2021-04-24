@@ -121,7 +121,6 @@ export default function MyAds() {
         <Grid container justify="center">
           <Grid item xs={5}>
             <Address 
-              required={false}
               preSelectedCity={address.city}
               preSelectedState={address.state}
               onChange={(newAddress) => setAddress(newAddress)} 

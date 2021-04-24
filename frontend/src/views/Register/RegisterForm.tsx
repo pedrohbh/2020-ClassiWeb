@@ -177,7 +177,10 @@ export default function RegisterForm() {
           </Grid>
 
           <Grid item xs={12}>
-            <Address onChange={(newAddress) => setAddress(newAddress)} />
+            <Address 
+              required
+              onChange={(newAddress) => setAddress(newAddress)} 
+            />
           </Grid>
 
           <Grid item xs={12}>

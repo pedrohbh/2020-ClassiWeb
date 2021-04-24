@@ -90,8 +90,9 @@ export default function Filters({ onChange }) {
 
             <Grid item xs={12}>
               <Categories 
+                filters={true}
                 required={false} 
-                preSelectedCategory={category} 
+                preSelected={category} 
                 onChange={selectedCategory => setCategory(selectedCategory)}
               />
             </Grid>
@@ -104,10 +105,7 @@ export default function Filters({ onChange }) {
             </Grid>
 
             <Grid item xs={12}>
-              <Address 
-                required={false}
-                onChange={ newAddress => setAddress(newAddress) }
-              />
+              <Address onChange={newAddress => setAddress(newAddress)}/>
             </Grid>
 
             <Grid item xs={12}>

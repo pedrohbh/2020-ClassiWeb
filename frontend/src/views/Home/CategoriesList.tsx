@@ -4,7 +4,7 @@ import CategoryController from "../../controllers/CategoryController";
 import { Skeleton } from '@material-ui/lab';
 import { useHistory } from "react-router";
 
-export default function Categories() {
+export default function CategoriesList() {
   const history = useHistory();
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -51,7 +51,6 @@ export default function Categories() {
             categories.map(({ name }) => (
               <Grid item xs={12} key={name}>
                 <Button key={name} onClick={handleClick} style={{ textAlign: 'left' }}>
-                  {/* <NavigateNextRoundedIcon/> */}
                   {name}
                 </Button>
               </Grid>
