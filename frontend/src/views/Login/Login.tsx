@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#e65252',
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%',
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -119,10 +119,7 @@ export default function Login() {
                 id="password"
                 autoComplete="current-password"
               />
-              {/* <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              /> */}
+            
               <Button
                 type="submit"
                 fullWidth
@@ -132,12 +129,8 @@ export default function Login() {
               >
                 Entrar
               </Button>
+              
               <Grid container justify="center">
-                {/* <Grid item xs>
-                  <Link href="#" variant="body2" style={{color:'black'}}>
-                    Esqueceu a senha?
-                  </Link>
-                </Grid> */}
                 <Grid item>
                   <Link 
                     variant="body2" 

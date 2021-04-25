@@ -1,25 +1,16 @@
-import Button from '@material-ui/core/Button';
 import { DataGrid, GridColDef, GridCellParams } from '@material-ui/data-grid';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { makeStyles } from '@material-ui/core';
 import { useEffect, useState } from 'react';
 import CategoryController from '../../controllers/CategoryController';
 import Swal from 'sweetalert2';
+import StyledButton from '../../components/StyledButton';
 
 const useStyles = makeStyles({
   root: {
     '& .categories div': {
       fontWeight: 'bold',
     },
-  },
-  new: {
-    background: '#E65252',
-    '&:hover':{
-        background: '#fc7474',
-    },
-    marginTop: '2%',
-    color: 'white',
-    float: 'right'
   }
 });
 
@@ -30,17 +21,16 @@ export default function CategoriesList() {
 
   useEffect(() => {
     CategoryController.getAll()
-        .then(CategoriesList => {
-          setCategories(CategoriesList.sort((a, b) => a.name.localeCompare(b.name)));
-          setCategories(CategoriesList);
+      .then(CategoriesList => {
+        CategoriesList.sort((a, b) => a.name.localeCompare(b.name))
 
-          const r = [] as  any;
-          CategoriesList.map(({ name }, index) => {
-            r.push({ id: index, category: name})
-          });
-          
-          setRows(r);
+        const r = [] as  any;
+        CategoriesList.map(({ name }, index) => {
+          r.push({ id: index, category: name})
         });
+        
+        setCategories(r);
+      });
   }, []);
 
   const handleDeleteCategory = async event => {
@@ -82,7 +72,9 @@ export default function CategoriesList() {
       if (resp.value){
         await CategoryController.postCategory({ name: resp.value })
         .then((response) => {
-          console.log(response);
+          const categoriesTmp = ([...categories, { id: categories.length, category: resp.value}] as any)
+            .sort((a, b) => a.category.localeCompare(b.category));
+          setCategories(categoriesTmp);
           Swal.fire({
             title: `A categoria ${resp.value} foi cadastrada com sucesso!`,
             confirmButtonColor: '#80cc54'
@@ -105,9 +97,11 @@ export default function CategoriesList() {
       renderCell: (params: GridCellParams) => (
         <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
           {params.value}
-          {/* <Button onClick={handleDeleteCategory}>
+          {/* 
+          <Button onClick={handleDeleteCategory}>
             <DeleteIcon style={{ fontSize: 20 }}/>
-          </Button> */}
+          </Button> 
+          */}
         </div>
       ),
     },
@@ -115,7 +109,7 @@ export default function CategoriesList() {
 
   return (
     <div style={{ margin: 'auto', width: '50%' }} className={classes.root}>
-      <DataGrid rows={rows} columns={columns}
+      <DataGrid rows={categories} columns={columns}
         autoHeight
         hideFooter
         sortingOrder={[null]}
@@ -123,13 +117,12 @@ export default function CategoriesList() {
         disableColumnMenu
         disableSelectionOnClick
       />
-      <Button        
-        variant="contained"
-        className={classes.new}
+      <StyledButton 
+        style={{ float: 'right' }}
         onClick={handleCreateCategory}
       >
         Nova categoria
-      </Button>
+      </StyledButton>
     </div>
   );
 }

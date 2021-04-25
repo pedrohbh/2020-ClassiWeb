@@ -1,22 +1,11 @@
-import { Button, Grid, TextField, withStyles } from "@material-ui/core";
-import { useEffect, useState } from "react";
+import { Grid, TextField } from "@material-ui/core";
+import { useState } from "react";
 import Address from "../../components/Address";
 import Categories from "../../components/Categories";
 import CurrencyTextField from '@unicef/material-ui-currency-textfield';
 import { FaFilter } from 'react-icons/fa';
 import ProductState from "../../components/ProductState";
-
-const StyledButton = withStyles({
-  root: {
-    width: '150px',
-    maxWidth: '70%',
-    background: '#E65252',
-    '&:hover':{
-        background: '#fc7474',
-    },
-    color: 'white',
-  },
-})((props: any) => <Button size="large" {...props}/>);
+import StyledButton from "../../components/StyledButton";
 
 const StyledTextField = props => <TextField fullWidth variant="outlined" {...props} />
 

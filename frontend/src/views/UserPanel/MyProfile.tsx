@@ -5,25 +5,14 @@ import Swal from "sweetalert2";
 
 import validator from "validator";
 import Address from "../../components/Address";
+import StyledButton from "../../components/StyledButton";
 import UserController from "../../controllers/UserController";
 
 const StyledTextField = (props) => (
   <TextField fullWidth variant="outlined" {...props} />
 );
 
-const StyledButton = withStyles({
-  root: {
-    width: '150px',
-    maxWidth: '70%',
-    background: '#E65252',
-    '&:hover': {
-      background: '#fc7474',
-    },
-    color: 'white',
-  },
-})((props: any) => <Button size="large" {...props} />);
-
-export default function MyAds() {
+export default function MyProfile() {
   const history = useHistory();
   const [address, setAddress] = useState({ state: '', city: ''});
   const [cpf, setCpf] = useState("");

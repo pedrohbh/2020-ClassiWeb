@@ -14,22 +14,7 @@ import { useHistory } from 'react-router';
 import Swal from 'sweetalert2';
 import Visibility from './Visibility';
 import ImageController from '../../controllers/ImageController';
-
-const StyledButton = withStyles({
-  root: {
-    background: '#E65252',
-    color: 'white',
-    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-    '&:hover': {
-      background: '#fc7474'
-    },
-    marginTop: "2%",
-  },
-
-  label: {
-    textTransform: 'capitalize',
-  },
-})((props: any) => <Button size="large" {...props} />);
+import StyledButton from '../../components/StyledButton';
 
 const StyledTextField = props => <TextField fullWidth variant="outlined" {...props} />
 
@@ -318,7 +303,7 @@ export default function EditAdForm() {
           </Grid>
 
         </Grid>
-        <StyledButton type="submit" variant="contained">
+        <StyledButton type="submit">
           Atualizar
         </StyledButton>
       </form>
