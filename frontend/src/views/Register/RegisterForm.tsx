@@ -1,9 +1,8 @@
-import { Button, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import {
   createStyles,
   makeStyles,
   Theme,
-  withStyles,
 } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import { validate as validatorCPF } from "gerador-validador-cpf";

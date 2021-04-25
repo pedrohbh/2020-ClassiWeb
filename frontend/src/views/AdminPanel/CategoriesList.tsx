@@ -17,7 +17,6 @@ const useStyles = makeStyles({
 export default function CategoriesList() {
   const classes = useStyles();
   const [categories, setCategories] = useState([]);
-  const [rows, setRows] = useState([]);
 
   useEffect(() => {
     CategoryController.getAll()

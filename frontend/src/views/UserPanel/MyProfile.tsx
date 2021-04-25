@@ -1,6 +1,5 @@
-import { Button, Grid, TextField, withStyles } from "@material-ui/core";
+import { Grid, TextField } from "@material-ui/core";
 import { useEffect, useState } from "react";
-import { useHistory } from "react-router";
 import Swal from "sweetalert2";
 
 import validator from "validator";
@@ -13,7 +12,6 @@ const StyledTextField = (props) => (
 );
 
 export default function MyProfile() {
-  const history = useHistory();
   const [address, setAddress] = useState({ state: '', city: ''});
   const [cpf, setCpf] = useState("");
   const [name, setName] = useState("");

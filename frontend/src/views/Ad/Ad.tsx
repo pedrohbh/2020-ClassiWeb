@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Paper, withStyles } from '@material-ui/core';
+import { Button, Grid, Paper, withStyles } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { FaHandshake } from 'react-icons/fa';
 import PageBase from '../../components/PageBase';
@@ -92,7 +92,7 @@ export default function Ad({ match }) {
             })
         }
       })
-  }, []);
+  }, [id]);
 
   const handleAddToWishList = () => {
     WishListController.post(id)

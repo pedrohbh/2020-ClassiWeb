@@ -1,5 +1,3 @@
-import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
-import { useEffect, useState } from "react";
 import MySelect from "../../components/MySelect";
 import { AdvertisingState } from '../../controllers/AdController';
 

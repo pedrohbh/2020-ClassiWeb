@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { makeStyles, Theme, withStyles } from '@material-ui/core/styles';
+import React, { useState } from 'react';
+import { Theme, withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import { Grid } from '@material-ui/core';
 import MyAds from './MyAds';
 import MyProfile from './MyProfile';
 import Purchase from './Purchase';
@@ -37,19 +36,6 @@ function TabPanel(props: TabPanelProps) {
     </div>
   );
 }
-
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-    display: 'flex',
-    height: '100%'
-  },
-  tabs: {
-    borderRight: `1px solid ${theme.palette.divider}`,
-    // display: 'flex'
-  }
-}));
 
 const MyTabs = withStyles((theme: Theme) => ({
   indicator: {

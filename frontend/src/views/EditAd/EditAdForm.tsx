@@ -1,4 +1,4 @@
-import { Button, Fab, Grid } from '@material-ui/core';
+import { Fab, Grid } from '@material-ui/core';
 import { createStyles, makeStyles, Theme, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import React, { useEffect, useState } from 'react';
@@ -9,7 +9,6 @@ import CurrencyTextField from '@unicef/material-ui-currency-textfield';
 import Categories from '../../components/Categories';
 import getFormData from '../../utils/getFormData';
 import ProductState from '../../components/ProductState';
-import { AdvertisingState } from '../../controllers/AdController';
 import { useHistory } from 'react-router';
 import Swal from 'sweetalert2';
 import Visibility from './Visibility';
@@ -88,7 +87,7 @@ export default function EditAdForm() {
         setImages(data.images);
         setNumberSelectedImages(data.images.length);
       })
-  }, []);
+  }, [id]);
 
   function handleValidateImages(event) {
     const files = event.target.files;

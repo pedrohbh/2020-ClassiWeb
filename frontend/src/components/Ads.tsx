@@ -1,4 +1,4 @@
-import { Button, Grid, withStyles } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import AdCard from './AdCard';
 import RefreshIcon from '@material-ui/icons/Refresh';

@@ -58,6 +58,7 @@ export default function Carousel({ images }) {
           <img
             key={i}
             src={image}
+            alt={''}
             onClick={() => setOpenModal(true)}
             style={{ maxWidth: '100%', maxHeight: '50vh', cursor: 'pointer', borderRadius: 10 }}
           />
@@ -78,7 +79,7 @@ export default function Carousel({ images }) {
         style={{ position: 'absolute' }}
       >
         {images.map((image, i) => (
-          <img key={i} src={image} style={{ maxWidth: '100%', maxHeight: '100%' }} />
+          <img key={i} src={image} alt={''} style={{ maxWidth: '100%', maxHeight: '100%' }} />
         ))}
       </AutoRotatingCarousel>
     </Grid>

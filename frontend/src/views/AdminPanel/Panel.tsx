@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { makeStyles, Theme, withStyles } from '@material-ui/core/styles';
+import { Theme, withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import { Grid } from '@material-ui/core';
 import CategoriesList from './CategoriesList';
 import { useHistory } from 'react-router';
 
@@ -34,18 +33,6 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-    display: 'flex',
-    height: '100%'
-  },
-  tabs: {
-    borderRight: `1px solid ${theme.palette.divider}`
-  }
-}));
-
 const MyTabs = withStyles((theme: Theme) => ({
   indicator: {
     backgroundColor: '#E65252'
@@ -55,7 +42,6 @@ const MyTabs = withStyles((theme: Theme) => ({
 export default function Panel() {
   const history = useHistory();
   const token = localStorage.getItem('token');
-  const classes = useStyles();
   const [value, setValue] = useState(0);
 
   const handleChangeTab = (event: React.ChangeEvent<{}>, newValue: number) => {
