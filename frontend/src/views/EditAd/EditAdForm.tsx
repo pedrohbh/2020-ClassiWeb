@@ -200,113 +200,115 @@ export default function EditAdForm() {
   }
 
   return (
-    <Grid container direction="column" alignItems="center" style={{ height: '100%', justifyContent: 'center' }}>
-      <h1 className={classes.text}>Atualizar informações do anúncio</h1>
+    <Grid item xs={12}>
+      <Grid container direction="column" alignItems="center" style={{ height: '100%', justifyContent: 'center', marginTop: '1%' }}>
+        <h1 className={classes.text}>Atualizar informações do anúncio</h1>
 
-      <form className={classes.formContainer} autoComplete="off" onSubmit={handleSubmit}>
-        <Grid container spacing={1}>
+        <form className={classes.formContainer} autoComplete="off" onSubmit={handleSubmit}>
+          <Grid container spacing={1}>
 
-          <Grid item xs={12}>
-            <StyledTextField
-              id="title"
-              label="Nome"
-              value={title}
-              onChange={event => setTitle(event.target.value)}
-            />
+            <Grid item xs={12}>
+              <StyledTextField
+                id="title"
+                label="Nome"
+                value={title}
+                onChange={event => setTitle(event.target.value)}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <CurrencyTextField
+                fullWidth
+                id="price"
+                label="Preço"
+                textAlign="left"
+                variant="outlined"
+                currencySymbol="R$"
+                decimalCharacter=","
+                digitGroupSeparator="."
+                value={price}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <StyledTextField
+                id="quantity"
+                type="number"
+                label="Quantidade Disponível"
+                InputProps={{ inputProps: { min: 1 } }}
+                value={quantity}
+                onChange={event => setQuantity(event.target.value)}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <Categories
+                required={false}
+                preSelected={category}
+                onChange={selectedCategory => setCategory(selectedCategory)}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <StyledTextField
+                multiline
+                id="description"
+                label="Descrição"
+                value={description}
+                onChange={event => setDescription(event.target.value)}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <ProductState
+                required={false}
+                preSelected={productState}
+                onChange={selectedProductState => setProductState(selectedProductState)}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <Address
+                preSelectedCity={address.city}
+                preSelectedState={address.state}
+                onChange={(newAddress) => setAddress(newAddress)}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <Visibility
+                preSelected={state}
+                onChange={selectedState => setState(selectedState)}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              Substituir imagens
+            </Grid>
+
+            <Grid item xs={12}>
+              <input
+                multiple
+                type="file"
+                id="images"
+                accept="image/*"
+                style={{ display: 'none' }}
+                onChange={handleValidateImages}
+              />
+              <label htmlFor="images">
+                <StyledFab component="span" >
+                  <StyledAddPhotoAlternateIcon />
+                </StyledFab>
+              </label>
+              &nbsp;&nbsp;{numberSelectedImages} imagens selecionadas
+            </Grid>
+
           </Grid>
-
-          <Grid item xs={12}>
-            <CurrencyTextField
-              fullWidth
-              id="price"
-              label="Preço"
-              textAlign="left"
-              variant="outlined"
-              currencySymbol="R$"
-              decimalCharacter=","
-              digitGroupSeparator="."
-              value={price}
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <StyledTextField
-              id="quantity"
-              type="number"
-              label="Quantidade Disponível"
-              InputProps={{ inputProps: { min: 1 } }}
-              value={quantity}
-              onChange={event => setQuantity(event.target.value)}
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <Categories
-              required={false}
-              preSelected={category}
-              onChange={selectedCategory => setCategory(selectedCategory)}
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <StyledTextField
-              multiline
-              id="description"
-              label="Descrição"
-              value={description}
-              onChange={event => setDescription(event.target.value)}
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <ProductState
-              required={false}
-              preSelected={productState}
-              onChange={selectedProductState => setProductState(selectedProductState)}
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <Address
-              preSelectedCity={address.city}
-              preSelectedState={address.state}
-              onChange={(newAddress) => setAddress(newAddress)}
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <Visibility
-              preSelected={state}
-              onChange={selectedState => setState(selectedState)}
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            Substituir imagens
-          </Grid>
-
-          <Grid item xs={12}>
-            <input
-              multiple
-              type="file"
-              id="images"
-              accept="image/*"
-              style={{ display: 'none' }}
-              onChange={handleValidateImages}
-            />
-            <label htmlFor="images">
-              <StyledFab component="span" >
-                <StyledAddPhotoAlternateIcon />
-              </StyledFab>
-            </label>
-            &nbsp;&nbsp;{numberSelectedImages} imagens selecionadas
-          </Grid>
-
-        </Grid>
-        <StyledButton type="submit">
-          Atualizar
-        </StyledButton>
-      </form>
+          <StyledButton type="submit">
+            Atualizar
+          </StyledButton>
+        </form>
+      </Grid>
     </Grid>
   );
 }
