@@ -94,12 +94,8 @@ export default function RegisterForm() {
       validator.isEmail(newUser.email) &&
       newUser.password === newUser.passwordConfirm
     ) {
-      // const response = await UserController.postUser(newUser);
-      // // console.log(response)
-
       await UserController.postUser(newUser)
         .then(response => {
-          console.log(response);
           if (response) {
             const redirect = localStorage.getItem('redirect');
             if (redirect) {

@@ -76,12 +76,10 @@ export default function NewAdForm() {
       })
       return;
     }
-    console.log(files);
 
     if (files && files[0]) {
       const maxAllowedSize = 5 * 1024 * 1024;
-      console.log('entrei1');
-      console.log(files);
+      
       [...files].forEach(async (f, index) => {
         if (f.size > maxAllowedSize) {
           // files.splice(index, 1);

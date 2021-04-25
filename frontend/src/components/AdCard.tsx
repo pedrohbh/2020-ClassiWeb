@@ -129,7 +129,6 @@ export default function AdCard({
         if (result.isConfirmed) {
           await WishListController.delete(id)
             .then(response => {
-              console.log(response);
               Swal.fire({
                 text: "Removido com sucesso!",
                 icon: "success",
@@ -166,7 +165,6 @@ export default function AdCard({
         if (result.isConfirmed) {
           await AdController.delete(id)
             .then(response => {
-              console.log(response);
               Swal.fire({
                 text: "Excluído com sucesso!",
                 icon: "success",

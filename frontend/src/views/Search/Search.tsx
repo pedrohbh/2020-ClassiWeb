@@ -20,9 +20,7 @@ export default function Search() {
   });
 
   useEffect(() => {
-    console.log(filters);
     AdController.search(filters).then((adsList) => {
-      console.log(adsList);
       setIsLoading(false);
 
       if (adsList) {

@@ -63,7 +63,6 @@ export default function Ad({ match }) {
   useEffect(() => {
     AdController.get(id)
       .then(async data => {
-        console.log(data);
         setTitle(data.title);
         setOwner(data.owner);
         setIsOwner(data.is_owner);
@@ -83,7 +82,7 @@ export default function Ad({ match }) {
           })) as unknown as any[];
         
         const imgsNames = tmpImgs.filter((img) => img.value).map((img) => img.value);
-        console.log(imgsNames)
+        
         if (imgsNames.length > 0) {
           setImages(imgsNames);
         } else {

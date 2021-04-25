@@ -54,7 +54,6 @@ export default function MyProfile() {
       address
     };
 
-    console.log(newUserData)
     if (validator.isEmail(email)) {
       Swal.fire({
         text: "Confirma a alteração dos dados?",
@@ -69,7 +68,6 @@ export default function MyProfile() {
         if (result.isConfirmed) {
           await UserController.update(newUserData)
             .then(response => {
-              console.log(response);
               Swal.fire({
                 text: "Informações atualizadas!",
                 icon: "success",

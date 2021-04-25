@@ -44,8 +44,6 @@ export default function Filters({ onChange }) {
       product_state: productState
     };
 
-    console.log(newFilters);
-
     onChange(newFilters);
   }
 
