@@ -1,9 +1,10 @@
 import { Grid } from '@material-ui/core';
-import { Skeleton } from '@material-ui/lab';
+import { Pagination, Skeleton } from '@material-ui/lab';
 import AdCard from './AdCard';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import StyledButton from './StyledButton';
 import { useHistory } from 'react-router';
+import { useEffect, useState } from 'react';
 
 export default function Ads({ 
   ads, isLoading, error, header="", 
@@ -11,6 +12,20 @@ export default function Ads({
   ownersFeedbacks=[], clientsFeedbacks=[], purchaseIds=[]
 }) {
   const history = useHistory();
+  const itemsPerPage = 9;
+  const numPages = Math.ceil(ads.length / itemsPerPage);
+  const [page, setPage] = useState(1);
+  const [itemsPage, setItemsPage] = useState(ads.slice(0, itemsPerPage));
+  
+  useEffect(() => {
+    setItemsPage(ads.slice(0, itemsPerPage));
+  }, [ads])
+
+  const handleChange = (event, value) => {
+    const offset = (value - 1) * itemsPerPage;
+    setItemsPage(ads.slice(offset, offset+itemsPerPage));
+    setPage(value);
+  }
 
   const handleClick = (event) => {
     history.go(0);
@@ -46,28 +61,32 @@ export default function Ads({
                 <Grid item xs={12} style={{ textAlign: 'center' }}>
                   <h1>{header}</h1>
                 </Grid>
-
-                {
-                  ads.map(({ id, title, price, images, address={ state: '', city: '' } }, index) => (
-                    <Grid item key={id}>
-                      <AdCard
-                        id={id}
-                        title={title}
-                        price={price}
-                        images={images}
-                        city={address.city}
-                        UF={address.state}
-                        myAds={myAds}
-                        myShopping={myShopping}
-                        wishList={wishList}
-                        mySales={mySales}
-                        ownerFeedback={ownersFeedbacks[index]}
-                        clientFeedback={clientsFeedbacks[index]}
-                        purchaseId={purchaseIds[index]}
-                      />
-                    </Grid>
-                  ))
-                }
+                <Grid item xs={12}>
+                  <Grid container spacing={3} justify="center" style={{ width: '100%', margin: 0 }}>
+                  {
+                    itemsPage.map(({ id, title, price, images, address={ state: '', city: '' } }, index) => (
+                      <Grid item key={id}>
+                        <AdCard
+                          id={id}
+                          title={title}
+                          price={price}
+                          images={images}
+                          city={address.city}
+                          UF={address.state}
+                          myAds={myAds}
+                          myShopping={myShopping}
+                          wishList={wishList}
+                          mySales={mySales}
+                          ownerFeedback={ownersFeedbacks[index]}
+                          clientFeedback={clientsFeedbacks[index]}
+                          purchaseId={purchaseIds[index]}
+                        />
+                      </Grid>
+                    ))
+                  }
+                  </Grid>
+                </Grid>
+                <Pagination count={numPages} page={page} onChange={handleChange} />
               </>
         }
       </Grid>
