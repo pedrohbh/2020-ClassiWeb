@@ -10,6 +10,7 @@ import Ad from './views/Ad/Ad'
 import Search from './views/Search/Search';
 import AdminPanel from './views/AdminPanel/AdminPanel';
 import UserPanel from './views/UserPanel/UserPanel';
+import NotFound from './views/NotFound/NotFound';
 
 export default function Routes() {
   return (
@@ -24,6 +25,7 @@ export default function Routes() {
         <Route path='/search' component={Search} />
         <Route path='/admin' component={AdminPanel} />
         <Route path='/userpanel/:tab?' component={UserPanel} />
+        <Route path='/error' component={NotFound} />
       </Switch>
     </BrowserRouter>
   );

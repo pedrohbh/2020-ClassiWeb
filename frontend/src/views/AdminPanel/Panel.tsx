@@ -49,7 +49,7 @@ export default function Panel() {
   };
 
   if(!token) {
-    history.push('/');
+    history.push('/error');
   }
 
   return (

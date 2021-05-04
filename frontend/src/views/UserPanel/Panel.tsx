@@ -89,7 +89,7 @@ export default function Panel({ match }) {
   };
 
   if(!token) {
-    history.push('/');
+    history.push('/error');
   }
 
   return (

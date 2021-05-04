@@ -8,7 +8,7 @@ export default function EditAd() {
   const token = localStorage.getItem('token');
 
   if(!token) {
-    history.push('/');
+    history.push('/error');
   }
 
   return (
