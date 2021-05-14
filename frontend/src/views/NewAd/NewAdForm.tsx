@@ -1,4 +1,4 @@
-import { Fab, Grid, IconButton, Tooltip } from '@material-ui/core';
+import { Button, Card, CardActions, CardContent, Fab, Grid, IconButton, Modal, Paper, Tooltip } from '@material-ui/core';
 import { createStyles, makeStyles, Theme, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import React, { useState } from 'react';
@@ -14,6 +14,8 @@ import { useHistory } from 'react-router';
 import Swal from 'sweetalert2';
 import StyledButton from '../../components/StyledButton';
 import DescriptionIcon from '@material-ui/icons/Description';
+import dps from 'dbpedia-sparql-client';
+
 
 const StyledTextField = props => <TextField fullWidth variant="outlined" {...props} />
 
@@ -30,6 +32,49 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: "center",
       margin: "2%"
     },
+
+    modal: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+
+    root: {
+      height: '70%',
+      maxHeight: 'initial',
+      width: '60%',
+      padding: 25,
+      overflow: 'auto',
+
+      display: 'flex',
+      alignItems: 'center',
+      flexDirection: 'column'
+    },
+    title: {
+      fontSize: 14,
+    },
+    pos: {
+      marginBottom: 12,
+    },
+
+    cardContainer: {
+      width: '100%',
+      minHeight: 'min-content',
+      
+      display: 'flex',
+      alignItems: 'center',
+      flexDirection: 'column'
+    },
+    
+    card: {
+      padding: 15,
+      width: '90%',
+      // minHeight: 230,
+
+      '& + .MuiCard-root': {
+        marginTop: 25,
+      }
+    }
   }),
 );
 
@@ -63,13 +108,36 @@ export default function NewAdForm() {
   const [category, setCategory] = useState('');
   const [productState, setProductState] = useState('');
   const [numberSelectedImages, setNumberSelectedImages] = useState(0);
+  const [openModal, setOpenModal] = useState(false);
+  const [descriptionSuggestions, setDescriptionSuggestions] = useState([{ label: { 'xml:lang': '', value: ''} }]);
+
+  const getQuery = (param) => {
+    return `
+      SELECT DISTINCT ?s ?label 
+      WHERE {
+        ?s rdfs:comment ?label . 
+        FILTER (lang(?label) IN ('en', 'pt')). 
+        ?label bif:contains "${param}" .
+      } ORDER BY DESC (lang(?label))  LIMIT 5
+      `;
+  }
+
+  const getDescriptionSuggestions = title => {
+    dps
+      .client() 
+      .query(getQuery(title))
+      .timeout(15000)
+      .asJson()
+      .then(res => { setDescriptionSuggestions(res.results.bindings); })
+      .catch(e => { /* handle error */ });
+  }
 
   function handleDescription(event) {
     const title = (document.querySelector('#title') as HTMLInputElement)?.value
     
     if (title) {
-      const suggestDescription = 'blablabla'; // TODO request
-      setDescription(suggestDescription);
+      getDescriptionSuggestions(/\w{3,}/.exec(title)?.[0] || '');
+      setOpenModal(true);
     } else {
       Swal.fire({
         icon: 'warning',
@@ -175,6 +243,25 @@ export default function NewAdForm() {
       });
   }
 
+  const CardDescriptionSuggest = ({text}) => {
+    function handleClick() {
+      setDescription(text);
+      setOpenModal(false);
+    }
+
+    return (
+    <Card className={classes.card} variant="outlined">
+      <CardContent>
+        {text}
+      </CardContent>
+      <CardActions>
+        <Button color="primary" size="small" onClick={handleClick}>Escolher</Button>
+      </CardActions>
+    </Card>
+    )
+  }
+  ;
+
   return (
     <Grid container direction="column" alignItems="center" style={{ height: '100%', justifyContent: 'center' }}>
       <h1 className={classes.text}>Publique agora um novo anúncio!</h1>
@@ -256,11 +343,29 @@ export default function NewAdForm() {
             </Grid>
 
             <Grid item>
-              <Tooltip title="Gerar sugestão de descrição" style={{ float: 'right'}}>
+              <Tooltip title="Gerar sugestões de descrição" style={{ float: 'right'}}>
                 <IconButton aria-label="description" onClick={handleDescription}>
                   <DescriptionIcon />
                 </IconButton>
               </Tooltip>
+                
+              <Modal
+                className={classes.modal}
+                open={openModal}
+                onClose={() => setOpenModal(false)}
+              >
+                <Paper className={classes.root}>
+                  <h2 style={{ marginBottom: '2vh' }}>Sugestões de Descrição</h2>
+                  
+                  <div className={classes.cardContainer}>
+                    {
+                      descriptionSuggestions.map(({ label }, i) => (
+                        <CardDescriptionSuggest key={i} text={label.value}/>
+                      ))
+                    }
+                  </div>
+                </Paper>
+              </Modal>
             </Grid>
           </Grid>
           
