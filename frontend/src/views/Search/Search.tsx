@@ -4,6 +4,9 @@ import Ads from "../../components/Ads";
 import PageBase from "../../components/PageBase";
 import AdController from "../../controllers/AdController";
 import Filters from "./Filters";
+import dps from 'dbpedia-sparql-client';
+import IconButton from '@material-ui/core/IconButton';
+import { IconFlagBR, IconFlagUS } from 'material-ui-flags';
 
 export default function Search() {
   const [ads, setAds] = useState([]);
@@ -13,16 +16,57 @@ export default function Search() {
   const [filters, setFilters] = useState({
     text: localStorage.getItem("searchText"),
     address: {},
-    categories: localStorage.getItem("searchCategory") ? [localStorage.getItem("searchCategory")] : [],
+    categories: localStorage.getItem("searchCategory") || [],
     min_price: "",
     max_price: "",
     product_state: "",
   });
 
+  const [queryCategory, setQueryCategory] = useState(localStorage.getItem("searchCategory") || '');
+  const [queryResult, setQueryResult] = useState([{ label: { 'xml:lang': '', value: ''} }]);
+  const [currentLang, setCurrentLang] = useState('en');
+
+  const myCategories = {
+    'Acessórios': 'Fashion_accessory',
+    'Utensílios': 'List_of_food_preparation_utensils',
+    'Esportes': 'Sports_equipment',
+    'Eletrônicos': 'Home_appliance',
+    'Imóveis': 'Real_estate',
+  }
+  
+  const getQuery = (param) => {
+    return `
+      SELECT ?label
+      WHERE {
+        <http://dbpedia.org/resource/${myCategories[param || '']}>
+        dbo:abstract ?label .
+        FILTER (lang(?label) IN ('en', 'pt'))
+      }
+      `;
+  }
+
+  const setCategoryDescription = f => {
+    setCurrentLang('en');
+
+    if (f.categories.length > 1) {
+      setQueryCategory('');
+      setQueryResult([]);
+    } else {
+      setQueryCategory(f.categories[0]);
+      dps
+        .client() 
+        .query(getQuery(f.categories[0]))
+        .timeout(15000)
+        .asJson()
+        .then(res => { setQueryResult(res.results.bindings); })
+        .catch(e => { /* handle error */ });
+    }
+  }
+
   useEffect(() => {
     AdController.search(filters).then((adsList) => {
       setIsLoading(false);
-
+      setCategoryDescription(filters);
       if (adsList) {
         setAds(adsList);
         setNumberOfResults(adsList.length);
@@ -36,7 +80,12 @@ export default function Search() {
     });
   }, [filters]);
 
+  const handleLanguage = (lang) => {
+    setCurrentLang(lang);
+  }
+
   const handleChangeFilters = async (newFilters) => {
+    setCategoryDescription(newFilters);
     setFilters(newFilters);
     setIsLoading(true);
     setError(false);
@@ -52,12 +101,56 @@ export default function Search() {
 
         <Grid item xs={9} lg={10} style={{ flex: 1, maxHeight: "max-content" }}>
           <Grid container>
-            <Ads
-              ads={ads}
-              isLoading={isLoading}
-              error={error}
-              header={`${numberOfResults} resultados encontrados`}
-            />
+
+            <Grid item xs={12} style={{ marginTop: '3vh' }}>
+              <Grid container justify='center'>
+                {
+                  queryCategory &&
+                  <Grid item xs={12} style={{ textAlign: 'center' }}>
+                    <h1>Categoria: {queryCategory}</h1>
+                  </Grid>
+                }
+
+                <Grid item xs={10}>
+                  {
+                    (queryResult.length > 0) &&
+                      <IconButton size="small" edge="start" onClick={() => handleLanguage('en')}>
+                        <IconFlagUS />
+                      </IconButton>
+                  }
+                  {
+                    (queryResult.length > 1) && 
+                      <IconButton size="small" onClick={() => handleLanguage('pt')}>
+                        <IconFlagBR />
+                      </IconButton>
+                  }
+                </Grid>
+
+                <Grid item xs={10}>
+                  <p style={{ textAlign: 'justify' }}>
+                    { 
+                      queryResult.length > 0 ?
+                        currentLang === 'en' ?
+                          queryResult[0].label.value
+                          :
+                          queryResult[1].label.value
+                      :
+                        null
+                    }
+                  </p>
+                </Grid>
+              </Grid>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Ads
+                ads={ads}
+                isLoading={isLoading}
+                error={error}
+                header={`${numberOfResults} resultados encontrados`}
+              />
+            </Grid>
+
           </Grid>
         </Grid>
       </Grid>

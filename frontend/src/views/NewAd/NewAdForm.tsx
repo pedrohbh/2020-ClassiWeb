@@ -58,6 +58,7 @@ export default function NewAdForm() {
   const history = useHistory();
   const classes = useStyles();
 
+  const [description, setDescription] = useState('');
   const [address, setAddress] = useState({});
   const [category, setCategory] = useState('');
   const [productState, setProductState] = useState('');
@@ -68,9 +69,7 @@ export default function NewAdForm() {
     
     if (title) {
       const suggestDescription = 'blablabla'; // TODO request
-      const descriptionField = (document.querySelector('#description') as HTMLInputElement);
-      descriptionField.value = suggestDescription;
-      descriptionField.focus();
+      setDescription(suggestDescription);
     } else {
       Swal.fire({
         icon: 'warning',
@@ -135,6 +134,7 @@ export default function NewAdForm() {
       ...formData,
       address,
       category,
+      description,
       product_state: productState,
       state: AdvertisingState.VISIBLE,
       token: localStorage.getItem('token')
@@ -228,9 +228,11 @@ export default function NewAdForm() {
           <Grid item xs={12}>
             <StyledTextField
               required
-              multiline
+              // multiline
               id="description"
               label="Descrição"
+              value={description}
+              onChange={e => setDescription(e.target.value)}
             />
           </Grid>
 
