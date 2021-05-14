@@ -1,4 +1,4 @@
-import { Fab, Grid } from '@material-ui/core';
+import { Fab, Grid, IconButton, Tooltip } from '@material-ui/core';
 import { createStyles, makeStyles, Theme, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import React, { useState } from 'react';
@@ -13,6 +13,7 @@ import { AdvertisingState } from '../../controllers/AdController';
 import { useHistory } from 'react-router';
 import Swal from 'sweetalert2';
 import StyledButton from '../../components/StyledButton';
+import DescriptionIcon from '@material-ui/icons/Description';
 
 const StyledTextField = props => <TextField fullWidth variant="outlined" {...props} />
 
@@ -61,6 +62,24 @@ export default function NewAdForm() {
   const [category, setCategory] = useState('');
   const [productState, setProductState] = useState('');
   const [numberSelectedImages, setNumberSelectedImages] = useState(0);
+
+  function handleDescription(event) {
+    const title = (document.querySelector('#title') as HTMLInputElement)?.value
+    
+    if (title) {
+      const suggestDescription = 'blablabla'; // TODO request
+      const descriptionField = (document.querySelector('#description') as HTMLInputElement);
+      descriptionField.value = suggestDescription;
+      descriptionField.focus();
+    } else {
+      Swal.fire({
+        icon: 'warning',
+        confirmButtonColor: '#80cc54',
+        title: `Não foi possível gerar uma descrição!`,
+        text: 'Preencha o título do anúncio primeiro'
+      })
+    }
+  }
 
   function handleValidateImages(event) {
     const files = event.target.files;
@@ -196,15 +215,6 @@ export default function NewAdForm() {
           </Grid>
 
           <Grid item xs={12}>
-            <StyledTextField
-              required
-              multiline
-              id="description"
-              label="Descrição"
-            />
-          </Grid>
-
-          <Grid item xs={12}>
             <ProductState onChange={selectedProductState => setProductState(selectedProductState)} />
           </Grid>
 
@@ -216,22 +226,42 @@ export default function NewAdForm() {
           </Grid>
 
           <Grid item xs={12}>
-            <input
+            <StyledTextField
               required
-              multiple
-              type="file"
-              id="images"
-              accept="image/*"
-              style={{ display: 'none' }}
-              onChange={handleValidateImages}
+              multiline
+              id="description"
+              label="Descrição"
             />
-            <label htmlFor="images">
-              <StyledFab component="span" >
-                <StyledAddPhotoAlternateIcon />
-              </StyledFab>
-            </label>
-            &nbsp;&nbsp;{numberSelectedImages} imagens selecionadas
           </Grid>
+
+          <Grid container justify="space-between">
+            <Grid item>
+              <input
+                required
+                multiple
+                type="file"
+                id="images"
+                accept="image/*"
+                style={{ display: 'none' }}
+                onChange={handleValidateImages}
+              />
+              <label htmlFor="images">
+                <StyledFab component="span" >
+                  <StyledAddPhotoAlternateIcon />
+                </StyledFab>
+              </label>
+              &nbsp;&nbsp;{numberSelectedImages} imagens selecionadas
+            </Grid>
+
+            <Grid item>
+              <Tooltip title="Gerar sugestão de descrição" style={{ float: 'right'}}>
+                <IconButton aria-label="description" onClick={handleDescription}>
+                  <DescriptionIcon />
+                </IconButton>
+              </Tooltip>
+            </Grid>
+          </Grid>
+          
 
         </Grid>
         <StyledButton type="submit" variant="contained">
