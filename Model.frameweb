@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<frameweb:FramewebProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:frameweb="http://nemo.inf.ufes.br/projects/frameweb/FW-2015">
+<frameweb:FramewebProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:frameweb="http://nemo.inf.ufes.br/projects/frameweb/FW-2015" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML">
   <compose xsi:type="frameweb:EntityModel" name="Entity Model">
     <packagedElement xsi:type="frameweb:DomainPackage" name="br.ufes.informatica.oldenburg.core.domain">
       <packagedElement xsi:type="frameweb:DomainClass" name="Author"/>
@@ -75,10 +75,29 @@
           <type xsi:type="frameweb:Tag" href="frameweb/react/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/HTML/External%20Component"/>
         </ownedAttribute>
       </packagedElement>
+      <packagedElement xsi:type="frameweb:Partial" name="Address">
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="Grid">
+          <type xsi:type="frameweb:Tag" href="frameweb/react/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/HTML/External%20Component"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="Grid">
+          <type xsi:type="frameweb:Tag" href="frameweb/react/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/HTML/External%20Component"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:NavigationAggregationTarget" type="//@compose.1/components/MySelect" association="//@compose.1/components/@packagedElement.3">
+          <upperValue xsi:type="uml:LiteralUnlimitedNatural" value="2"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:Partial" name="MySelect"/>
+      <packagedElement xsi:type="frameweb:NavigationAggregationAssociation" memberEnd="//@compose.1/components/@packagedElement.3/@ownedEnd.0 //@compose.1/components/Address/@ownedAttribute.2">
+        <ownedEnd xsi:type="frameweb:NavigationAggregationSource" type="//@compose.1/components/Address" association="//@compose.1/components/@packagedElement.3"/>
+      </packagedElement>
     </packagedElement>
     <packagedElement xsi:type="frameweb:ControllerPackage" name="components">
       <packagedElement xsi:type="frameweb:FrontControllerClass" name="AdCard"/>
+      <packagedElement xsi:type="frameweb:FrontControllerClass" name="Address"/>
+      <packagedElement xsi:type="frameweb:FrontControllerClass" name="MySelect"/>
     </packagedElement>
     <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.1/components/AdCard" supplier="//@compose.1/components.1/AdCard"/>
+    <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.1/components/Address" supplier="//@compose.1/components.1/Address"/>
+    <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.1/components/MySelect" supplier="//@compose.1/components.1/MySelect"/>
   </compose>
 </frameweb:FramewebProject>
