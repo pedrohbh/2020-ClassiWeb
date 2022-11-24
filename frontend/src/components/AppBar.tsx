@@ -201,17 +201,6 @@ export default function MyAppBar({ showCreateNewAccount = true, showLogin = true
           {isLogged ?
             <div className={classes.sectionDesktop}>
 
-              {/* <IconButton aria-label="show 4 new mails" color="inherit">
-                <Badge badgeContent={6} color="secondary">
-                  <ForumIcon />
-                </Badge>
-              </IconButton> */}
-
-              {/* <IconButton aria-label="show 17 new notifications" color="inherit">
-                <Badge badgeContent={10} color="secondary">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton> */}
 
               <IconButton
                 edge="end"
