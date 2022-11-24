@@ -29,10 +29,56 @@
         <ownedAttribute xsi:type="frameweb:UIComponentField" name="RoomIcon">
           <type xsi:type="frameweb:Tag" href="frameweb/react/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/HTML/External%20Component"/>
         </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="CardActions">
+          <type xsi:type="frameweb:Tag" href="frameweb/react/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/HTML/External%20Component"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="StyledButton">
+          <type xsi:type="frameweb:Tag" href="frameweb/react/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/HTML/External%20Component"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="StyledButton">
+          <type xsi:type="frameweb:Tag" href="frameweb/react/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/HTML/External%20Component"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="StyledButton">
+          <type xsi:type="frameweb:Tag" href="frameweb/react/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/HTML/External%20Component"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="StyledButton">
+          <type xsi:type="frameweb:Tag" href="frameweb/react/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/HTML/External%20Component"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="StyledButton">
+          <type xsi:type="frameweb:Tag" href="frameweb/react/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/HTML/External%20Component"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="StyledButton">
+          <type xsi:type="frameweb:Tag" href="frameweb/react/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/HTML/External%20Component"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="StyledButton">
+          <type xsi:type="frameweb:Tag" href="frameweb/react/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/HTML/External%20Component"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="EditIcon">
+          <type xsi:type="frameweb:Tag" href="frameweb/react/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/HTML/External%20Component"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="DeleteIcon">
+          <type xsi:type="frameweb:Tag" href="frameweb/react/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/HTML/External%20Component"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="StarIcon">
+          <type xsi:type="frameweb:Tag" href="frameweb/react/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/HTML/External%20Component"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="StarIcon">
+          <type xsi:type="frameweb:Tag" href="frameweb/react/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/HTML/External%20Component"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="FavoriteIcon">
+          <type xsi:type="frameweb:Tag" href="frameweb/react/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/HTML/External%20Component"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="DeleteIcon">
+          <type xsi:type="frameweb:Tag" href="frameweb/react/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/HTML/External%20Component"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="FaHandShake">
+          <type xsi:type="frameweb:Tag" href="frameweb/react/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/HTML/External%20Component"/>
+        </ownedAttribute>
       </packagedElement>
     </packagedElement>
     <packagedElement xsi:type="frameweb:ControllerPackage" name="components">
       <packagedElement xsi:type="frameweb:FrontControllerClass" name="AdCard"/>
     </packagedElement>
+    <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.1/components/AdCard" supplier="//@compose.1/components.1/AdCard"/>
   </compose>
 </frameweb:FramewebProject>
