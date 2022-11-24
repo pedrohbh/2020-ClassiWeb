@@ -195,6 +195,18 @@
           <type xsi:type="frameweb:Tag" href="frameweb/react/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/HTML/External%20Component"/>
         </ownedAttribute>
       </packagedElement>
+      <packagedElement xsi:type="frameweb:Partial" name="PageBase">
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="Grid">
+          <type xsi:type="frameweb:Tag" href="frameweb/react/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/HTML/External%20Component"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:NavigationAggregationTarget" type="//@compose.1/components/AppBar" association="//@compose.1/components/@packagedElement.8"/>
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="Grid">
+          <type xsi:type="frameweb:Tag" href="frameweb/react/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/HTML/External%20Component"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:NavigationAggregationAssociation" memberEnd="//@compose.1/components/@packagedElement.8/@ownedEnd.0 //@compose.1/components/PageBase/@ownedAttribute.1">
+        <ownedEnd xsi:type="frameweb:NavigationAggregationSource" type="//@compose.1/components/PageBase" association="//@compose.1/components/@packagedElement.8"/>
+      </packagedElement>
     </packagedElement>
     <packagedElement xsi:type="frameweb:ControllerPackage" name="components">
       <packagedElement xsi:type="frameweb:FrontControllerClass" name="AdCard"/>
@@ -206,6 +218,7 @@
         </ownedAttribute>
       </packagedElement>
       <packagedElement xsi:type="frameweb:FrontControllerClass" name="AppBar"/>
+      <packagedElement xsi:type="frameweb:FrontControllerClass" name="PageBase"/>
     </packagedElement>
     <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.1/components/AdCard" supplier="//@compose.1/components.1/AdCard"/>
     <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.1/components/Address" supplier="//@compose.1/components.1/Address"/>
@@ -242,5 +255,6 @@
     <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.1/components.2/Carousel" supplier="//@compose.1/components.3/Carousel"/>
     <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.1/components.2/Categories" supplier="//@compose.1/components.3/Categories"/>
     <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.1/components.2/Footer" supplier="//@compose.1/components.3/Footer"/>
+    <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.1/components/PageBase" supplier="//@compose.1/components.1/PageBase"/>
   </compose>
 </frameweb:FramewebProject>
