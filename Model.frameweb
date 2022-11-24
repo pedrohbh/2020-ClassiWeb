@@ -217,6 +217,8 @@
           <type xsi:type="frameweb:Tag" href="frameweb/react/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/HTML/img"/>
         </ownedAttribute>
       </packagedElement>
+      <packagedElement xsi:type="frameweb:Partial" name="Categories"/>
+      <packagedElement xsi:type="frameweb:Partial" name="Footer"/>
     </packagedElement>
     <packagedElement xsi:type="frameweb:ControllerPackage" name="components">
       <packagedElement xsi:type="frameweb:FrontControllerClass" name="Carousel">
@@ -224,7 +226,11 @@
           <type xsi:type="uml:Class" href="frameweb/Java.frameweb#//@compose.0/String"/>
         </ownedAttribute>
       </packagedElement>
+      <packagedElement xsi:type="frameweb:FrontControllerClass" name="Categories"/>
+      <packagedElement xsi:type="frameweb:FrontControllerClass" name="Footer"/>
     </packagedElement>
     <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.1/components.2/Carousel" supplier="//@compose.1/components.3/Carousel"/>
+    <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.1/components.2/Categories" supplier="//@compose.1/components.3/Categories"/>
+    <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.1/components.2/Footer" supplier="//@compose.1/components.3/Footer"/>
   </compose>
 </frameweb:FramewebProject>
