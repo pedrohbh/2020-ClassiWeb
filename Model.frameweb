@@ -284,6 +284,8 @@
       <packagedElement xsi:type="frameweb:NavigationAggregationAssociation" memberEnd="//@compose.1/components.2/@packagedElement.4/@ownedEnd.0 //@compose.1/components.2/Panel/@ownedAttribute.12">
         <ownedEnd xsi:type="frameweb:NavigationAggregationSource" type="//@compose.1/components.2/Panel" association="//@compose.1/components.2/@packagedElement.4"/>
       </packagedElement>
+      <packagedElement xsi:type="frameweb:Partial" name="ProductState"/>
+      <packagedElement xsi:type="frameweb:Partial" name="StyledButton"/>
     </packagedElement>
     <packagedElement xsi:type="frameweb:ControllerPackage" name="components">
       <packagedElement xsi:type="frameweb:FrontControllerClass" name="Carousel">
@@ -294,11 +296,15 @@
       <packagedElement xsi:type="frameweb:FrontControllerClass" name="Categories"/>
       <packagedElement xsi:type="frameweb:FrontControllerClass" name="Footer"/>
       <packagedElement xsi:type="frameweb:FrontControllerClass" name="Panel"/>
+      <packagedElement xsi:type="frameweb:FrontControllerClass" name="ProductState"/>
+      <packagedElement xsi:type="frameweb:FrontControllerClass" name="StyledButton"/>
     </packagedElement>
     <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.1/components.2/Carousel" supplier="//@compose.1/components.3/Carousel"/>
     <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.1/components.2/Categories" supplier="//@compose.1/components.3/Categories"/>
     <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.1/components.2/Footer" supplier="//@compose.1/components.3/Footer"/>
     <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.1/components/PageBase" supplier="//@compose.1/components.1/PageBase"/>
     <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.1/components.2/Panel" supplier="//@compose.1/components.3/Panel"/>
+    <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.1/components.2/ProductState" supplier="//@compose.1/components.3/ProductState"/>
+    <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.1/components.2/StyledButton" supplier="//@compose.1/components.3/StyledButton"/>
   </compose>
 </frameweb:FramewebProject>
