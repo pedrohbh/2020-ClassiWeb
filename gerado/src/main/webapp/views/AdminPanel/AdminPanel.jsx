@@ -7,7 +7,7 @@ export default function AdminPanel(props) {
 	
 	render() {  
       return (
-        <div><Grid ></Grid><Grid ></Grid><Grid ></Grid></div>
+        <div><Grid ></Grid><Grid ></Grid><Grid ></Grid><Panel ></Panel></div>
       );
     }
   }

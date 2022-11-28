@@ -7,7 +7,7 @@ export default function CategoriesList(props) {
 	
 	render() {  
       return (
-        <div><DataGrid ></DataGrid><div id="params.value">{{ params.value }}</div><Panel ></Panel>
+        <div><DataGrid ></DataGrid><div id="params.value">{{ params.value }}</div>
 	<styled-button />
 	</div>
       );
