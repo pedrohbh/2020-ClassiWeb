@@ -459,6 +459,12 @@
           <type xsi:type="frameweb:Tag" href="frameweb/react/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/HTML/External%20Component"/>
         </ownedAttribute>
         <ownedAttribute xsi:type="frameweb:NavigationAggregationTarget" type="//@compose.1/components.2/StyledButton" association="//@compose.1/views%2FAdminPanel/@packagedElement.2"/>
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="params.value">
+          <type xsi:type="frameweb:Tag" href="frameweb/react/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/HTML/div"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="Panel">
+          <type xsi:type="frameweb:Tag" href="frameweb/react/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/HTML/External%20Component"/>
+        </ownedAttribute>
       </packagedElement>
       <packagedElement xsi:type="frameweb:NavigationAggregationAssociation" memberEnd="//@compose.1/views%2FAdminPanel/@packagedElement.2/@ownedEnd.0 //@compose.1/views%2FAdminPanel/CategoriesList/@ownedAttribute.1">
         <ownedEnd xsi:type="frameweb:NavigationAggregationSource" type="//@compose.1/views%2FAdminPanel/CategoriesList" association="//@compose.1/views%2FAdminPanel/@packagedElement.2"/>
@@ -469,5 +475,6 @@
       <packagedElement xsi:type="frameweb:FrontControllerClass" name="CategoriesList"/>
     </packagedElement>
     <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.1/views%2FAdminPanel/AdminPanel" supplier="//@compose.1/views%2FAdminPanel.1/AdminPanel"/>
+    <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.1/views%2FAdminPanel/CategoriesList" supplier="//@compose.1/views%2FAdminPanel.1/CategoriesList"/>
   </compose>
 </frameweb:FramewebProject>
