@@ -430,10 +430,44 @@
       <packagedElement xsi:type="frameweb:NavigationAggregationAssociation" memberEnd="//@compose.1/views%2FAd/@packagedElement.2/@ownedEnd.0 //@compose.1/views%2FAd/Ad/@ownedAttribute.36">
         <ownedEnd xsi:type="frameweb:NavigationAggregationSource" type="//@compose.1/views%2FAd/Ad" association="//@compose.1/views%2FAd/@packagedElement.2"/>
       </packagedElement>
+      <packagedElement xsi:type="frameweb:Partial" name="Feedback">
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="Rating">
+          <type xsi:type="frameweb:Tag" href="frameweb/react/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/HTML/External%20Component"/>
+        </ownedAttribute>
+      </packagedElement>
     </packagedElement>
     <packagedElement xsi:type="frameweb:ControllerPackage" name="views/Ad">
       <packagedElement xsi:type="frameweb:FrontControllerClass" name="Ad"/>
+      <packagedElement xsi:type="frameweb:FrontControllerClass" name="Feedback"/>
     </packagedElement>
     <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.1/views%2FAd/Ad" supplier="//@compose.1/views%2FAd.1/Ad"/>
+    <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.1/views%2FAd/Feedback" supplier="//@compose.1/views%2FAd.1/Feedback"/>
+    <packagedElement xsi:type="frameweb:ViewPackage" name="views/AdminPanel">
+      <packagedElement xsi:type="frameweb:Partial" name="AdminPanel">
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="Grid">
+          <type xsi:type="frameweb:Tag" href="frameweb/react/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/HTML/External%20Component"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="Grid">
+          <type xsi:type="frameweb:Tag" href="frameweb/react/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/HTML/External%20Component"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="Grid">
+          <type xsi:type="frameweb:Tag" href="frameweb/react/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/HTML/External%20Component"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:Partial" name="CategoriesList">
+        <ownedAttribute xsi:type="frameweb:UIComponentField" name="DataGrid">
+          <type xsi:type="frameweb:Tag" href="frameweb/react/NavigationModel_JButler_JSF_PrimeFaces.frameweb#//@configures.0/HTML/External%20Component"/>
+        </ownedAttribute>
+        <ownedAttribute xsi:type="frameweb:NavigationAggregationTarget" type="//@compose.1/components.2/StyledButton" association="//@compose.1/views%2FAdminPanel/@packagedElement.2"/>
+      </packagedElement>
+      <packagedElement xsi:type="frameweb:NavigationAggregationAssociation" memberEnd="//@compose.1/views%2FAdminPanel/@packagedElement.2/@ownedEnd.0 //@compose.1/views%2FAdminPanel/CategoriesList/@ownedAttribute.1">
+        <ownedEnd xsi:type="frameweb:NavigationAggregationSource" type="//@compose.1/views%2FAdminPanel/CategoriesList" association="//@compose.1/views%2FAdminPanel/@packagedElement.2"/>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xsi:type="frameweb:ControllerPackage" name="views/AdminPanel">
+      <packagedElement xsi:type="frameweb:FrontControllerClass" name="AdminPanel"/>
+      <packagedElement xsi:type="frameweb:FrontControllerClass" name="CategoriesList"/>
+    </packagedElement>
+    <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.1/views%2FAdminPanel/AdminPanel" supplier="//@compose.1/views%2FAdminPanel.1/AdminPanel"/>
   </compose>
 </frameweb:FramewebProject>

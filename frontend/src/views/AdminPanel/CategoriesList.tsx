@@ -97,9 +97,7 @@ export default function CategoriesList() {
         <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
           {params.value}
           {/* 
-          <Button onClick={handleDeleteCategory}>
-            <DeleteIcon style={{ fontSize: 20 }}/>
-          </Button> 
+         
           */}
         </div>
       ),
