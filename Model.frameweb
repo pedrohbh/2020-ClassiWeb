@@ -291,5 +291,7 @@
     <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.1/components.2/Panel" supplier="//@compose.1/components.3/Panel"/>
     <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.1/components.2/ProductState" supplier="//@compose.1/components.3/ProductState"/>
     <packagedElement xsi:type="frameweb:FrontControllerDependency" client="//@compose.1/components.2/StyledButton" supplier="//@compose.1/components.3/StyledButton"/>
+    <packagedElement xsi:type="frameweb:ViewPackage" name="views/Ad"/>
+    <packagedElement xsi:type="frameweb:ControllerPackage" name="views/Ad"/>
   </compose>
 </frameweb:FramewebProject>
