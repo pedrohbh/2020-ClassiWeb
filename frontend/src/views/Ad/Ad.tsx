@@ -311,10 +311,7 @@ export default function Ad({ match }) {
                 <Grid item style={{ width: '100%', textAlign: 'center' }}>
 
                   <Grid container justify='center' alignItems='center' spacing={2}>
-
-                    {/* <Grid item style={{ display: 'flex', justifyContent: 'center' }}>
-                      <div style={{ borderRadius: '50%', width: '60px', height: '60px', backgroundColor: '#b7b7b7'}}></div>
-                    </Grid> */}
+                  
 
                     <Grid item style={{ textAlign: 'center' }}>
                       <strong style={{ fontSize: 20, textTransform: 'capitalize' }}>
